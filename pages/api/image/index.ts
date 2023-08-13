@@ -1,54 +1,56 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import multer from "multer";
-import AWS from "aws-sdk";
+// Import required AWS SDK clients and commands for Node.js.
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { s3Client } from '@/libs/s3Client';
 
-// AWS S3 설정
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+import multer from 'multer';
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-// Multer 설정
-const upload = multer({ dest: "uploads/" });
+const PUBLIC_S3_URL = "https://alookso-issues.s3.ap-northeast-2.amazonaws.com/"
+const upload = multer();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
     try {
-      upload.single("image")(req, res, async (err) => {
+      upload.single('file')(req, res, async (err) => {
         if (err) {
-          return res.status(400).json({ error: "Error uploading file" });
+          console.error('Error uploading file:', err);
+          return res.status(400).json({ error: 'Error uploading file' + err });
         }
 
         const file = req.file;
 
         if (!file) {
-          return res.status(400).json({ error: "No file provided" });
+          return res.status(400).json({ error: 'No file provided' });
         }
 
-        const params = {
+        const uploadParams = {
           Bucket: process.env.S3_BUCKET_NAME,
-          Key: file.filename,
-          Body: file.buffer,
+          Key: file.originalname,
+          ContentType: file.mimetype,
+          Body: file.buffer, // 파일의 내용을 Body에 넣어 업로드
         };
 
-        const uploadedFile = await s3.upload(params).promise();
+        const uploadCommand = new PutObjectCommand(uploadParams);
 
-        // 업로드 성공 시
-        return res.status(200).json({
-          success: true,
-          message: "File uploaded successfully",
-          uploadedUrl: uploadedFile.Location,
-        });
+        try {
+          const results = await s3Client.send(uploadCommand);
+          res.status(200).json({ message: 'File uploaded successfully', result: results, url: PUBLIC_S3_URL + file.originalname});
+        } catch (error) {
+          console.error('S3 upload error:', error);
+          res.status(500).json({ error: 'S3 upload error' });
+        }
       });
     } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal server error" });
+      console.error('Server error:', error);
+      res.status(500).json({ error: 'Server error' });
     }
   } else {
-    res.status(405).json({ error: "Method Not Allowed" });
+    res.status(405).json({ error: 'Method not allowed' });
   }
-}
+};
+
+export default handler;
