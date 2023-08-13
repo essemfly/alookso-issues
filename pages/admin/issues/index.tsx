@@ -1,32 +1,43 @@
-import React, { useEffect, useState } from "react";
+import { Button, List, Typography } from 'antd';
+import Link from 'next/link';
+import { Issue } from '@prisma/client';
+import { getAllIssues } from '@/models/issue.server';
 
-import { Button, List, Typography, Switch } from "antd";
-import { useIssuesGet } from "@/hooks/api/issues/useIssuesGet";
-import { createIssue } from "@/lib/api/issues";
-import Link from "next/link";
+interface AdminIssuesProps {
+  issues: Issue[];
+}
 
-export default function AdminIssuesListPage() {
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(100);
-  const { data, isLoading, error } = useIssuesGet({ page: page, size: size });
-
+export default function AdminIssuesListPage(props: AdminIssuesProps) {
   const handleIssueCreateClick = async () => {
-    let newIssue = await createIssue();
-    window.location.href = `/issues/${newIssue.slug}`;
+    const response = await fetch('/api/issues', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      console.log('response body', response.body);
+      let newIssue = (await response.json()) as unknown as Issue;
+      window.location.href = `/admin/issues/${newIssue.slug}`;
+    } else {
+      alert('error occured, please check console');
+      console.log('error', response.status, response.statusText);
+    }
   };
 
   return (
     <>
-      <Button onClick={handleIssueCreateClick} style={{ marginBottom: "10px" }}>
+      <Button onClick={handleIssueCreateClick} style={{ marginBottom: '10px' }}>
         Issue생성하기
       </Button>
       <List
         header={<Typography.Text>얼룩소 이슈!</Typography.Text>}
         bordered
-        dataSource={data?.content}
+        dataSource={props.issues}
         renderItem={(item) => (
           <List.Item id={item.slug}>
-            <Link href={`/issues/${item.slug}`}>
+            <Link href={`/admin/issues/${item.slug}`}>
               <Typography.Text mark>{item.title}</Typography.Text>
               <br />
               <Typography.Text>{item.description}</Typography.Text>
@@ -36,4 +47,13 @@ export default function AdminIssuesListPage() {
       />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const issues = await getAllIssues();
+  return {
+    props: {
+      issues: JSON.parse(JSON.stringify(issues)),
+    },
+  };
 }

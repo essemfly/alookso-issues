@@ -1,10 +1,14 @@
+import { createIssue } from '@/models/issue.server';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === 'GET') {
-    // Handle Get one functionality
   } else if (req.method === 'POST') {
-    // Handle Edit functionality
+    let newIssue = await createIssue();
+    res.status(200).json(newIssue);
   } else {
     res.status(405).end(); // Method Not Allowed
   }

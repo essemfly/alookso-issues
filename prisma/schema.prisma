@@ -12,15 +12,15 @@ datasource db {
 
 model Issue {
   id          Int          @id @default(autoincrement())
-  createdAt   DateTime
   slug        String
-  updatedAt   DateTime
   title       String
   description String
   coverImage  String
   status      IssueStatus
   issueBlocks IssueBlock[]
   celebs      Celeb[]      @relation("IssueCeleb")
+  createdAt   DateTime
+  updatedAt   DateTime
 }
 
 model IssueBlock {
@@ -43,7 +43,6 @@ model IssueMessage {
   isRemoved        Boolean
   blockId          Int
   block            IssueBlock @relation(fields: [blockId], references: [id])
-  seq              Int
   celebId          Int
   celebName        String
   celebDescription String?
@@ -70,13 +69,14 @@ enum IssueStatus {
   DRAFT
   PUBLISHED
   REMOVED
+  CLOSED
 }
 
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
   type                     String
-  scope                     String
+  scope                    String
   provider                 String
   providerAccountId        String
   refresh_token            String? @db.Text

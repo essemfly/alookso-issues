@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Input, Modal, Form, Upload, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { CreateCelebReq } from '@/lib/api/celeb';
+import { CreateCelebInput } from '@/models/celeb.server';
 
 interface CelebCreateModalProps {
   openCelebCreateModal: boolean;
   setOpenCelebCreateModal: (open: boolean) => void;
-  handleAddCeleb: (celeb: CreateCelebReq) => void;
+  handleAddCeleb: (celeb: CreateCelebInput) => void;
 }
 
 export const CelebCreateModal = ({
@@ -21,7 +21,7 @@ export const CelebCreateModal = ({
     handleAddCeleb({
         name: values.name,
         description: values.description,
-        file: imageFile!!,
+        avatar: values.avatar,
     }),
 
     form.resetFields();

@@ -1,6 +1,6 @@
-// Import required AWS SDK clients and commands for Node.js.
+import { NextApiRequest, NextApiResponse } from 'next';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client } from '@/libs/s3Client';
+import { s3Client } from '@/lib/s3Client';
 
 import multer from 'multer';
 export const config = {
@@ -9,7 +9,7 @@ export const config = {
   },
 };
 
-const PUBLIC_S3_URL = "https://alookso-issues.s3.ap-northeast-2.amazonaws.com/"
+const PUBLIC_S3_URL = 'https://alookso-issues.s3.ap-northeast-2.amazonaws.com/';
 const upload = multer();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,7 +38,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         try {
           const results = await s3Client.send(uploadCommand);
-          res.status(200).json({ message: 'File uploaded successfully', result: results, url: PUBLIC_S3_URL + file.originalname});
+          res.status(200).json({
+            message: 'File uploaded successfully',
+            result: results,
+            url: PUBLIC_S3_URL + file.originalname,
+          });
         } catch (error) {
           console.error('S3 upload error:', error);
           res.status(500).json({ error: 'S3 upload error' });
