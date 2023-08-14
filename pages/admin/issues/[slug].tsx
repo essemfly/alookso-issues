@@ -143,7 +143,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         id: block.id || undefined,
         seq: idx,
         blockType: block.blockType,
-        content: block.content ? JSON.stringify(block.content) : '',
+        content: block.content!!,
         isRemoved: block.isRemoved,
         messages: updateMessages,
       };

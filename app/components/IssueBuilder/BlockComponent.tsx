@@ -37,11 +37,7 @@ const IssueBlock = ({
       </Radio.Group>
       <Button onClick={removeBlock}>Remove</Button>
       {block.blockType === 'text' && (
-        <WritingEditor
-          content={block.content}
-          setContent={setBlockContent}
-          uploadImage={() => 'sample url'}
-        />
+        <WritingEditor content={block.content} setContent={setBlockContent} />
       )}
       {block.blockType === 'message' && (
         <ChatComponent

@@ -101,14 +101,11 @@ export default function ActionsPlugin({
       <button
         className={`action-button ${!isEditable ? 'unlock' : 'lock'}`}
         onClick={() => {
-          // Send latest editor state to commenting validation server
-          // if (isEditable) {
-          //   sendEditorState(editor);
-          // }
+
           const editorState = editor.getEditorState();
           const editorStateJsonString = JSON.stringify(editorState);
-          setContent(editorStateJsonString);
-
+          const jsonEscapedStr = JSON.stringify(editorStateJsonString);
+          setContent(jsonEscapedStr);
           editor.setEditable(!editor.isEditable());
         }}
         title="Read-Only Mode"

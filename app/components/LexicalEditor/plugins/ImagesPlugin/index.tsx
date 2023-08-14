@@ -44,10 +44,8 @@ export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND');
 
 export default function ImagesPlugin({
-  uploadImage,
   captionsEnabled,
 }: {
-  uploadImage: () => string;
   captionsEnabled?: boolean;
 }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();

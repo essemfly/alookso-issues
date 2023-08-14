@@ -27,6 +27,9 @@ export async function getIssue(slug: string) {
     where: { slug },
     include: {
       issueBlocks: {
+        orderBy: {
+          seq: 'asc',
+        },
         where: { isRemoved: false },
         include: {
           messages: {

@@ -19,12 +19,10 @@ import ActionsPlugin from './plugins/ActionsPlugin';
 
 interface EditorProps {
   setContent: (context: string) => void;
-  uploadImage: () => string;
 }
 
 export default function Editor({
   setContent,
-  uploadImage,
 }: EditorProps): JSX.Element {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
@@ -63,7 +61,7 @@ export default function Editor({
           <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
         )}
         <TabIndentationPlugin />
-        <ImagesPlugin uploadImage={uploadImage} />
+        <ImagesPlugin />
         <ActionsPlugin setContent={setContent} />
       </div>
     </div>

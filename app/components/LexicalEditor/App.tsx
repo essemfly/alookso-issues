@@ -36,19 +36,15 @@ export function ViewerEditor({ content }: ViewerEditorProps): JSX.Element {
 interface WritingEditoProps {
   content: string | null;
   setContent: (context: string) => void;
-  uploadImage: () => string;
 }
 
 export function WritingEditor({
   content,
   setContent,
-  uploadImage,
 }: WritingEditoProps): JSX.Element {
-  const preloadRichText = content;
   const editable = true;
-
   const initialConfig = {
-    editorState: JSON.parse(preloadRichText!!),
+    editorState: JSON.parse(content!!),
     namespace: 'Alookso TextEditor',
     nodes: [...EditorNodes],
     editable: editable,
@@ -60,7 +56,7 @@ export function WritingEditor({
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <Editor setContent={setContent} uploadImage={uploadImage} />
+      <Editor setContent={setContent} />
     </LexicalComposer>
   );
 }

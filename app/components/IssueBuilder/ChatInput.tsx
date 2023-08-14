@@ -108,9 +108,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           onChange={handleBiasChange}
           style={{ marginLeft: '8px' }}
         >
-          <Radio.Button value="left">Left</Radio.Button>
-          <Radio.Button value="center">Center</Radio.Button>
-          <Radio.Button value="right">Right</Radio.Button>
+          <Radio.Button value={Bias.LEFT}>Left</Radio.Button>
+          <Radio.Button value={Bias.CENTER}>Center</Radio.Button>
+          <Radio.Button value={Bias.RIGHT}>Right</Radio.Button>
         </Radio.Group>
         <Radio.Group
           value={bgColor}
