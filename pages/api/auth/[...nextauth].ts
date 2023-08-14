@@ -15,4 +15,8 @@ export const authOptions = {
     }),
   ],
 };
+
+/* eslint-disable */
+// @ts-nocheck
+//@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
 export default NextAuth(authOptions);

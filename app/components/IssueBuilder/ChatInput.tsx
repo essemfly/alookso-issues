@@ -8,29 +8,28 @@ import {
   Avatar,
   RadioChangeEvent,
 } from 'antd';
-import { Bias } from '@/types/issues/body';
-import { CelebInfo } from '@/types/issues/celeb';
+import { Celeb, Bias } from '@prisma/client';
 
 interface ChatInputProps {
   onSendMessage: (
     message: string,
-    celeb: CelebInfo,
+    celeb: Celeb,
     linkName: string,
     linkUrl: string,
     linkDate: string,
     bias: Bias,
     bgColor: string,
   ) => void;
-  celebs: CelebInfo[];
+  celebs: Celeb[];
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
   const [message, setMessage] = useState<string>('');
-  const [selectedCeleb, setSelectedCeleb] = useState<CelebInfo>(celebs[0]);
+  const [selectedCeleb, setSelectedCeleb] = useState<Celeb>(celebs[0]);
   const [linkName, setLinkName] = useState<string>('');
   const [linkUrl, setLinkUrl] = useState<string>('');
   const [linkDate, setLinkDate] = useState<string>('');
-  const [bias, setBias] = useState<Bias>('center');
+  const [bias, setBias] = useState<Bias>(Bias.CENTER);
   const [bgColor, setBgColor] = useState<string>('#eff6ff');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -82,7 +81,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
     <Menu onClick={handleSenderClick}>
       {celebs?.map((celeb) => (
         <Menu.Item key={celeb.id}>
-          <Avatar src={celeb.avatar['avatar']?.src} alt={celeb.name} />
+          <Avatar src={celeb.avatar} alt={celeb.name} />
           {celeb.name}
           <span style={{ marginLeft: '8px', color: '#999' }}>
             {celeb.description}
@@ -100,10 +99,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
       >
         <Dropdown overlay={menu}>
           <Button>
-            <Avatar
-              src={selectedCeleb?.avatar['avatar']?.src}
-              alt={selectedCeleb?.name}
-            />{' '}
+            <Avatar src={selectedCeleb?.avatar} alt={selectedCeleb?.name} />{' '}
             {selectedCeleb?.name}
           </Button>
         </Dropdown>

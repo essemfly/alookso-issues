@@ -1,11 +1,10 @@
-import { addCelebInIssue } from '@/lib/api/issues/detail';
-import { CelebInfo } from '@/types/issues/celeb';
+import { Celeb } from '@prisma/client';
 import { Select, Space } from 'antd';
-import type { SelectProps } from 'antd';
+import Image from 'next/image';
 
 interface CeleSelectBoxProps {
-  celebs: CelebInfo[];
-  selectedCelebs: CelebInfo[];
+  celebs: Celeb[];
+  selectedCelebs: Celeb[];
   addCelebInIssue: (celebId: number) => void;
 }
 
@@ -16,8 +15,9 @@ const CeleSelectBox = ({
   selectedCelebs,
   addCelebInIssue,
 }: CeleSelectBoxProps) => {
-  const handleChange = (value: string) => {
-    addCelebInIssue(Number(value));
+  const handleChange = (value: number) => {
+    console.log("야 여기서 id를 줘야해", value)
+    addCelebInIssue(value);
   };
 
   return (
@@ -28,7 +28,7 @@ const CeleSelectBox = ({
         style={{ width: '100%', margin: '30px 0' }}
         placeholder="select celeb"
         defaultValue={
-          selectedCelebs ? selectedCelebs?.map((celeb) => celeb.name) : []
+          selectedCelebs && Array.isArray(selectedCelebs) ? selectedCelebs?.map((celeb) => celeb.id) : []
         }
         onSelect={handleChange}
         onDeselect={handleChange}
@@ -42,7 +42,12 @@ const CeleSelectBox = ({
           >
             <Space>
               <span role="img" aria-label={celeb.name}>
-                <img src={celeb.avatar['avatar']?.src} />
+                <Image
+                  width={25}
+                  height={25}
+                  alt={celeb.name}
+                  src={celeb.avatar ? celeb.avatar : ''}
+                />
               </span>
               {celeb.name}-{celeb.description}
             </Space>

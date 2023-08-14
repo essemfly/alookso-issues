@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Request, Response } from 'express';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { s3Client } from '@/lib/s3Client';
 
@@ -12,7 +13,17 @@ export const config = {
 const PUBLIC_S3_URL = 'https://alookso-issues.s3.ap-northeast-2.amazonaws.com/';
 const upload = multer();
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+type NextApiRequestWithFormData = NextApiRequest &
+  Request & {
+    files: any[];
+  };
+
+type NextApiResponseCustom = NextApiResponse & Response;
+
+const handler = async (
+  req: NextApiRequestWithFormData,
+  res: NextApiResponseCustom,
+) => {
   if (req.method === 'POST') {
     try {
       upload.single('file')(req, res, async (err) => {

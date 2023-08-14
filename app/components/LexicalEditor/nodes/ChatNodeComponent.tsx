@@ -1,6 +1,5 @@
 import React, { useState, SVGProps, ReactNode } from 'react';
-import { IssueMessage } from '@/types/issues/body';
-import { CelebInfo } from '@/types/issues/celeb';
+import { IssueMessage, Bias } from '@prisma/client';
 import Image from 'next/image';
 
 interface ChatBubbleProps {
@@ -57,22 +56,29 @@ const ThumbDownIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-const CelebComponent = ({ avatar, name, description }: CelebInfo) => {
+interface CelebComponentProps {
+  name: string;
+  avatar: string | null;
+  description?: string | null;
+}
+
+
+const CelebComponent = ({ avatar, name, description }: CelebComponentProps) => {
   const [isError, setIsError] = useState(false);
   return (
     <div className="avatar border-0">
-      {isError || !avatar['avatar']?.src ? (
+      {isError || !avatar ? (
         <Svg
           path="icons-icon-solid-user"
           className="absolute inset-0 h-[18px] w-[18px]"
         />
       ) : null}
-      {avatar['avatar']?.src && !isError ? (
+      {avatar && !isError ? (
         <Image
           width={25}
           height={25}
           alt={name}
-          src={avatar['avatar']?.src}
+          src={avatar}
           priority
           className="object-cover"
           onLoadingComplete={(result) => {
@@ -88,20 +94,20 @@ const CelebComponent = ({ avatar, name, description }: CelebInfo) => {
 };
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
-  const [likeCount, setLikeCount] = useState<number>(
-    message.voteCount ? message.voteCount : 0,
-  );
-  const [disLikeCount, setDisLikeCount] = useState<number>(
-    message.downvoteCount ? message.downvoteCount : 0,
-  );
+  // const [likeCount, setLikeCount] = useState<number>(
+  //   message.voteCount ? message.voteCount : 0,
+  // );
+  // const [disLikeCount, setDisLikeCount] = useState<number>(
+  //   message.downvoteCount ? message.downvoteCount : 0,
+  // );
 
-  const handleLike = (like: boolean) => {
-    if (like) {
-      setLikeCount(likeCount + 1);
-    } else {
-      setDisLikeCount(disLikeCount + 1);
-    }
-  };
+  // const handleLike = (like: boolean) => {
+  //   if (like) {
+  //     setLikeCount(likeCount + 1);
+  //   } else {
+  //     setDisLikeCount(disLikeCount + 1);
+  //   }
+  // };
 
   const bubbleStyle: React.CSSProperties = {
     backgroundColor: message.backgroundColor,
@@ -132,14 +138,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
       </p>
       <CelebComponent
         name={message.celebName}
-        id={message.celebId!}
         description={message.celebDescription}
-        avatar={{
-          avatar: {
-            src: '',
-            name: '',
-          },
-        }}
+        avatar={message.celebAvatar}
       />
     </div>
   );
@@ -148,13 +148,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
     <div className="flex" style={avatarStyle}>
       <CelebComponent
         name={message.celebName}
-        avatar={{
-          avatar: {
-            src: '',
-            name: '',
-          },
-        }}
-        id={message.celebId!}
+        avatar={message.celebAvatar}
         description={message.celebDescription}
       />
       <h3 className="ml-1">{message.celebName}</h3>
@@ -165,26 +159,26 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   );
 
   // 'right'인 경우 오른쪽으로 쏠리도록 스타일을 추가
-  if (message.bias === 'right') {
+  if (message.bias === Bias.RIGHT) {
     bubbleStyle.marginLeft = 'auto';
     avatarStyle.textAlign = 'right';
   }
 
   // 'left'인 경우 왼쪽으로 쏠리도록 스타일을 추가
-  if (message.bias === 'left') {
+  if (message.bias === Bias.LEFT) {
     bubbleStyle.marginRight = 'auto';
     avatarStyle.textAlign = 'left';
   }
 
   return (
     <>
-      {message.bias === 'left' ? leftAvatar : rightAvatar}
+      {message.bias === Bias.LEFT ? leftAvatar : rightAvatar}
       <div className="chat-bubble font-light" style={bubbleStyle}>
         <div className="chat-content" style={contentStyle}>
           <p>{message.content}</p>
         </div>
         <div className="chat-meta flex items-center">
-          <div className="flex items-center mr-2">
+          {/* <div className="flex items-center mr-2">
             <ThumbUpIcon
               style={{ color: 'green', marginRight: '5px' }}
               onClick={() => handleLike(true)}
@@ -197,7 +191,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
               onClick={() => handleLike(false)}
             />
             <span>{disLikeCount}</span>
-          </div>
+          </div> */}
           <div
             className="text-sm font-extralight"
             style={{ marginLeft: 'auto' }} // This will align the div to the right

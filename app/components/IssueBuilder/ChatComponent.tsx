@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { List, Avatar } from 'antd';
 import ChatInput from './ChatInput';
-import { IssueMessage } from '@/types/issues/body';
-import { Bias } from '@/types/issues/body';
+import { IssueMessage, Bias } from '@prisma/client';
 import Button from '../LexicalEditor/ui/Button';
-import { CelebInfo } from '@/types/issues/celeb';
+import { Celeb } from '@prisma/client';
 
 interface MessageProps {
-  celebs: CelebInfo[];
+  celebs: Celeb[];
   messages: IssueMessage[];
   setMessages: (messages: IssueMessage[]) => void;
 }
@@ -19,7 +18,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
 
   const handleSendMessage = (
     message: string,
-    celeb: CelebInfo,
+    celeb: Celeb,
     linkName: string,
     linkUrl: string,
     linkDate: string,
@@ -29,18 +28,22 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
     const newChatHistory = [
       ...chatHistory,
       {
-        id: 0,
+        id: chatHistory.length + 1,
         celebId: celeb.id,
         seq: 0,
         celebName: celeb.name,
         celebDescription: celeb.description,
-        celebAvatar: celeb.avatar['avatar']?.src,
+        celebAvatar: celeb.avatar,
         content: message,
         link: linkUrl,
         linkFrom: linkName,
         backgroundColor: bgColor,
         bias: bias,
         reportedAt: linkDate,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isRemoved: false,
+        blockId: 0,
       },
     ];
     setChatHistory(newChatHistory);
@@ -55,7 +58,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
     });
   };
 
-  console.log("items", chatHistory)
+  console.log('items', chatHistory);
   return (
     <div>
       <List
@@ -63,9 +66,12 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
         dataSource={chatHistory}
         renderItem={(item, index) => (
           <List.Item
-            key={`${index}-${item.seq}`}
+            key={`${index}-${item.id}`}
             actions={[
-              <Button onClick={() => handleRemoveMessage(index)}>
+              <Button
+                key={`${index}-${item.id}`}
+                onClick={() => handleRemoveMessage(index)}
+              >
                 Remove
               </Button>,
             ]}

@@ -9,6 +9,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { celebId } = req.body;
     const { issueSlug } = req.query;
+
     let issue = await getIssue(issueSlug as string);
     if (!issue) {
       res.status(404).end(); // Not Found

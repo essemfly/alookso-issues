@@ -11,6 +11,7 @@ import {
   SerializedDecoratorBlockNode,
 } from '@lexical/react/LexicalDecoratorBlockNode';
 import ChatBubble from './ChatNodeComponent';
+import { Bias } from '@prisma/client';
 
 export interface ChatPayload {
   message: string;
@@ -51,20 +52,24 @@ export class ChatNode extends DecoratorBlockNode {
       <ChatBubble
         message={{
           backgroundColor: '#fef2f2',
-          bias: 'left',
+          bias: Bias.LEFT,
           celebAvatar: '',
           celebDescription: '대기자',
           celebId: 2403,
           celebName: '천관율',
           content: '잼버리 모두 다 철수',
-          downvoteCount: 0,
+          // downvoteCount: 0,
           id: 361,
-          isUserLiked: false,
+          // isUserLiked: false,
           link: 'https://m.hani.co.kr/arti/society/society_general/1103301.html',
           linkFrom: '한겨레',
           reportedAt: '2023-08-07',
-          seq: 2,
-          voteCount: 0,
+          isRemoved: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          blockId: 0,
+          // seq: 2,
+          // voteCount: 0,
         }}
       />
     );

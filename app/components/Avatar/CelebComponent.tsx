@@ -3,13 +3,15 @@ import { memo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
-
 const Svg = dynamic(() => import('@/components/Svg/Svg'));
-import { CelebInfo } from '@/types/issues/celeb';
 
-type CelebProps = CelebInfo;
+interface CelebComponentProps {
+  name: string;
+  avatar: string | null;
+  description?: string | null;
+}
 
-const CelebComponent = ({ avatar, name, description }: CelebProps) => {
+const CelebComponent = ({ avatar, name }: CelebComponentProps) => {
   const [isError, setIsError] = useState(false);
   return (
     <div className="avatar border-0">

@@ -11,14 +11,14 @@ import { $wrapNodeInElement, mergeRegister } from '@lexical/utils';
 
 import { ChatNode, $createChatNode } from '../../nodes/ChatNode';
 import { InsertChatDialogPayload } from './insertMessage';
-import type { CelebInfo } from '@/types/issues/celeb';
+import { Celeb } from '@prisma/client';
 import { useEffect } from 'react';
 
 export const INSERT_CHAT_COMMAND: LexicalCommand<InsertChatDialogPayload> =
   createCommand('INSERT_CHAT_COMMAND');
 
 interface ChatPluginProps {
-  celebs: CelebInfo[];
+  celebs: Celeb[];
 }
 
 export default function ChatPlugin({

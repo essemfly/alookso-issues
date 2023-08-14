@@ -1,10 +1,10 @@
-import { IssueBodyBlock } from '@/types/issues/body';
+import { IssueBlockWithMessages } from '@/models/issue.server';
 import React from 'react';
 import ChatBubble from './ChatBubble';
 import LexicalEditor from './LexicalEditor/App';
 
 interface IssueDetailProps {
-  block: IssueBodyBlock
+  block: IssueBlockWithMessages;
 }
 
 const TextBlockSection: React.FC<IssueDetailProps> = ({block}) => {

@@ -1,13 +1,14 @@
 import { memo } from 'react';
-
 import dynamic from 'next/dynamic';
 
-import type { CelebInfo } from '@/types/issues/celeb';
+import { Celeb } from '@prisma/client';
 
-const Celeb = dynamic(() => import('@/components/Avatar/CelebComponent'));
+const CelebComponent = dynamic(
+  () => import('@/components/Avatar/CelebComponent'),
+);
 
 type CelebGroupProps = {
-  list: Array<CelebInfo>;
+  list: Array<Celeb>;
   max?: number;
   className?: string;
 };
@@ -15,7 +16,7 @@ type CelebGroupProps = {
 const CelebGroup = ({ list, max = 5, className = '' }: CelebGroupProps) => (
   <div className={`avatar-group -space-x-2 ${className}`}>
     {list.slice(0, max).map((celeb) => (
-      <Celeb {...celeb} key={celeb.id} />
+      <CelebComponent {...celeb} key={celeb.id} />
     ))}
   </div>
 );

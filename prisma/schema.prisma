@@ -51,7 +51,7 @@ model IssueMessage {
   link             String
   linkFrom         String
   backgroundColor  String
-  bias             String
+  bias             Bias
   reportedAt       String
 }
 
@@ -70,6 +70,12 @@ enum IssueStatus {
   PUBLISHED
   REMOVED
   CLOSED
+}
+
+enum Bias {
+  LEFT
+  CENTER
+  RIGHT
 }
 
 model Account {

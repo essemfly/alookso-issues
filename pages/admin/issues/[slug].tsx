@@ -3,7 +3,13 @@ import { Button, Col, Row } from 'antd';
 import { Celeb, IssueBlock, IssueStatus } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 
-import { getIssue } from '@/models/issue.server';
+import {
+  IssueBlockWithMessages,
+  UpdateIssueBlockInput,
+  UpdateIssueInput,
+  UpdateIssueMessageInput,
+  getIssue,
+} from '@/models/issue.server';
 import { CreateCelebInput, getCelebs } from '@/models/celeb.server';
 
 import InfoSpace from '@/components/IssueBuilder/GeneralInfoComponent';
@@ -29,7 +35,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   const [isPublished, setIsPublished] = useState<boolean>(
     props.issue.status === IssueStatus.PUBLISHED || false,
   );
-  const [blocks, setBlocks] = useState<Array<IssueBlock>>(
+  const [blocks, setBlocks] = useState<Array<IssueBlockWithMessages>>(
     props.issue.issueBlocks || [],
   );
   const [celebs, setCelebs] = useState<Celeb[]>(props.celebs || []);
@@ -38,7 +44,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   );
   const [openCelebCreateModal, setOpenCelebCreateModal] = useState(false);
 
-  const handleAddBlock = (block?: IssueBlock) => {
+  const handleAddBlock = (block?: IssueBlockWithMessages) => {
     setBlocks((prevBlocks) => {
       const newBlocks = [...prevBlocks];
       if (block == null) {
@@ -51,6 +57,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
           issueId: 0,
           seq: 0,
           isRemoved: false,
+          messages: [],
         });
       } else {
         newBlocks.push(block);
@@ -65,7 +72,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     setBlocks(updatedBlocks);
   };
 
-  const setBlock = (index: number, block: IssueBlock) => {
+  const setBlock = (index: number, block: IssueBlockWithMessages) => {
     setBlocks((prevBlocks) => {
       const newBlocks = [...prevBlocks];
       newBlocks.splice(index, 1, block);
@@ -85,7 +92,8 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     let newCeleb = (await response.json()) as unknown as Celeb;
 
     if (response.status === 200) {
-      console.log('response body', response.json());
+      console.log('response body', newCeleb);
+      alert('Celeb added successfully');
     } else {
       console.log('error', response.status, response.statusText);
     }
@@ -107,7 +115,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     });
     let celebs = (await response.json()) as unknown as Celeb[];
     if (response.status === 200) {
-      console.log('response body', response.json());
+      console.log('Add Celeb response', celebs);
       setIssueCelebs(celebs);
     } else {
       console.log('error', response.status, response.statusText);
@@ -115,15 +123,45 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   };
 
   const handleSave = async () => {
-    let updateBody = {
+    let updateBlocks: UpdateIssueBlockInput[] = blocks.map((block, idx) => {
+      let updateMessages: UpdateIssueMessageInput[] = block.messages.map(
+        (message) => {
+          return {
+            celebId: message.celebId,
+            celebAvatar: message.celebAvatar,
+            celebName: message.celebName,
+            celebDescription: message.celebDescription,
+            content: message.content,
+            link: message.link,
+            linkFrom: message.linkFrom,
+            backgroundColor: message.backgroundColor,
+            bias: message.bias,
+            reportedAt: message.reportedAt,
+          } as UpdateIssueMessageInput;
+        },
+      );
+
+      return {
+        id: block.id || undefined,
+        seq: idx,
+        blockType: block.blockType,
+        content: block.content ? JSON.stringify(block.content) : '',
+        isRemoved: block.isRemoved,
+        messages: updateMessages,
+      };
+    });
+
+    let updateBody: UpdateIssueInput = {
+      id: props.issue.id,
       title: title,
       description: description,
       coverImage: coverImage,
-      blocks: blocks,
+      blocks: updateBlocks,
+      status: isPublished ? IssueStatus.PUBLISHED : IssueStatus.DRAFT,
     };
 
     const response = await fetch(`/api/issues/${props.issue.slug}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -177,7 +215,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         <Col span={24}>
           <div>Blocks</div>
           {blocks.map((block, idx) => (
-            <>
+            <div key={idx}>
               <IssueBlockSpace
                 key={idx}
                 celebs={celebs}
@@ -186,7 +224,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
                 removeBlock={() => handleRemoveBlock(idx)}
               />
               <hr />
-            </>
+            </div>
           ))}
         </Col>
       </Row>

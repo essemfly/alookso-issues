@@ -15,23 +15,47 @@ export const CelebCreateModal = ({
   handleAddCeleb,
 }: CelebCreateModalProps) => {
   const [form] = Form.useForm();
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState('');
 
   const onFinish = (values: any) => {
     handleAddCeleb({
-        name: values.name,
-        description: values.description,
-        avatar: values.avatar,
+      name: values.name,
+      description: values.description,
+      avatar: avatarUrl,
     }),
-
-    form.resetFields();
-    setImageFile(null);
+      form.resetFields();
     setOpenCelebCreateModal(false);
   };
 
-  const onImageUploadChange = (info: any) => {
-    info.file.status = "done"
-    setImageFile(info.file.originFileObj);
+  const beforeUpload = (file: File) => {
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      message.error('You can only upload image files!');
+    }
+    return isImage;
+  };
+
+  const uploadProps = {
+    action: '/api/image',
+    beforeUpload: beforeUpload,
+    onChange: (info: any) => {
+      if (info.file.status === 'done') {
+        onUploadSuccess(info.file.response);
+      } else if (info.file.status === 'error') {
+        onUploadError(info.file.error);
+      }
+    },
+  };
+
+  const onUploadSuccess = (file: any) => {
+    console.log('File uploaded successfully:', file);
+    message.success('File uploaded successfully:');
+    setAvatarUrl(file.url);
+  };
+
+  const onUploadError = (err: any) => {
+    console.error('File upload failed:', err);
+    message.error('File upload failed');
   };
 
   return (
@@ -57,12 +81,12 @@ export const CelebCreateModal = ({
         </Form.Item>
         <Form.Item label="Image">
           <Upload
+            {...uploadProps}
             accept="image/*"
-            showUploadList={true}
-            customRequest={() => {}}
-            onChange={onImageUploadChange}
+            maxCount={1}
+            defaultFileList={[]}
           >
-            <Button icon={<UploadOutlined />}>Upload Image</Button>
+            <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
           </Upload>
         </Form.Item>
         <Form.Item>

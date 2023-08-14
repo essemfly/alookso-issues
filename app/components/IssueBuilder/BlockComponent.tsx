@@ -1,14 +1,13 @@
 import ChatComponent from '@/components/IssueBuilder/ChatComponent';
 import EditorApp from '@/components/LexicalEditor/App';
 import { Radio, Space, Button } from 'antd';
-import { IssueMessage } from '@/types/issues/body';
-import { IssueBodyBlock } from '@/types/issues/body';
-import { CelebInfo } from '@/types/issues/celeb';
+import { IssueMessage, Celeb } from '@prisma/client';
+import { IssueBlockWithMessages } from '@/models/issue.server';
 
 interface IssueBlockProps {
-  block: IssueBodyBlock;
-  celebs: CelebInfo[];
-  setBlock: (newBlock: IssueBodyBlock) => void;
+  block: IssueBlockWithMessages;
+  celebs: Celeb[];
+  setBlock: (newBlock: IssueBlockWithMessages) => void;
   removeBlock: () => void;
 }
 
@@ -30,6 +29,7 @@ const IssueBlock = ({
   const setBlockContent = (content: string) => {
     setBlock({ ...block, content: content });
   };
+  console.log("block", block)
 
   return (
     <Space direction="vertical" style={{ width: '100%', marginTop: '10px' }}>

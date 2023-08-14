@@ -1,6 +1,4 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import * as React from 'react';
-
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import Editor from './Editor';
 import EditorNodes from './nodes/nodes';
@@ -16,6 +14,7 @@ export default function App({
   setContent,
   uploadImage,
 }: TextEditorProps): JSX.Element {
+  console.log("CONTENT", content)
   const preloadRichText = content;
   const editable = true;
 
