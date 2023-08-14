@@ -17,7 +17,6 @@ export default function AdminIssuesListPage(props: AdminIssuesProps) {
     });
 
     if (response.status === 200) {
-      console.log('response body', response.body);
       let newIssue = (await response.json()) as unknown as Issue;
       window.location.href = `/admin/issues/${newIssue.slug}`;
     } else {

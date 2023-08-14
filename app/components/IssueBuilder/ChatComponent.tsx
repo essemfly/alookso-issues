@@ -58,7 +58,6 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
     });
   };
 
-  console.log('items', chatHistory);
   return (
     <div>
       <List

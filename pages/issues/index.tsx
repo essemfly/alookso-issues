@@ -6,7 +6,6 @@ interface LiveIssuesProps {
 }
 
 export default function IssuesPage(props: LiveIssuesProps) {
-  console.log('propsIssue', props.issues);
   return <>Issues Page</>;
 }
 

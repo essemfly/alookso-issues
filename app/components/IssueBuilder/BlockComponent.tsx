@@ -29,8 +29,6 @@ const IssueBlock = ({
     setBlock({ ...block, content: content });
   };
 
-  console.log('block content', block.content);
-
   return (
     <Space direction="vertical" style={{ width: '100%', marginTop: '10px' }}>
       <Radio.Group value={block.blockType} onChange={handleEditorTypeChange}>

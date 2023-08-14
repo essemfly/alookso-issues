@@ -92,7 +92,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     let newCeleb = (await response.json()) as unknown as Celeb;
 
     if (response.status === 200) {
-      console.log('response body', newCeleb);
       alert('Celeb added successfully');
     } else {
       console.log('error', response.status, response.statusText);
@@ -115,7 +114,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     });
     let celebs = (await response.json()) as unknown as Celeb[];
     if (response.status === 200) {
-      console.log('Add Celeb response', celebs);
       setIssueCelebs(celebs);
     } else {
       console.log('error', response.status, response.statusText);
@@ -168,7 +166,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
       body: JSON.stringify(updateBody),
     });
     if (response.status === 200) {
-      console.log('response body', response.json());
       alert('Update finished well');
       window.location.reload();
     } else {

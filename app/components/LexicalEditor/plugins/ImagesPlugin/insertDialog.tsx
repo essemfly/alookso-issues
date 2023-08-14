@@ -58,19 +58,21 @@ export function InsertImageUploadedDialogBody({
 
   const isDisabled = src === '';
 
-  const loadImage = (files: FileList | null) => {
-    // const reader = new FileReader();
-    // reader.onload = function () {
-    //   if (typeof reader.result === 'string') {
-    //     setSrc(reader.result);
-    //   }
-    //   return '';
-    // };
-    // if (files !== null) {
-    //   reader.readAsDataURL(files[0]);
-    // }
+  const loadImage = async (files: FileList | null) => {
     if (files !== null) {
-      setSrc(URL.createObjectURL(files[0]));
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const response = await fetch(`/api/image`, {
+        method: 'POST',
+        body: formData,
+      });
+      let result = await response.json();
+
+      if (response.status === 200) {
+        setSrc(result.url);
+      } else {
+        console.log('error', response.status, response.statusText);
+      }
     }
   };
 
@@ -132,31 +134,6 @@ export function InsertImageDialog({
     <>
       {!mode && (
         <DialogButtonsList>
-          <Button
-            data-test-id="image-modal-option-sample"
-            onClick={() =>
-              onClick(
-                hasModifier.current
-                  ? {
-                      altText:
-                        'Daylight fir trees forest glacier green high ice landscape',
-                      src: '/images/landscape.jpg',
-                    }
-                  : {
-                      altText: 'Yellow flower in tilt shift lens',
-                      src: '/images/yellow-flower.jpg',
-                    },
-              )
-            }
-          >
-            Sample
-          </Button>
-          <Button
-            data-test-id="image-modal-option-url"
-            onClick={() => setMode('url')}
-          >
-            URL
-          </Button>
           <Button
             data-test-id="image-modal-option-file"
             onClick={() => setMode('file')}

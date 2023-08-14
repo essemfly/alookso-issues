@@ -61,14 +61,11 @@ export default function ImagesPlugin({
       editor.registerCommand<InsertImagePayload>(
         INSERT_IMAGE_COMMAND,
         (payload) => {
-          console.log('payload', payload);
           const imageNode = $createImageNode(payload);
-          console.log('Image node creation: !', imageNode);
           $insertNodes([imageNode]);
           if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
             $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
           }
-
           return true;
         },
         COMMAND_PRIORITY_EDITOR,
