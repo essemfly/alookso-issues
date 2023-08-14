@@ -16,7 +16,6 @@ const CeleSelectBox = ({
   addCelebInIssue,
 }: CeleSelectBoxProps) => {
   const handleChange = (value: number) => {
-    console.log("야 여기서 id를 줘야해", value)
     addCelebInIssue(value);
   };
 

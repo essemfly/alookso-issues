@@ -1,25 +1,54 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import Editor from './Editor';
 import EditorNodes from './nodes/nodes';
 
-interface TextEditorProps {
+interface ViewerEditorProps {
+  content: string | null;
+}
+
+export function ViewerEditor({ content }: ViewerEditorProps): JSX.Element {
+  const initialConfig = {
+    editorState: JSON.parse(content!!),
+    namespace: 'Alookso TextEditor',
+    nodes: [],
+    editable: false,
+    onError: (error: Error) => {
+      throw error;
+    },
+    theme: PlaygroundEditorTheme,
+  };
+
+  return (
+    <LexicalComposer initialConfig={initialConfig}>
+      <PlainTextPlugin
+        contentEditable={<ContentEditable />}
+        placeholder={<div>placeholder</div>}
+        ErrorBoundary={LexicalErrorBoundary}
+      />
+    </LexicalComposer>
+  );
+}
+
+interface WritingEditoProps {
   content: string | null;
   setContent: (context: string) => void;
   uploadImage: () => string;
 }
 
-export default function App({
+export function WritingEditor({
   content,
   setContent,
   uploadImage,
-}: TextEditorProps): JSX.Element {
-  console.log("CONTENT", content)
+}: WritingEditoProps): JSX.Element {
   const preloadRichText = content;
   const editable = true;
 
   const initialConfig = {
-    editorState: preloadRichText,
+    editorState: JSON.parse(preloadRichText!!),
     namespace: 'Alookso TextEditor',
     nodes: [...EditorNodes],
     editable: editable,

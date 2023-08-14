@@ -1,5 +1,5 @@
 import ChatComponent from '@/components/IssueBuilder/ChatComponent';
-import EditorApp from '@/components/LexicalEditor/App';
+import { WritingEditor } from '@/components/LexicalEditor/App';
 import { Radio, Space, Button } from 'antd';
 import { IssueMessage, Celeb } from '@prisma/client';
 import { IssueBlockWithMessages } from '@/models/issue.server';
@@ -22,14 +22,14 @@ const IssueBlock = ({
   };
 
   const setBlockMessages = (chatHistory: IssueMessage[]) => {
-    console.log("chat history", chatHistory)
     setBlock({ ...block, messages: chatHistory });
   };
 
   const setBlockContent = (content: string) => {
     setBlock({ ...block, content: content });
   };
-  console.log("block", block)
+
+  console.log('block content', block.content);
 
   return (
     <Space direction="vertical" style={{ width: '100%', marginTop: '10px' }}>
@@ -39,7 +39,7 @@ const IssueBlock = ({
       </Radio.Group>
       <Button onClick={removeBlock}>Remove</Button>
       {block.blockType === 'text' && (
-        <EditorApp
+        <WritingEditor
           content={block.content}
           setContent={setBlockContent}
           uploadImage={() => 'sample url'}

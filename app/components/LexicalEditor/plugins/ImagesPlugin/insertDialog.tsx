@@ -69,7 +69,6 @@ export function InsertImageUploadedDialogBody({
     // if (files !== null) {
     //   reader.readAsDataURL(files[0]);
     // }
-    // console.log("files[0]", files)
     if (files !== null) {
       setSrc(URL.createObjectURL(files[0]));
     }
