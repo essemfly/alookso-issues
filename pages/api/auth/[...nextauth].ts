@@ -10,13 +10,13 @@ export const authOptions = {
   secret: process.env.SECRET,
   providers: [
     KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID || "",
-      clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
+      clientId: process.env.KAKAO_CLIENT_ID || '',
+      clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
+      checks: ['none'],
     }),
   ],
 };
 
 /* eslint-disable */
-// @ts-nocheck
 //@ts-expect-error issue https://github.com/nextauthjs/next-auth/issues/6174
 export default NextAuth(authOptions);

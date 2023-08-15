@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Col, Row } from 'antd';
-import { Celeb, IssueBlock, IssueStatus } from '@prisma/client';
+import { Celeb, IssueStatus } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 
 import {
