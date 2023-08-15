@@ -1,4 +1,6 @@
 import { Button, List, Typography } from 'antd';
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { Issue } from '@prisma/client';
 import { getAllIssues } from '@/models/issue.server';
@@ -48,7 +50,16 @@ export default function AdminIssuesListPage(props: AdminIssuesProps) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
   const issues = await getAllIssues();
   return {
     props: {

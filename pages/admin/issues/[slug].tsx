@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getSession } from 'next-auth/react';
 import { Button, Col, Row } from 'antd';
 import { Celeb, IssueStatus } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
@@ -251,6 +252,16 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   const { params } = context;
   const slug = params!.slug!;
   const issue = await getIssue(slug as string);

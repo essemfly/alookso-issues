@@ -1,6 +1,6 @@
+import { GetServerSidePropsContext } from 'next';
 import ImageFallback from '@/components/ImageFallback/ImageFallback';
-
-import Header from '@/components/Issue/Header';
+import Intro from '@/components/Issue/Intro';
 import RatingComponent from '@/components/Issue/RatingComponent';
 import {
   MessageBlockSection,
@@ -8,7 +8,6 @@ import {
 } from '@/components/Issue/Block';
 import { IssueWithBlocks, getIssue } from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
-import { GetServerSidePropsContext } from 'next';
 
 interface IssueDetailProps {
   issue: IssueWithBlocks;
@@ -28,14 +27,12 @@ const IssueDetailPage = (props: IssueDetailProps) => {
           alt={props.issue.coverImage}
           fill
           priority
-          src={
-            props.issue.coverImage ?? ""
-          }
+          src={props.issue.coverImage ?? ''}
         />
       </div>
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem]">
         {props.issue ? (
-          <Header
+          <Intro
             title={props.issue.title}
             description={props.issue.description}
             updatedAt={formatDate(props.issue.updatedAt)}

@@ -1,5 +1,20 @@
+import Layout from "@/components/Layout/Layout";
+
 const AdminMainPage = () => {
-  return <>Admin Main Page</>;
+  return (
+    <Layout>
+      <h1>Admin MainPage</h1>
+    </Layout>
+  );
+};
+
+export const getServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: '/issues',
+      permanent: false,
+    },
+  };
 };
 
 export default AdminMainPage;
