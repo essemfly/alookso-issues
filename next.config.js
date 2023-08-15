@@ -7,6 +7,7 @@ const nextConfig = {
       'staging.alookso.com',
       'design.alookso.com',
       'alookso-issues.s3.ap-northeast-2.amazonaws.com',
+      'i.namu.wiki',
     ],
   },
 };

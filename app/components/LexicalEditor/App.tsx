@@ -14,7 +14,7 @@ export function ViewerEditor({ content }: ViewerEditorProps): JSX.Element {
   const initialConfig = {
     editorState: JSON.parse(content!!),
     namespace: 'Alookso TextEditor',
-    nodes: [],
+    nodes: [...EditorNodes],
     editable: false,
     onError: (error: Error) => {
       throw error;
@@ -42,12 +42,11 @@ export function WritingEditor({
   content,
   setContent,
 }: WritingEditoProps): JSX.Element {
-  const editable = true;
   const initialConfig = {
     editorState: JSON.parse(content!!),
     namespace: 'Alookso TextEditor',
     nodes: [...EditorNodes],
-    editable: editable,
+    editable: true,
     onError: (error: Error) => {
       throw error;
     },
