@@ -1,11 +1,14 @@
 import Header from './Header';
 import type { ReactNode } from 'react';
+import { Layout } from 'antd';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <Layout>
       <Header />
-      <main>{children}</main>
-    </>
+      <div className={`mt-14 flex`}>
+        <main className="flex grow justify-center">{children}</main>
+      </div>
+    </Layout>
   );
 }

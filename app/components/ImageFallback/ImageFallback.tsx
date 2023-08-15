@@ -6,9 +6,10 @@ type ImageFallbackProps = ImageProps & {
   fallbackSrc?: string;
 };
 
-const ImageFallback = ({
+const 
+ImageFallback = ({
   src,
-  fallbackSrc = '/_images/union-black.svg',
+  fallbackSrc = '/images/union-black.svg',
   ...rest
 }: ImageFallbackProps) => {
   const [isError, setIsError] = useState(false);
@@ -22,6 +23,8 @@ const ImageFallback = ({
         objectFit: isError ? 'contain' : 'cover',
       }}
       alt={rest.alt}
+      width={0}
+      height={0}
       src={isError ? fallbackSrc : src}
       onLoadingComplete={(result) => {
         if (result.naturalWidth === 0) {

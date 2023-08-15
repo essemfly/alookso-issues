@@ -19,6 +19,7 @@ model Issue {
   status      IssueStatus
   issueBlocks IssueBlock[]
   celebs      Celeb[]      @relation("IssueCeleb")
+  ratings     Rating[]
   createdAt   DateTime
   updatedAt   DateTime
 }
@@ -37,12 +38,12 @@ model IssueBlock {
 }
 
 model IssueMessage {
-  id               Int        @id @default(autoincrement())
+  id               Int           @id @default(autoincrement())
   createdAt        DateTime
   updatedAt        DateTime
   isRemoved        Boolean
   blockId          Int
-  block            IssueBlock @relation(fields: [blockId], references: [id])
+  block            IssueBlock    @relation(fields: [blockId], references: [id])
   celebId          Int
   celebName        String
   celebDescription String?
@@ -53,6 +54,7 @@ model IssueMessage {
   backgroundColor  String
   bias             Bias
   reportedAt       String
+  MessageLike      MessageLike[]
 }
 
 model Celeb {
@@ -107,13 +109,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  ratings       Rating[]
+  MessageLike   MessageLike[]
 }
 
 model VerificationToken {
@@ -122,4 +126,26 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime
+  updatedAt DateTime
+  issueId   Int
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int
+}
+
+model MessageLike {
+  id         Int          @id @default(autoincrement())
+  createdAt  DateTime
+  updatedAt  DateTime
+  messageId  Int
+  message    IssueMessage @relation(fields: [messageId], references: [id])
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  evaluation Int
 }

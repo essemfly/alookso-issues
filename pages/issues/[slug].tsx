@@ -23,7 +23,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
       <div className="relative h-[400px]">
         <ImageFallback
-          className="absolute inset-x-0 mx-auto w-full max-w-[84rem] object-cover"
+          className="inset-x-0 mx-auto w-full max-w-[84rem] object-cover"
           alt={props.issue.coverImage}
           fill
           priority

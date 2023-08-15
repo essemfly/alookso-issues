@@ -1,65 +1,74 @@
-import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
 
-// The approach used in this component shows how to build a sign in and sign out
-// component that works on pages which support both client and server side
-// rendering, and avoids any flash incorrect content on initial page load.
-export default function Header() {
+export default function AppHeader() {
   const { data: session, status } = useSession();
-  const loading = status === 'loading';
+
+  let isLoggedIn = false;
+  if (session) {
+    isLoggedIn = true;
+  }
 
   return (
-    <header>
-      <noscript>
-        <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
-      </noscript>
-      <div>
-        <p
-          className={`nojs-show`}
-        >
-          {!session && (
-            <>
-              <span className="notSignedInText">
-                You are not signed in
-              </span>
-              <a
-                href={`/api/auth/signin`}
+    <header
+      className={`navbar fixed top-0 z-appBar max-h-[57px] min-h-[57px] flex-col items-center justify-center border-b border-solid border-gray-200 bg-base-100 bg-white p-0 shadow-none`}
+    >
+      <div
+        className={`grid h-[57px] w-full grid-cols-main items-center p-4 md:grid-cols-3 xl:w-336 2xl:pr-0 ${
+          isLoggedIn ? 'auto-rows-[25px] md:h-[67.2px] md:auto-rows-[35px]' : ''
+        }`}
+      >
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a href="/" className="flex justify-start md:justify-center">
+          <Image
+            alt="alookso 얼룩소, a look at society"
+            src="/images/union-black.svg"
+            width={92}
+            height={18}
+            priority
+          />
+        </a>
+        <div className="header-right">Alookso Issue!</div>
+        {!session && (
+          <>
+            <span className="notSignedInText">You are not signed in</span>
+            <a
+              href={`/api/auth/signin`}
+              className=""
+              onClick={(e) => {
+                e.preventDefault();
+                signIn();
+              }}
+            >
+              Sign in
+            </a>
+          </>
+        )}
+        {session?.user && (
+          <>
+            {session.user.image && (
+              <span
+                style={{ backgroundImage: `url('${session.user.image}')` }}
                 className=""
-                onClick={(e) => {
-                  e.preventDefault();
-                  signIn();
-                }}
-              >
-                Sign in
-              </a>
-            </>
-          )}
-          {session?.user && (
-            <>
-              {session.user.image && (
-                <span
-                  style={{ backgroundImage: `url('${session.user.image}')` }}
-                  className=""
-                />
-              )}
-              <span className="">
-                <small>Signed in as</small>
-                <br />
-                <strong>{session.user.email ?? session.user.name}</strong>
-              </span>
-              <a
-                href={`/api/auth/signout`}
-                className=""
-                onClick={(e) => {
-                  e.preventDefault();
-                  signOut();
-                }}
-              >
-                Sign out
-              </a>
-            </>
-          )}
-        </p>
+              />
+            )}
+            <span className="">
+              <small>Signed in as</small>
+              <br />
+              <strong>{session.user.email ?? session.user.name}</strong>
+            </span>
+            <a
+              href={`/api/auth/signout`}
+              className=""
+              onClick={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
+              Sign out
+            </a>
+          </>
+        )}
       </div>
     </header>
   );

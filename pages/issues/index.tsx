@@ -1,8 +1,6 @@
 import { Fragment } from 'react';
-import { getSession } from 'next-auth/react';
 import { IssueWithCelebs, getLiveIssues } from '@/models/issue.server';
 import Card from '@/components/Issue/Card';
-import { GetServerSidePropsContext } from 'next';
 
 interface LiveIssuesProps {
   issues: IssueWithCelebs[];
@@ -26,17 +24,7 @@ export default function IssuesPage(props: LiveIssuesProps) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
+export async function getServerSideProps() {
   const issues = await getLiveIssues();
   return {
     props: {
