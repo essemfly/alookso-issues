@@ -14,60 +14,57 @@ export default function AppHeader() {
       className={`navbar fixed top-0 z-appBar max-h-[57px] min-h-[57px] flex-col items-center justify-center border-b border-solid border-gray-200 bg-base-100 bg-white p-0 shadow-none`}
       style={{ borderBottom: '1px solid #F0F0F0', height: '57px' }}
     >
+      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+      <a href="/" className="flex justify-start md:justify-center">
+        <Image
+          alt="alookso 얼룩소, a look at society"
+          src="/logo.svg"
+          width={200}
+          height={100}
+          priority
+          style={{
+            height: '57px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        />
+      </a>
       <div
-        className={`flex h-[57px] w-full grid-cols-main items-center md:grid-cols-3 xl:w-336 2xl:pr-0 ${
-          isLoggedIn ? 'auto-rows-[25px] md:h-[67.2px] md:auto-rows-[35px]' : ''
-        }`}
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: '1rem',
+          lineHeight: '57px',
+          height: '57px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-        <a href="/" className="flex justify-start md:justify-center">
-          <Image
-            alt="alookso 얼룩소, a look at society"
-            src="/logo.svg"
-            width={92}
-            height={100}
-            priority
-          />
-        </a>
         {!session && (
           <>
-            <span className="notSignedInText">You are not signed in</span>
             <a
-              href={`/api/auth/signin`}
+              href={`/login`}
               className=""
               onClick={(e) => {
                 e.preventDefault();
                 signIn();
               }}
             >
-              Sign in
+              로그인
             </a>
           </>
         )}
         {session?.user && (
-          <>
-            {session.user.image && (
-              <span
-                style={{ backgroundImage: `url('${session.user.image}')` }}
-                className=""
-              />
-            )}
-            <span className="">
-              <small>Signed in as</small>
-              <br />
-              <strong>{session.user.email ?? session.user.name}</strong>
-            </span>
-            <a
-              href={`/api/auth/signout`}
-              className=""
-              onClick={(e) => {
-                e.preventDefault();
-                signOut();
-              }}
-            >
-              Sign out
-            </a>
-          </>
+          <Image
+            width={30}
+            height={30}
+            alt={session.user.name || ''}
+            src={session.user.image || '/images/Avatar.png'}
+            priority
+            className="object-cover"
+            style={{ borderRadius: '50%' }}
+          />
         )}
       </div>
     </header>

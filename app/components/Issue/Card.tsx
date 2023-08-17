@@ -81,7 +81,21 @@ const Card = ({
               </div>
             }
           >
-            <Meta title={title} description={description} />
+            <Meta
+              title={title}
+              description={
+                <div
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    display: 'flex',
+                  }}
+                >
+                  <CelebGroup list={celebs} />
+                  {description}
+                </div>
+              }
+            />
           </AntdCard>
         </div>
       </Link>

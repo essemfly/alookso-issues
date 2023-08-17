@@ -24,6 +24,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
     maxWidth: '85%',
     borderRadius: '10px',
     padding: '10px',
+    marginTop: '10px',
     marginBottom: '20px',
     textAlign: 'left',
     fontSize: '16px',
@@ -79,7 +80,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         name={message.celebName}
         avatar={message.celebAvatar}
         description={message.celebDescription}
-        style={{ marginLeft: '8px' }}
+        style={{ marginLeft: '8px'}}
       />
     </div>
   );

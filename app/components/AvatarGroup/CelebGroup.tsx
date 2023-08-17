@@ -1,11 +1,9 @@
 import { memo } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 import { Celeb } from '@prisma/client';
-
-const CelebComponent = dynamic(
-  () => import('@/components/Avatar/CelebComponent'),
-);
+import { Avatar, Divider, Tooltip } from 'antd';
 
 type CelebGroupProps = {
   list: Array<Celeb>;
@@ -14,11 +12,11 @@ type CelebGroupProps = {
 };
 
 const CelebGroup = ({ list, max = 5, className = '' }: CelebGroupProps) => (
-  <div className={`avatar-group -space-x-2 ${className}`}>
+  <Avatar.Group maxCount={2}>
     {list.slice(0, max).map((celeb) => (
-      <CelebComponent {...celeb} key={celeb.id} />
+      <Avatar src={celeb.avatar || '/images/Avatar.png'} key={celeb.id} />
     ))}
-  </div>
+  </Avatar.Group>
 );
 
 export default memo(CelebGroup);

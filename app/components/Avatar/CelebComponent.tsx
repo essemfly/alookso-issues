@@ -30,7 +30,7 @@ const CelebComponent = ({ avatar, name, style }: CelebComponentProps) => {
           src={avatar}
           priority
           className="object-cover"
-          style={{...style, borderRadius: '50%'}}
+          style={{...style, borderRadius: '50%', height: '40px'}}
           onLoadingComplete={(result) => {
             if (result.naturalWidth === 0) {
               setIsError(true);

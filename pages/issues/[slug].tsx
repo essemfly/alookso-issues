@@ -21,16 +21,15 @@ const IssueDetailPage = (props: IssueDetailProps) => {
 
   return (
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
-      <div className="relative h-[400px]">
+      <div className="relative">
         <ImageFallback
           className="inset-x-0 mx-auto w-full max-w-[84rem] object-cover"
           alt={props.issue.coverImage}
-          fill
           priority
           src={props.issue.coverImage ?? ''}
         />
       </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem]" style={{padding: "24px 20px;"}}>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         {props.issue ? (
           <Intro
             title={props.issue.title}

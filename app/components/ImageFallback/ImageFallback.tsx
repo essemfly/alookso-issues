@@ -23,8 +23,8 @@ ImageFallback = ({
         objectFit: isError ? 'contain' : 'cover',
       }}
       alt={rest.alt}
-      width={0}
-      height={0}
+      width={100}
+      height={100}
       src={isError ? fallbackSrc : src}
       onLoadingComplete={(result) => {
         if (result.naturalWidth === 0) {
