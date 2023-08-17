@@ -4,9 +4,9 @@ import { Layout } from 'antd';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <Layout>
+    <Layout style={{backgroundColor: 'white'}} >
       <Header />
-      <div className={`mt-14 flex`}>
+      <div className={`mt-14 flex`} style={{}}>
         <main className="flex grow justify-center">{children}</main>
       </div>
     </Layout>

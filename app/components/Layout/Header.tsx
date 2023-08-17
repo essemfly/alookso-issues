@@ -12,9 +12,10 @@ export default function AppHeader() {
   return (
     <header
       className={`navbar fixed top-0 z-appBar max-h-[57px] min-h-[57px] flex-col items-center justify-center border-b border-solid border-gray-200 bg-base-100 bg-white p-0 shadow-none`}
+      style={{ borderBottom: '1px solid #F0F0F0', height: '57px' }}
     >
       <div
-        className={`grid h-[57px] w-full grid-cols-main items-center p-4 md:grid-cols-3 xl:w-336 2xl:pr-0 ${
+        className={`flex h-[57px] w-full grid-cols-main items-center md:grid-cols-3 xl:w-336 2xl:pr-0 ${
           isLoggedIn ? 'auto-rows-[25px] md:h-[67.2px] md:auto-rows-[35px]' : ''
         }`}
       >
@@ -22,13 +23,12 @@ export default function AppHeader() {
         <a href="/" className="flex justify-start md:justify-center">
           <Image
             alt="alookso 얼룩소, a look at society"
-            src="/images/union-black.svg"
+            src="/logo.svg"
             width={92}
-            height={18}
+            height={100}
             priority
           />
         </a>
-        <div className="header-right">Alookso Issue!</div>
         {!session && (
           <>
             <span className="notSignedInText">You are not signed in</span>

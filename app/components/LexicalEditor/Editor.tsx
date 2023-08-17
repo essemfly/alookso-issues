@@ -21,9 +21,7 @@ interface EditorProps {
   setContent: (context: string) => void;
 }
 
-export default function Editor({
-  setContent,
-}: EditorProps): JSX.Element {
+export default function Editor({ setContent }: EditorProps): JSX.Element {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
 

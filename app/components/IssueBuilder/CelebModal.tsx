@@ -90,7 +90,7 @@ export const CelebCreateModal = ({
           </Upload>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button htmlType="submit">
             Submit
           </Button>
         </Form.Item>

@@ -9,9 +9,10 @@ interface CelebComponentProps {
   name: string;
   avatar: string | null;
   description?: string | null;
+  style?: React.CSSProperties;
 }
 
-const CelebComponent = ({ avatar, name }: CelebComponentProps) => {
+const CelebComponent = ({ avatar, name, style }: CelebComponentProps) => {
   const [isError, setIsError] = useState(false);
   return (
     <div className="avatar border-0">
@@ -23,12 +24,13 @@ const CelebComponent = ({ avatar, name }: CelebComponentProps) => {
       ) : null}
       {avatar && !isError ? (
         <Image
-          width={25}
-          height={25}
+          width={40}
+          height={40}
           alt={name}
           src={avatar}
           priority
           className="object-cover"
+          style={{...style, borderRadius: '50%'}}
           onLoadingComplete={(result) => {
             if (result.naturalWidth === 0) {
               setIsError(true);

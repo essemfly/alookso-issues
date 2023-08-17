@@ -177,7 +177,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
 
   return (
     <>
-      <Row gutter={[16, 32]}>
+      <Row gutter={[16, 32]} style={{marginTop: '20px'}}>
         <Col span={12}>
           <InfoSpace
             title={title}
@@ -201,7 +201,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
             addCelebInIssue={handleAddCelebInIssue}
           />
           <Button
-            type="primary"
             onClick={() => {
               setOpenCelebCreateModal(true);
             }}
@@ -228,14 +227,12 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
       </Row>
       <div>
         <Button
-          type="primary"
           onClick={() => handleAddBlock()}
           style={{ marginLeft: '8px' }}
         >
           블럭 추가하기
         </Button>
         <Button
-          type="primary"
           onClick={handleSave}
           style={{ marginLeft: '8px' }}
         >

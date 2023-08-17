@@ -4,7 +4,6 @@ import {
   INDENT_CONTENT_COMMAND,
   OUTDENT_CONTENT_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 
 import DropDown, { DropDownItem } from '../../ui/Dropdown';
 import Divider from './Divider';

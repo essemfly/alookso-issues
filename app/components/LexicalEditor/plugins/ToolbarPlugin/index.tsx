@@ -1,10 +1,8 @@
-import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import type { NodeKey } from 'lexical';
 import {
-
   $getSelection,
   $isRangeSelection,
   $isRootOrShadowRoot,
@@ -35,7 +33,6 @@ import { $isLinkNode } from '@lexical/link';
 import { $isTableNode } from '@lexical/table';
 
 import { InsertImageDialog } from '../ImagesPlugin/insertDialog';
-import { InsertChatDialog } from '../ChatPlugin/insertMessage';
 
 import Divider from './Divider';
 import FontDropDown from './FontDropDown';
@@ -66,7 +63,7 @@ export default function ToolbarPlugin(): JSX.Element {
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
     null,
   );
-  const [fontSize, setFontSize] = useState<string>('15px');
+  const [fontSize, setFontSize] = useState<string>('17px');
   const [fontColor, setFontColor] = useState<string>('#000');
   const [bgColor, setBgColor] = useState<string>('#fff');
   const [fontFamily, setFontFamily] = useState<string>('Arial');
@@ -151,7 +148,7 @@ export default function ToolbarPlugin(): JSX.Element {
       }
       // Handle buttons
       setFontSize(
-        $getSelectionStyleValueForProperty(selection, 'font-size', '15px'),
+        $getSelectionStyleValueForProperty(selection, 'font-size', '17px'),
       );
       setFontColor(
         $getSelectionStyleValueForProperty(selection, 'color', '#000'),

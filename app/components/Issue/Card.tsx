@@ -27,6 +27,7 @@ const Card = ({
       >
         <div className="relative h-52 w-full">
           <AntdCard
+            style={{ border: '1px solid #DFDFDF' }}
             hoverable
             cover={
               <>
@@ -48,7 +49,10 @@ const Card = ({
                   // fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <span className="text-white p-1 absolute top-2 left-2 font-extralight text-sm" style={{position: 'absolute', top: 0}}>
+                <span
+                  className="text-white p-1 absolute top-2 left-2 font-extralight text-sm"
+                  style={{ position: 'absolute', top: 0 }}
+                >
                   {JSON.parse(JSON.stringify(updatedAt))}
                 </span>
               </>

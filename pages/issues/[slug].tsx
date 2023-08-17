@@ -30,7 +30,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
           src={props.issue.coverImage ?? ''}
         />
       </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem]">
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem]" style={{padding: "24px 20px;"}}>
         {props.issue ? (
           <Intro
             title={props.issue.title}

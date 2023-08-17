@@ -118,13 +118,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           style={{ marginLeft: '8px' }}
         >
           <Radio.Button style={{ backgroundColor: '#f5f5f5' }} value="#f5f5f5">
-            f5f5f5bac
+            f5f5f5
           </Radio.Button>
-          bac
           <Radio.Button style={{ backgroundColor: '#eff6ff' }} value="#eff6ff">
-            eff6ffbac
+            eff6ff
           </Radio.Button>
-          bac
           <Radio.Button style={{ backgroundColor: '#fef2f2' }} value="#fef2f2">
             fef2f2
           </Radio.Button>
@@ -158,7 +156,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           autoSize={{ minRows: 1, maxRows: 6 }}
         />
         <Button
-          type="primary"
           onClick={handleSendMessage}
           style={{ marginLeft: '8px' }}
         >

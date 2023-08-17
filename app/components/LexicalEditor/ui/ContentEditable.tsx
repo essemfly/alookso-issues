@@ -13,8 +13,10 @@ import * as React from 'react';
 
 export default function LexicalContentEditable({
   className,
+  style,
 }: {
   className?: string;
+  style?: React.CSSProperties;
 }): JSX.Element {
-  return <ContentEditable className={className || 'ContentEditable__root'} />;
+  return <ContentEditable className={className || 'ContentEditable__root'} style={style}/>;
 }

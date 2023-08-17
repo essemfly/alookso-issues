@@ -1,8 +1,8 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import ContentEditable from './ui/ContentEditable';
 import Editor from './Editor';
 import EditorNodes from './nodes/nodes';
 
@@ -24,11 +24,19 @@ export function ViewerEditor({ content }: ViewerEditorProps): JSX.Element {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <PlainTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>placeholder</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
+      <div className="editor-shell">
+        <PlainTextPlugin
+          contentEditable={
+            <div className="editor-scroller">
+              <div className="editor">
+                <ContentEditable style={{padding: 0}}/>
+              </div>
+            </div>
+          }
+          placeholder={<div>placeholder</div>}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+      </div>
     </LexicalComposer>
   );
 }

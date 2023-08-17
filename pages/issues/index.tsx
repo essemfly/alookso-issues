@@ -8,11 +8,7 @@ interface LiveIssuesProps {
 
 export default function IssuesPage(props: LiveIssuesProps) {
   return (
-    <section className="mb-4 w-full bg-gray-100 p-4 pb-24 md:bg-white md:pt-12 lg:px-12">
-      <h1 className="text-xl font-bold text-gray-800">얼룩소 이슈!</h1>
-      <p className="mt-2 break-all text-gray-400">
-        계속 업데이트되는 살아있는 이슈들
-      </p>
+    <section className="mb-4 w-full p-4 pb-24 md:bg-white md:pt-12 lg:px-12">
       <div className="mt-4 space-y-4">
         <Fragment>
           {props.issues.map((item) => (

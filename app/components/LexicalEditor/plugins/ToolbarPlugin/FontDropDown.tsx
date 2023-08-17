@@ -14,17 +14,22 @@ const FONT_FAMILY_OPTIONS: [string, string][] = [
 ];
 
 const FONT_SIZE_OPTIONS: [string, string][] = [
-  ['10px', '10px'],
-  ['11px', '11px'],
-  ['12px', '12px'],
-  ['13px', '13px'],
-  ['14px', '14px'],
   ['15px', '15px'],
   ['16px', '16px'],
   ['17px', '17px'],
   ['18px', '18px'],
   ['19px', '19px'],
   ['20px', '20px'],
+  ['21px', '21px'],
+  ['22px', '22px'],
+  ['23px', '23px'],
+  ['24px', '24px'],
+  ['25px', '25px'],
+  ['26px', '26px'],
+  ['27px', '27px'],
+  ['28px', '28px'],
+  ['29px', '29px'],
+  ['30px', '30px'],
 ];
 
 function dropDownActiveClass(active: boolean) {
