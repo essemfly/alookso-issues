@@ -13,13 +13,8 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import {
-  $isListNode,
-  ListNode,
-} from '@lexical/list';
-import {
-  $isHeadingNode,
-} from '@lexical/rich-text';
+import { $isListNode, ListNode } from '@lexical/list';
+import { $isHeadingNode } from '@lexical/rich-text';
 import {
   $findMatchingParent,
   $getNearestNodeOfType,
@@ -31,22 +26,23 @@ import {
 } from '@lexical/selection';
 import { $isLinkNode } from '@lexical/link';
 import { $isTableNode } from '@lexical/table';
+import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
+import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
 
+import { EmbedConfigs } from '../AutoEmbedPlugin';
 import { InsertImageDialog } from '../ImagesPlugin/insertDialog';
-
 import Divider from './Divider';
 import FontDropDown from './FontDropDown';
 import BlockFormatDropDown, {
   blockTypeToBlockName,
 } from './BlockFormatDropDown';
-
-import DropDown, { DropDownItem } from '../../ui/Dropdown';
-import useModal from '../../hooks/useModal';
-import { getSelectedNode } from '@/components/LexicalEditor/utils/getSelectedNode';
-import { IS_APPLE } from '@/components/LexicalEditor/utils/environment';
 import AlignDropdown from './AlignDropdown';
 import FontDecorator from './FontDecorator';
-import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
+
+import DropDown, { DropDownItem } from '@/components/LexicalEditor/ui/Dropdown';
+import useModal from '@/components/LexicalEditor/hooks/useModal';
+import { getSelectedNode } from '@/components/LexicalEditor/utils/getSelectedNode';
+import { IS_APPLE } from '@/components/LexicalEditor/utils/environment';
 
 const rootTypeToRootName = {
   root: 'Root',
@@ -302,6 +298,21 @@ export default function ToolbarPlugin(): JSX.Element {
           <i className="icon image" />
           <span className="text">Image</span>
         </DropDownItem>
+        {EmbedConfigs.map((embedConfig) => (
+          <DropDownItem
+            key={embedConfig.type}
+            onClick={() => {
+              activeEditor.dispatchCommand(
+                INSERT_EMBED_COMMAND,
+                embedConfig.type,
+              );
+            }}
+            className="item"
+          >
+            {embedConfig.icon}
+            <span className="text">{embedConfig.contentName}</span>
+          </DropDownItem>
+        ))}
         {/* <DropDownItem
           onClick={() => {
             showModal('Chat modal', (onClose) => (

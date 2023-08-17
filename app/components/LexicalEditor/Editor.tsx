@@ -15,6 +15,9 @@ import ContentEditable from './ui/ContentEditable';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import ImagesPlugin from './plugins/ImagesPlugin';
 import ActionsPlugin from './plugins/ActionsPlugin';
+import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
+import YouTubePlugin from './plugins/YouTubePlugin';
+import TwitterPlugin from './plugins/TwitterPlugin';
 // import ChatPlugin from './plugins/ChatPlugin';
 
 interface EditorProps {
@@ -60,6 +63,9 @@ export default function Editor({ setContent }: EditorProps): JSX.Element {
         )}
         <TabIndentationPlugin />
         <ImagesPlugin />
+        <AutoEmbedPlugin />
+        <YouTubePlugin />
+        <TwitterPlugin />
         <ActionsPlugin setContent={setContent} />
       </div>
     </div>

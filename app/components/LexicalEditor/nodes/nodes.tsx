@@ -35,8 +35,8 @@ import { ChatNode } from './ChatNode';
 // import { PollNode } from './PollNode';
 // import { StickyNode } from './StickyNode';
 // import { TableNode as NewTableNode } from './TableNode';
-// import { TweetNode } from './TweetNode';
-// import { YouTubeNode } from './YouTubeNode';
+import { TweetNode } from './TweetNode';
+import { YouTubeNode } from './YouTubeNode';
 
 const EditorNodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
@@ -54,6 +54,8 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   ImageNode,
   EmojiNode,
   HorizontalRuleNode,
+  TweetNode,
+  YouTubeNode,
   // OverflowNode,
   // PollNode,
   // StickyNode,
@@ -65,8 +67,6 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   // KeywordNode,
   // NewTableNode,
   // HashtagNode,
-  // TweetNode,
-  // YouTubeNode,
   // FigmaNode,
   // MarkNode,
   // CollapsibleContainerNode,
