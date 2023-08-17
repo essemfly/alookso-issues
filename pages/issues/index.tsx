@@ -9,10 +9,9 @@ interface LiveIssuesProps {
 export default function IssuesPage(props: LiveIssuesProps) {
   return (
     <section
-      className="mb-4 w-full p-4 pb-24 md:bg-white md:pt-12 lg:px-12"
       style={{ justifyContent: 'center', display: 'flex' }}
     >
-      <div className="mt-4 space-y-4">
+      <div className="mt-4 space-y-4 content_padding">
         <Fragment>
           {props.issues.map((item) => (
             <Card key={item.id} {...item} />
