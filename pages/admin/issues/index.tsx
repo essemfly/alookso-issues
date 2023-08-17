@@ -28,7 +28,10 @@ export default function AdminIssuesListPage(props: AdminIssuesProps) {
   };
 
   return (
-    <>
+    <div
+      className="mx-auto md:w-[54rem] md:max-w-[54rem] lg:w-[54rem] lg:max-w-[54rem] xl:w-[64rem] xl:max-w-[64rem]"
+      style={{ padding: '24px 20px;', backgroundColor: '#EEEEEE' }}
+    >
       <Button onClick={handleIssueCreateClick} style={{ marginBottom: '10px' }}>
         Issue생성하기
       </Button>
@@ -46,7 +49,7 @@ export default function AdminIssuesListPage(props: AdminIssuesProps) {
           </List.Item>
         )}
       />
-    </>
+    </div>
   );
 }
 

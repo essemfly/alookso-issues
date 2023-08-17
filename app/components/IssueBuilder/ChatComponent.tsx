@@ -65,6 +65,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
         dataSource={chatHistory}
         renderItem={(item, index) => (
           <List.Item
+            style={{ backgroundColor: 'white' }}
             key={`${index}-${item.id}`}
             actions={[
               <Button
@@ -82,20 +83,22 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
                 description={item.content}
               />
             )}
-            <span>{item.backgroundColor}</span>
-            <span>{item.bias}</span>
-            <div>{item.reportedAt}</div>
-            {item.linkFrom && (
-              <div>
-                <strong>링크:</strong>
-                <a href={item.link}>{item.linkFrom}</a>
-              </div>
-            )}
-            {item.reportedAt && (
-              <div>
-                <strong>날짜:</strong> {item.reportedAt}
-              </div>
-            )}
+            <div style={{backgroundColor: item.backgroundColor}}>
+              <div>{item.backgroundColor}</div>
+              <div>{item.bias}</div>
+              <div>{item.reportedAt}</div>
+              {item.linkFrom && (
+                <div>
+                  <strong>링크:</strong>
+                  <a href={item.link}>{item.linkFrom}</a>
+                </div>
+              )}
+              {item.reportedAt && (
+                <div>
+                  <strong>날짜:</strong> {item.reportedAt}
+                </div>
+              )}
+            </div>
           </List.Item>
         )}
       />

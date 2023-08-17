@@ -311,6 +311,7 @@
   padding: 0;
   margin: 0;
   list-style-position: inside;
+  list-style-type: disc;
 }
 .PlaygroundEditorTheme__listItem {
   margin: 0 32px;

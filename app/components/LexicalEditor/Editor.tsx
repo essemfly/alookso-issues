@@ -8,6 +8,7 @@ import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
+import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
 import Placeholder from './ui/Placeholder';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import LinkPlugin from './plugins/LinkPlugin';
@@ -66,6 +67,7 @@ export default function Editor({ setContent }: EditorProps): JSX.Element {
         <AutoEmbedPlugin />
         <YouTubePlugin />
         <TwitterPlugin />
+        <MarkdownShortcutPlugin />
         <ActionsPlugin setContent={setContent} />
       </div>
     </div>

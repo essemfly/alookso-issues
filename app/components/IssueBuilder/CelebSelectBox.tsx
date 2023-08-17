@@ -24,7 +24,7 @@ const CeleSelectBox = ({
       <div>Celebs</div>
       <Select
         mode="multiple"
-        style={{ width: '100%', margin: '30px 0' }}
+        style={{ width: '100%', margin: '10px 0' }}
         placeholder="select celeb"
         defaultValue={
           selectedCelebs && Array.isArray(selectedCelebs) ? selectedCelebs?.map((celeb) => celeb.id) : []

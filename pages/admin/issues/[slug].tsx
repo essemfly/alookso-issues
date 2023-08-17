@@ -176,8 +176,11 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   };
 
   return (
-    <>
-      <Row gutter={[16, 32]} style={{marginTop: '20px'}}>
+    <div
+      className="mx-auto md:w-[54rem] md:max-w-[54rem] lg:w-[54rem] lg:max-w-[54rem] xl:w-[64rem] xl:max-w-[64rem]"
+      style={{ padding: '24px 20px;' , backgroundColor: '#EEEEEE'}}
+    >
+      <Row gutter={[16, 32]} style={{ marginTop: '20px' }}>
         <Col span={12}>
           <InfoSpace
             title={title}
@@ -204,7 +207,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
             onClick={() => {
               setOpenCelebCreateModal(true);
             }}
-            style={{ marginLeft: '8px' }}
           >
             셀럽 추가 등록하기
           </Button>
@@ -226,16 +228,10 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         </Col>
       </Row>
       <div>
-        <Button
-          onClick={() => handleAddBlock()}
-          style={{ marginLeft: '8px' }}
-        >
+        <Button onClick={() => handleAddBlock()} style={{ marginLeft: '8px' }}>
           블럭 추가하기
         </Button>
-        <Button
-          onClick={handleSave}
-          style={{ marginLeft: '8px' }}
-        >
+        <Button onClick={handleSave} style={{ marginLeft: '8px' }}>
           저장하기
         </Button>
       </div>
@@ -244,7 +240,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         setOpenCelebCreateModal={setOpenCelebCreateModal}
         handleAddCeleb={handleAddCeleb}
       />
-    </>
+    </div>
   );
 }
 

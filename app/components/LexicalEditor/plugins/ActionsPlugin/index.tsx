@@ -77,7 +77,7 @@ export default function ActionsPlugin({
 
   return (
     <div className="actions">
-      <button
+      {/* <button
         className="action-button import"
         onClick={() => importFile(editor)}
         title="Import"
@@ -97,11 +97,10 @@ export default function ActionsPlugin({
         aria-label="Export editor state to JSON"
       >
         <i className="export" />
-      </button>
+      </button> */}
       <button
         className={`action-button ${!isEditable ? 'unlock' : 'lock'}`}
         onClick={() => {
-
           const editorState = editor.getEditorState();
           const editorStateJsonString = JSON.stringify(editorState);
           const jsonEscapedStr = JSON.stringify(editorStateJsonString);
@@ -111,7 +110,7 @@ export default function ActionsPlugin({
         title="Read-Only Mode"
         aria-label={`${!isEditable ? 'Unlock' : 'Lock'} read-only mode`}
       >
-        <i className={!isEditable ? 'unlock' : 'lock'} />
+        Save
       </button>
       {modal}
     </div>
