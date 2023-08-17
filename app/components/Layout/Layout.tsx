@@ -6,7 +6,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <Layout style={{backgroundColor: 'white'}} >
       <Header />
-      <div className={`mt-14 flex`} style={{}}>
+      <div className={`mt-14`} style={{}}>
         <main className="flex grow justify-center">{children}</main>
       </div>
     </Layout>
