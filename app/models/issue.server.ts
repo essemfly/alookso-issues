@@ -34,6 +34,9 @@ export async function getIssue(slug: string) {
         include: {
           messages: {
             where: { isRemoved: false },
+            orderBy: {
+              createdAt: 'asc',
+            },
           },
         },
       },
@@ -99,6 +102,7 @@ export interface UpdateIssueBlockInput {
 }
 
 export interface UpdateIssueMessageInput {
+  id?: number;
   celebId: number;
   celebName: string;
   celebDescription: string;
@@ -116,72 +120,9 @@ export async function updateIssue(input: UpdateIssueInput) {
 
   input.blocks.map(async (block) => {
     if (block.id) {
-      return await prisma.issueBlock.update({
-        where: {
-          id: block.id,
-        },
-        data: {
-          seq: block.seq,
-          blockType: block.blockType,
-          content: block.content,
-          isRemoved: false,
-          updatedAt: new Date(),
-          messages: {
-            createMany: {
-              data: block.messages.map((message) => {
-                return {
-                  celebId: message.celebId,
-                  celebName: message.celebName,
-                  celebDescription: message.celebDescription,
-                  celebAvatar: message.celebAvatar,
-                  content: message.content,
-                  link: message.link,
-                  linkFrom: message.linkFrom,
-                  backgroundColor: message.backgroundColor,
-                  bias: message.bias,
-                  reportedAt: message.reportedAt,
-                  isRemoved: false,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                };
-              }),
-            },
-          },
-        },
-      });
+      await updateIssueBlock(block);
     } else {
-      return await prisma.issueBlock.create({
-        data: {
-          seq: block.seq,
-          blockType: block.blockType,
-          content: block.content,
-          isRemoved: false,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          issueId: input.id,
-          messages: {
-            createMany: {
-              data: block.messages.map((message) => {
-                return {
-                  celebId: message.celebId,
-                  celebName: message.celebName,
-                  celebDescription: message.celebDescription,
-                  celebAvatar: message.celebAvatar,
-                  content: message.content,
-                  link: message.link,
-                  linkFrom: message.linkFrom,
-                  backgroundColor: message.backgroundColor,
-                  bias: message.bias,
-                  reportedAt: message.reportedAt,
-                  isRemoved: false,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                };
-              }),
-            },
-          },
-        },
-      });
+      await createIssueBlock(block, input.id);
     }
   });
 
@@ -208,6 +149,109 @@ export async function updateIssue(input: UpdateIssueInput) {
     },
   });
 }
+
+async function updateIssueMessage(block: UpdateIssueBlockInput) {
+  console.log("remove issue messages of block: ", block.id!!)
+  await removeIssueMessages(block.id!!);
+
+  block.messages.map(async (message) => {
+    if (message.id) {
+      await prisma.issueMessage.update({
+        where: {
+          id: message.id,
+        },
+        data: {
+          celebId: message.celebId,
+          celebName: message.celebName,
+          celebDescription: message.celebDescription,
+          celebAvatar: message.celebAvatar,
+          content: message.content,
+          link: message.link,
+          linkFrom: message.linkFrom,
+          backgroundColor: message.backgroundColor,
+          bias: message.bias,
+          reportedAt: message.reportedAt,
+          isRemoved: false,
+          updatedAt: new Date(),
+        },
+      });
+    } else {
+      await prisma.issueMessage.create({
+        data: {
+          blockId: block.id!!,
+          celebId: message.celebId,
+          celebName: message.celebName,
+          celebDescription: message.celebDescription,
+          celebAvatar: message.celebAvatar,
+          content: message.content,
+          link: message.link,
+          linkFrom: message.linkFrom,
+          backgroundColor: message.backgroundColor,
+          bias: message.bias,
+          reportedAt: message.reportedAt,
+          isRemoved: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+    }
+  });
+}
+
+async function createIssueBlock(block: UpdateIssueBlockInput, issueId: number) {
+  await prisma.issueBlock.create({
+    data: {
+      seq: block.seq,
+      blockType: block.blockType,
+      content: block.content,
+      isRemoved: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      issueId: issueId,
+      messages: {
+        createMany: {
+          data: block.messages.map((message) => {
+            return {
+              celebId: message.celebId,
+              celebName: message.celebName,
+              celebDescription: message.celebDescription,
+              celebAvatar: message.celebAvatar,
+              content: message.content,
+              link: message.link,
+              linkFrom: message.linkFrom,
+              backgroundColor: message.backgroundColor,
+              bias: message.bias,
+              reportedAt: message.reportedAt,
+              isRemoved: false,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+          }),
+        },
+      },
+    },
+  });
+}
+
+async function updateIssueBlock(block: UpdateIssueBlockInput) {
+  if (block.blockType === 'message') {
+    await updateIssueMessage(block);
+  }
+
+  return await prisma.issueBlock.update({
+    where: {
+      id: block.id,
+    },
+    data: {
+      seq: block.seq,
+      blockType: block.blockType,
+      content: block.content,
+      isRemoved: false,
+      updatedAt: new Date(),
+    },
+  });
+}
+
 async function removeIssueBlocks(issueId: number) {
   await prisma.issueBlock.updateMany({
     where: {
@@ -217,19 +261,16 @@ async function removeIssueBlocks(issueId: number) {
       isRemoved: true,
     },
   });
+}
 
-  const issueBlocksToUpdate = await prisma.issueBlock.findMany({
+async function removeIssueMessages(blockId: number) {
+  let x = await prisma.issueMessage.updateMany({
     where: {
-      issueId,
+      blockId: blockId,
+    },
+    data: {
+      isRemoved: true,
     },
   });
-
-  const updatePromises = issueBlocksToUpdate.map(async (block) => {
-    await prisma.issueMessage.updateMany({
-      where: { blockId: block.id },
-      data: { isRemoved: true },
-    });
-  });
-
-  await Promise.all(updatePromises);
+  console.log("x: ", x)
 }

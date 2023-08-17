@@ -22,8 +22,9 @@ export const CelebCreateModal = ({
       name: values.name,
       description: values.description,
       avatar: avatarUrl,
-    }),
-      form.resetFields();
+    });
+
+    form.resetFields();
     setOpenCelebCreateModal(false);
   };
 
@@ -90,9 +91,7 @@ export const CelebCreateModal = ({
           </Upload>
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit">
-            Submit
-          </Button>
+          <Button htmlType="submit">Submit</Button>
         </Form.Item>
       </Form>
     </Modal>

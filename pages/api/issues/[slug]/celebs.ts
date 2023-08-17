@@ -16,15 +16,21 @@ export default async function handler(
       return;
     }
 
-    issue.celebs.forEach((celeb) => async () => {
+    let isRemoved = false;
+
+    issue.celebs.forEach(async (celeb) => {
       if (celeb.id === celebId) {
-        let celebsInIssue = await removeCelebToIssue(celebId, issue!!.id);
-        res.status(200).json(celebsInIssue);
-        return;
+        await removeCelebToIssue(celebId, issue!!.id);
+        isRemoved = true;
       }
     });
-    let celebsInIssue = await addCelebToIssue(celebId, issue!!.id);
-    res.status(200).json(celebsInIssue);
+
+    if (!isRemoved) {
+      await addCelebToIssue(celebId, issue!!.id);
+    }
+
+    issue = await getIssue(issueSlug as string);
+    res.status(200).json(issue?.celebs);
   } else {
     res.status(405).end(); // Method Not Allowed
   }

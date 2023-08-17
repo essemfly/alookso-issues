@@ -53,6 +53,7 @@
    position: relative;
    line-height: 1.7;
    font-weight: 400;
+   min-height: 500px;
  }
  
  .editor-shell .editor-container {

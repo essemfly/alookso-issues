@@ -90,7 +90,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
       body: JSON.stringify(celebReq),
     });
 
-    let newCeleb = (await response.json()) as unknown as Celeb;
+    let newCeleb = await response.json();
 
     if (response.status === 200) {
       alert('Celeb added successfully');
@@ -126,6 +126,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
       let updateMessages: UpdateIssueMessageInput[] = block.messages.map(
         (message) => {
           return {
+            id: message.id || undefined,
             celebId: message.celebId,
             celebAvatar: message.celebAvatar,
             celebName: message.celebName,

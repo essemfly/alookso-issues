@@ -51,17 +51,16 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
   };
 
   const handleRemoveMessage = (idx: number) => {
-    setChatHistory((prevHistory) => {
-      const updatedHistory = [...prevHistory];
-      updatedHistory.splice(idx, 1);
-      return updatedHistory;
-    });
+    const updatedHistory = [...chatHistory];
+    updatedHistory.splice(idx, 1);
+    setChatHistory(updatedHistory);
+    setMessages(updatedHistory);
   };
 
   return (
     <div>
       <List
-        style={{ height: '200px', overflowY: 'auto' }}
+        style={{ height: '500px', overflowY: 'auto' }}
         dataSource={chatHistory}
         renderItem={(item, index) => (
           <List.Item
@@ -83,7 +82,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
                 description={item.content}
               />
             )}
-            <div style={{backgroundColor: item.backgroundColor}}>
+            <div style={{ backgroundColor: item.backgroundColor }}>
               <div>{item.backgroundColor}</div>
               <div>{item.bias}</div>
               <div>{item.reportedAt}</div>

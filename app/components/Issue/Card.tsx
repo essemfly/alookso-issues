@@ -92,7 +92,7 @@ const Card = ({
                   }}
                 >
                   <CelebGroup list={celebs} />
-                  {description}
+                  <span style={{ marginLeft: '0.5rem' }}>{description}</span>
                 </div>
               }
             />
