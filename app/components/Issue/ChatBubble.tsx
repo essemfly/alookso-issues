@@ -1,22 +1,52 @@
-import React from 'react';
-import { IssueMessage, Bias } from '@prisma/client';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { IssueMessage, Bias, MessageLike } from '@prisma/client';
 import CelebComponent from '../Avatar/CelebComponent';
 import Image from 'next/image';
+import { UpsertLikeInput } from '@/models/likes.server';
 
 interface ChatBubbleProps {
   message: IssueMessage;
+  userInfo?: MessageLike | null;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
-  // const [likeCount, setLikeCount] = useState<number>(message.voteCount)
-  // const [disLikeCount, setDisLikeCount] = useState<number>(message.downvoteCount)
+const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
+  const router = useRouter();
+  const [likeCount, setLikeCount] = useState<number>(message.likeCount);
+  const [disLikeCount, setDisLikeCount] = useState<number>(
+    message.dislikeCount,
+  );
 
-  const handleLike = (like: boolean) => {
-    // if (like) {
-    //   setLikeCount(likeCount+1)
-    // } else {
-    //   setDisLikeCount(disLikeCount+1)
-    // }
+  const handleLike = async (messageId: number, like: boolean) => {
+    if (userInfo == null) {
+      alert('로그인이 필요합니다.');
+      router.push('/login');
+      return;
+    }
+
+    setLikeCount(likeCount + (like ? 1 : 0));
+    setDisLikeCount(disLikeCount + (like ? 0 : 1));
+
+    let updateBody: UpsertLikeInput = {
+      userId: userInfo.userId,
+      messageId: messageId,
+      evaluation: like ? 1 : -1,
+    };
+
+    const response = await fetch(`/api/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateBody),
+    });
+    if (response.status === 200) {
+      alert('Update finished well');
+      window.location.reload();
+    } else {
+      alert('Update error occured');
+      console.log('error', response.status, response.statusText);
+    }
   };
 
   const bubbleStyle: React.CSSProperties = {
@@ -80,7 +110,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         name={message.celebName}
         avatar={message.celebAvatar}
         description={message.celebDescription}
-        style={{ marginLeft: '8px'}}
+        style={{ marginLeft: '8px' }}
       />
     </div>
   );
@@ -138,12 +168,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
               width={15}
               height={13}
               priority
-              onClick={() => handleLike(true)}
+              onClick={() => handleLike(message.id, true)}
               style={{ marginRight: '4px' }}
             />
-
-            {/* <span>{likeCount}</span> */}
-            <span style={{ marginRight: '8px' }}>52</span>
+            <span style={{ marginRight: '8px' }}>{likeCount}</span>
           </div>
           <div className="flex items-center" style={{ display: 'flex' }}>
             <Image
@@ -152,12 +180,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
               width={15}
               height={13}
               priority
-              onClick={() => handleLike(true)}
+              onClick={() => handleLike(message.id, false)}
               style={{ marginRight: '4px' }}
             />
-
-            {/* <span>{disLikeCount}</span> */}
-            <span style={{ marginRight: '8px' }}>30</span>
+            <span style={{ marginRight: '8px' }}>{disLikeCount}</span>
           </div>
           <div
             className="text-sm font-extralight"

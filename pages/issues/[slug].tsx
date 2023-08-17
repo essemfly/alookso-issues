@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import ImageFallback from '@/components/ImageFallback/ImageFallback';
 import Intro from '@/components/Issue/Intro';
-import RatingComponent from '@/components/Issue/RatingComponent';
+import RatingComponent from '@/components/Issue/Rating';
 import {
   MessageBlockSection,
   TextBlockSection,
@@ -45,7 +45,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             return <MessageBlockSection key={block.id} block={block} />;
           }
         })}
-        <RatingComponent onRatingSelected={handleRatingSelected} />
+        <RatingComponent issue={props.issue}/>
       </div>
     </section>
   );

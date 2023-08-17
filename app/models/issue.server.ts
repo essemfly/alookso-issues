@@ -22,6 +22,38 @@ export type IssueBlockWithMessages = IssueBlock & {
   messages: IssueMessage[];
 };
 
+export type IssueMessageWithLikes = IssueMessage & {
+  likeCount: number;
+  dislikeCount: number;
+}
+
+export async function getMessageWithLikes(messageId: number) {
+  const message = await prisma.issueMessage.findFirst({
+    where: { id: messageId },
+  });
+  
+  const likeCount = await prisma.messageLike.count({
+    where: {
+      messageId: messageId,
+      evaluation: 1,
+    },
+  });
+
+  const dislikeCount = await prisma.messageLike.count({
+    where: {
+      messageId: messageId,
+      evaluation: -1,
+    },
+  });
+
+  return {
+    ...message,
+    likeCount,
+    dislikeCount,
+  };
+}
+
+
 export async function getIssue(slug: string) {
   return prisma.issue.findFirst({
     where: { slug },

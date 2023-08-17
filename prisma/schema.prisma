@@ -55,6 +55,8 @@ model IssueMessage {
   bias             Bias
   reportedAt       String
   MessageLike      MessageLike[]
+  likeCount        Int           @default(0)
+  dislikeCount     Int           @default(0)
 }
 
 model Celeb {
@@ -114,7 +116,7 @@ model User {
   email         String?       @unique
   emailVerified DateTime?
   image         String?
-  isAdmin       Boolean       @default(false)         
+  isAdmin       Boolean       @default(false)
   accounts      Account[]
   sessions      Session[]
   ratings       Rating[]

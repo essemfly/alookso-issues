@@ -9,3 +9,21 @@
 .content_gray {
     background-color: #EEEEEE;
 }
+
+.rating-component {
+    margin-top: 3rem;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.rating-header {
+    margin-bottom: 1rem;
+}
+
+.rating-icons {
+    justify-content: space-evenly;
+    margin: 0 1rem;
+}
