@@ -1,6 +1,7 @@
 import { Issue, Rating } from '@prisma/client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { UpsertRatingInput } from '@/models/rating.server';
 
 interface RatingProps {
@@ -10,38 +11,36 @@ interface RatingProps {
 
 const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [selectedRating, setSelectedRating] = useState<
     'happy' | 'neutral' | 'sad' | null
   >(null);
 
   const handleRatingSelected = async (rating: 'happy' | 'neutral' | 'sad') => {
-    if (userInfo == null) {
+    if (session == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;
     }
     setSelectedRating(rating);
 
-    let updateBody: UpsertRatingInput = {
-      userId: userInfo.userId,
-      issueId: issue.id,
-      rating:
-        selectedRating === 'happy' ? 1 : selectedRating === 'neutral' ? 0 : -1,
-    };
-    const response = await fetch(`/api/issues/${issue.slug}/ratings`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateBody),
-    });
-    if (response.status === 200) {
-      alert('Update finished well');
-      window.location.reload();
-    } else {
-      alert('Update error occured');
-      console.log('error', response.status, response.statusText);
-    }
+  //   let updateBody: UpsertRatingInput = {
+  //     userId: userInfo.userId,
+  //     issueId: issue.id,
+  //     rating:
+  //       selectedRating === 'happy' ? 1 : selectedRating === 'neutral' ? 0 : -1,
+  //   };
+  //   const response = await fetch(`/api/issues/${issue.slug}/ratings`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(updateBody),
+  //   });
+  //   if (response.status !== 200){
+  //     alert('Update error occured');
+  //     console.log('error', response.status, response.statusText);
+  //   }
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { IssueMessage, Bias, MessageLike } from '@prisma/client';
 import CelebComponent from '../Avatar/CelebComponent';
 import Image from 'next/image';
@@ -12,13 +13,14 @@ interface ChatBubbleProps {
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [likeCount, setLikeCount] = useState<number>(message.likeCount);
   const [disLikeCount, setDisLikeCount] = useState<number>(
     message.dislikeCount,
   );
 
   const handleLike = async (messageId: number, like: boolean) => {
-    if (userInfo == null) {
+    if (session == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;
@@ -27,26 +29,23 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
     setLikeCount(likeCount + (like ? 1 : 0));
     setDisLikeCount(disLikeCount + (like ? 0 : 1));
 
-    let updateBody: UpsertLikeInput = {
-      userId: userInfo.userId,
-      messageId: messageId,
-      evaluation: like ? 1 : -1,
-    };
+    // let updateBody: UpsertLikeInput = {
+    //   userId: session.user?.name ? session.user?.name : "",
+    //   messageId: messageId,
+    //   evaluation: like ? 1 : -1,
+    // };
 
-    const response = await fetch(`/api/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateBody),
-    });
-    if (response.status === 200) {
-      alert('Update finished well');
-      window.location.reload();
-    } else {
-      alert('Update error occured');
-      console.log('error', response.status, response.statusText);
-    }
+    // const response = await fetch(`/api/messages`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(updateBody),
+    // });
+    // if (response.status !== 200) {
+    //   alert('Update error occured');
+    //   console.log('error', response.status, response.statusText);
+    // }
   };
 
   const bubbleStyle: React.CSSProperties = {
