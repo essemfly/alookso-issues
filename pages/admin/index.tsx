@@ -11,7 +11,7 @@ const AdminMainPage = () => {
 export const getServerSideProps = async () => {
   return {
     redirect: {
-      destination: '/issues',
+      destination: '/admin/issues',
       permanent: false,
     },
   };
