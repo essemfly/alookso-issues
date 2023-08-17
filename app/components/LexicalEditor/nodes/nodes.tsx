@@ -28,7 +28,7 @@ import { EmojiNode } from './EmojiNode';
 // import { ExcalidrawNode } from './ExcalidrawNode';
 // import { FigmaNode } from './FigmaNode';
 import { ImageNode } from './ImageNode';
-import { ChatNode } from './ChatNode';
+// import { ChatNode } from './ChatNode';
 // import { InlineImageNode } from './InlineImageNode';
 // import { KeywordNode } from './KeywordNode';
 // import { MentionNode } from './MentionNode';
@@ -50,7 +50,7 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   CodeHighlightNode,
   AutoLinkNode,
   LinkNode,
-  ChatNode,
+  // ChatNode,
   ImageNode,
   EmojiNode,
   HorizontalRuleNode,
