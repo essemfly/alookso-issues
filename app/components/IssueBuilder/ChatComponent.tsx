@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { List, Avatar } from 'antd';
 import ChatInput from './ChatInput';
 import { IssueMessage, Bias } from '@prisma/client';
+import { IssueMessageWithoutId } from '@/models/issue.server';
 import Button from '../LexicalEditor/ui/Button';
 import { Celeb } from '@prisma/client';
 
 interface MessageProps {
   celebs: Celeb[];
-  messages: IssueMessage[];
-  setMessages: (messages: IssueMessage[]) => void;
+  messages: IssueMessageWithoutId[];
+  setMessages: (messages: IssueMessageWithoutId[]) => void;
 }
 
 const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
-  const [chatHistory, setChatHistory] = useState<IssueMessage[]>(
+  const [chatHistory, setChatHistory] = useState<IssueMessageWithoutId[]>(
     messages ? messages : [],
   );
 
@@ -28,7 +29,6 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
     const newChatHistory = [
       ...chatHistory,
       {
-        id: chatHistory.length + 1,
         celebId: celeb.id,
         seq: 0,
         celebName: celeb.name,

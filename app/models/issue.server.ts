@@ -22,6 +22,10 @@ export type IssueBlockWithMessages = IssueBlock & {
   messages: IssueMessage[];
 };
 
+export type IssueMessageWithoutId = Omit<IssueMessage, 'id'> & {
+  id?: number;
+}
+
 export type IssueMessageWithLikes = IssueMessage & {
   likeCount: number;
   dislikeCount: number;
