@@ -19,7 +19,7 @@ export type IssueWithBlocks = Issue & {
 };
 
 export type IssueBlockWithMessages = IssueBlock & {
-  messages: IssueMessage[];
+  messages: IssueMessageWithoutId[];
 };
 
 export type IssueMessageWithoutId = Omit<IssueMessage, 'id'> & {

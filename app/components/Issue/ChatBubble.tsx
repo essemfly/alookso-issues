@@ -5,9 +5,10 @@ import { IssueMessage, Bias, MessageLike } from '@prisma/client';
 import CelebComponent from '../Avatar/CelebComponent';
 import Image from 'next/image';
 import { UpsertLikeInput } from '@/models/likes.server';
+import { IssueMessageWithoutId } from '@/models/issue.server';
 
 interface ChatBubbleProps {
-  message: IssueMessage;
+  message: IssueMessageWithoutId;
   userInfo?: MessageLike | null;
 }
 
@@ -167,7 +168,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
               width={15}
               height={13}
               priority
-              onClick={() => handleLike(message.id, true)}
+              onClick={() => handleLike(message.id!!, true)}
               style={{ marginRight: '4px' }}
             />
             <span style={{ marginRight: '8px' }}>{likeCount}</span>
@@ -179,7 +180,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
               width={15}
               height={13}
               priority
-              onClick={() => handleLike(message.id, false)}
+              onClick={() => handleLike(message.id!!, false)}
               style={{ marginRight: '4px' }}
             />
             <span style={{ marginRight: '8px' }}>{disLikeCount}</span>
