@@ -14,6 +14,7 @@ import type {
   RangeSelection,
 } from 'lexical';
 
+import NextImage from 'next/image';
 // import './ImageNode.css';
 
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
@@ -80,17 +81,17 @@ function LazyImage({
 }): JSX.Element {
   useSuspenseImage(src);
   return (
-    <img
-      className={className || undefined}
-      src={src}
-      alt={altText}
-      ref={imageRef}
+    <NextImage
       style={{
         height,
         maxWidth,
         width,
       }}
-      draggable="false"
+      className={className || undefined}
+      src={src && src !== "" ? src : '/images/Avatar.png'}
+      alt={altText}
+      // imageRef={imageRef}
+      draggable={false}
     />
   );
 }

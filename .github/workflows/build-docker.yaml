@@ -1,7 +1,6 @@
 name: build-dockerize
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -13,23 +12,38 @@ env:
   REPOSITORY: ${{ github.repository }}
   IMAGE_TAG: ${{ github.sha }}
   REGISTRY: 802797423270.dkr.ecr.ap-northeast-2.amazonaws.com
-  DATABASE_URL: ${{ secrets.DATABASE_URL}}
-  SECRET: ${{ secrets.SECRET}}
-  KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID}}
-  KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET}}
-  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL}}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET}}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-  AWS_REGION: ${{ secrets.AWS_REGION}}
-  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME}}
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.3.1
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Build page
+        env:
+          NODE_ENV: production
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SECRET: ${{ secrets.SECRET }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET}}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+        run: npx prisma generate && pnpm build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Build
