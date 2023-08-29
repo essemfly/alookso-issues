@@ -58,7 +58,7 @@ export default function Home() {
             src={
               'https://alook.so/assets/social_provider/kakao-d42cb7d45af49e054ca639c156bc12d6559ab9531ee968cc72b5d30bf7a331a3.png'
             }
-            alt={"kakaotalk"}
+            alt={'kakaotalk'}
             draggable={false}
           />
         </button>

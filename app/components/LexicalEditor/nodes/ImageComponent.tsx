@@ -87,8 +87,10 @@ function LazyImage({
         maxWidth,
         width,
       }}
+      width={width === 'inherit' ? 500 : width}
+      height={height === 'inherit' ? 500 : height}
       className={className || undefined}
-      src={src && src !== "" ? src : '/images/Avatar.png'}
+      src={src && src !== '' ? src : '/images/Avatar.png'}
       alt={altText}
       // imageRef={imageRef}
       draggable={false}
