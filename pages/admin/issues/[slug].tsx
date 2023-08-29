@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import { Button, Col, Row } from 'antd';
-import { Celeb, IssueStatus } from '@prisma/client';
+import { Celeb, IssueStatus, User } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 
 import {
@@ -177,9 +177,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   };
 
   return (
-    <div
-      className="mx-auto md:w-[54rem] md:max-w-[54rem] lg:w-[54rem] lg:max-w-[54rem] xl:w-[64rem] xl:max-w-[64rem] content_padding content_gray"
-    >
+    <div className="mx-auto md:w-[54rem] md:max-w-[54rem] lg:w-[54rem] lg:max-w-[54rem] xl:w-[64rem] xl:max-w-[64rem] content_padding content_gray">
       <Row gutter={[16, 32]} style={{ marginTop: '20px' }}>
         <Col span={12}>
           <InfoSpace
@@ -250,6 +248,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       redirect: {
         destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  let user = session.user as User;
+  if (user.isAdmin === false) {
+    return {
+      redirect: {
+        destination: '/',
         permanent: false,
       },
     };
