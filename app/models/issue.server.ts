@@ -24,18 +24,18 @@ export type IssueBlockWithMessages = IssueBlock & {
 
 export type IssueMessageWithoutId = Omit<IssueMessage, 'id'> & {
   id?: number;
-}
+};
 
 export type IssueMessageWithLikes = IssueMessage & {
   likeCount: number;
   dislikeCount: number;
-}
+};
 
 export async function getMessageWithLikes(messageId: number) {
   const message = await prisma.issueMessage.findFirst({
     where: { id: messageId },
   });
-  
+
   const likeCount = await prisma.messageLike.count({
     where: {
       messageId: messageId,
@@ -57,9 +57,8 @@ export async function getMessageWithLikes(messageId: number) {
   };
 }
 
-
 export async function getIssue(slug: string) {
-  return prisma.issue.findFirst({
+  let issue = await prisma.issue.findFirst({
     where: { slug },
     include: {
       issueBlocks: {
@@ -79,6 +78,43 @@ export async function getIssue(slug: string) {
       celebs: true,
     },
   });
+
+  const groupedRatings = await prisma.rating.groupBy({
+    where: {
+      issueId: issue!.id,
+    },
+    by: ['rating'],
+    _count: {
+      rating: true,
+    },
+  });
+
+  return {
+    ...issue,
+    ...groupedRatings,
+  };
+}
+
+export async function getMyIssueActions(userId: string, issueId: number) {
+
+  const rating = await prisma.rating.findFirst({
+    where: {
+      userId: userId,
+      issueId: issueId,
+    },
+  });
+
+  const likes = await prisma.messageLike.findMany({
+    where: {
+      userId,
+      issueId,
+    },
+  });
+
+  return {
+    rating,
+    likes,
+  };
 }
 
 // TODO: pagination
@@ -187,7 +223,7 @@ export async function updateIssue(input: UpdateIssueInput) {
 }
 
 async function updateIssueMessage(block: UpdateIssueBlockInput) {
-  console.log("remove issue messages of block: ", block.id!!)
+  console.log('remove issue messages of block: ', block.id!!);
   await removeIssueMessages(block.id!!);
 
   block.messages.map(async (message) => {
@@ -308,5 +344,4 @@ async function removeIssueMessages(blockId: number) {
       isRemoved: true,
     },
   });
-  console.log("x: ", x)
 }
