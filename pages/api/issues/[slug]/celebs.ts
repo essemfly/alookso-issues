@@ -18,15 +18,15 @@ export default async function handler(
 
     let isRemoved = false;
 
-    issue.celebs.forEach(async (celeb) => {
+    issue.celebs!!.forEach(async (celeb) => {
       if (celeb.id === celebId) {
-        await removeCelebToIssue(celebId, issue!!.id);
+        await removeCelebToIssue(celebId, issue!!.id!!);
         isRemoved = true;
       }
     });
 
     if (!isRemoved) {
-      await addCelebToIssue(celebId, issue!!.id);
+      await addCelebToIssue(celebId, issue!!.id!!);
     }
 
     issue = await getIssue(issueSlug as string);

@@ -26,10 +26,17 @@ export async function upsertMessageLike(input: UpsertLikeInput) {
     });
   }
 
+  const message = await prisma.issueMessage.findUnique({
+    where: {
+      id: messageId,
+    },
+  });
+
   return await prisma.messageLike.create({
     data: {
       userId,
       messageId,
+      issueId: message!.issueId,
       evaluation,
       createdAt: new Date(),
       updatedAt: new Date(),

@@ -22,7 +22,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
     celeb: Celeb,
     linkName: string,
     linkUrl: string,
-    linkDate: string,
+    linkDate: Date,
     bias: Bias,
     bgColor: string,
   ) => {
@@ -87,16 +87,15 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
             <div style={{ backgroundColor: item.backgroundColor }}>
               <div>{item.backgroundColor}</div>
               <div>{item.bias}</div>
-              <div>{item.reportedAt}</div>
               {item.linkFrom && (
                 <div>
-                  <strong>링크:</strong>
-                  <a href={item.link}>{item.linkFrom}</a>
+                  <strong>{item.linkFrom}</strong> &nbsp;
+                  <span>{item.link}</span>
                 </div>
               )}
               {item.reportedAt && (
                 <div>
-                  <strong>날짜:</strong> {item.reportedAt}
+                  <strong>날짜:</strong> {item.reportedAt.toString().substring(0, 10)}
                 </div>
               )}
             </div>

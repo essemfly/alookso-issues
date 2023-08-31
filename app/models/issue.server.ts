@@ -22,7 +22,7 @@ export type IssueBlockWithMessages = IssueBlock & {
   messages: IssueMessageWithoutId[];
 };
 
-export type IssueMessageWithoutId = Omit<IssueMessage, 'id'> & {
+export type IssueMessageWithoutId = Omit<IssueMessage, 'id' | 'issueId'> & {
   id?: number;
 };
 
@@ -96,7 +96,6 @@ export async function getIssue(slug: string) {
 }
 
 export async function getMyIssueActions(userId: string, issueId: number) {
-
   const rating = await prisma.rating.findFirst({
     where: {
       userId: userId,
@@ -107,7 +106,6 @@ export async function getMyIssueActions(userId: string, issueId: number) {
   const likes = await prisma.messageLike.findMany({
     where: {
       userId,
-      issueId,
     },
   });
 
@@ -184,7 +182,7 @@ export interface UpdateIssueMessageInput {
   linkFrom: string;
   backgroundColor: string;
   bias: Bias;
-  reportedAt: string;
+  reportedAt: Date;
 }
 
 export async function updateIssue(input: UpdateIssueInput) {
@@ -226,6 +224,12 @@ async function updateIssueMessage(block: UpdateIssueBlockInput) {
   console.log('remove issue messages of block: ', block.id!!);
   await removeIssueMessages(block.id!!);
 
+  const selectedBlock = await prisma.issueBlock.findFirst({
+    where: {
+      id: block.id!!,
+    },
+  });
+
   block.messages.map(async (message) => {
     if (message.id) {
       await prisma.issueMessage.update({
@@ -250,6 +254,7 @@ async function updateIssueMessage(block: UpdateIssueBlockInput) {
     } else {
       await prisma.issueMessage.create({
         data: {
+          issueId: selectedBlock?.issueId!!,
           blockId: block.id!!,
           celebId: message.celebId,
           celebName: message.celebName,
@@ -284,6 +289,7 @@ async function createIssueBlock(block: UpdateIssueBlockInput, issueId: number) {
         createMany: {
           data: block.messages.map((message) => {
             return {
+              issueId: issueId,
               celebId: message.celebId,
               celebName: message.celebName,
               celebDescription: message.celebDescription,

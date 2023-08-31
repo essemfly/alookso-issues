@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
 import ImageFallback from '@/components/ImageFallback/ImageFallback';
 import Intro from '@/components/Issue/Intro';
 import RatingComponent from '@/components/Issue/Rating';
@@ -14,11 +15,6 @@ interface IssueDetailProps {
 }
 
 const IssueDetailPage = (props: IssueDetailProps) => {
-  const handleRatingSelected = (rating: string) => {
-    // 여기서 rating을 처리하는 로직을 구현하면 됩니다.
-    console.log('Selected rating:', rating);
-  };
-
   return (
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
       <div className="relative">
@@ -45,7 +41,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             return <MessageBlockSection key={block.id} block={block} />;
           }
         })}
-        <RatingComponent issue={props.issue}/>
+        <RatingComponent issue={props.issue} userInfo={null} />
       </div>
     </section>
   );
@@ -55,6 +51,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
   const slug = params!.slug!;
   const issue = await getIssue(slug as string);
+
+  const session = await getSession(context);
+  let myRating,
+    myMessageLikes = null;
+  if (session) {
+  }
   return {
     props: {
       issue: JSON.parse(JSON.stringify(issue)),
