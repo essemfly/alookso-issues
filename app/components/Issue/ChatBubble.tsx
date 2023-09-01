@@ -29,24 +29,33 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
       router.push('/login');
       return;
     }
-
-    if (like) {
-      if (likeClick) {
+    if (likeClick) {
+      if (like) {
         setLikeCount(likeCount - 1);
         setLikeClick(false);
         setDislikeClick(false);
       } else {
+        setLikeCount(likeCount - 2);
+        setLikeClick(false);
+        setDislikeClick(true);
+      }
+    } else if (dislikeClick) {
+      if (like) {
         setLikeCount(likeCount + 2);
         setLikeClick(true);
         setDislikeClick(false);
-      }
-    } else {
-      if (dislikeClick) {
+      } else {
         setLikeCount(likeCount + 1);
         setLikeClick(false);
         setDislikeClick(false);
+      }
+    } else {
+      if (like) {
+        setLikeCount(likeCount + 1);
+        setLikeClick(true);
+        setDislikeClick(false);
       } else {
-        setLikeCount(likeCount - 2);
+        setLikeCount(likeCount - 1);
         setLikeClick(false);
         setDislikeClick(true);
       }

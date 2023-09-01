@@ -60,9 +60,10 @@ export async function getIssue(slug: string) {
         include: {
           messages: {
             where: { isRemoved: false },
-            orderBy: {
-              reportedAt: 'asc',
-            },
+            orderBy: [
+              {reportedAt: 'asc'},
+              {id: 'asc'}
+            ],
           },
         },
       },

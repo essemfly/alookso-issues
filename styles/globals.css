@@ -34,3 +34,7 @@
     color: white;
     border-radius: 0.5rem;
 }
+
+.ant-tabs-nav-wrap {
+    justify-content: right;
+}
