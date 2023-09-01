@@ -45,7 +45,6 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
         isRemoved: false,
         blockId: 0,
         likeCount: 0,
-        dislikeCount: 0,
       },
     ];
     setChatHistory(newChatHistory);

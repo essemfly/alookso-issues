@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { IssueMessage, Bias, MessageLike } from '@prisma/client';
+import { Bias, MessageLike, User } from '@prisma/client';
 import CelebComponent from '../Avatar/CelebComponent';
 import Image from 'next/image';
 import { UpsertLikeInput } from '@/models/likes.server';
@@ -14,7 +14,7 @@ interface ChatBubbleProps {
 
 const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data } = useSession();
   const [likeClick, setLikeClick] = useState<boolean>(
     userInfo?.evaluation === 1,
   );
@@ -22,24 +22,39 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
     userInfo?.evaluation === -1,
   );
   const [likeCount, setLikeCount] = useState<number>(message.likeCount);
-  const [disLikeCount, setDisLikeCount] = useState<number>(
-    message.dislikeCount,
-  );
 
   const handleLike = async (messageId: number, like: boolean) => {
-    if (session == null) {
+    if (data && data.user == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;
     }
 
-    setLikeCount(likeCount + (like ? 1 : 0));
-    setDisLikeCount(disLikeCount + (like ? 0 : 1));
-    setLikeClick(like);
-    setDislikeClick(!like);
+    if (like) {
+      if (likeClick) {
+        setLikeCount(likeCount - 1);
+        setLikeClick(false);
+        setDislikeClick(false);
+      } else {
+        setLikeCount(likeCount + 2);
+        setLikeClick(true);
+        setDislikeClick(false);
+      }
+    } else {
+      if (dislikeClick) {
+        setLikeCount(likeCount + 1);
+        setLikeClick(false);
+        setDislikeClick(false);
+      } else {
+        setLikeCount(likeCount - 2);
+        setLikeClick(false);
+        setDislikeClick(true);
+      }
+    }
 
+    let user = data!.user as User;
     let updateBody: UpsertLikeInput = {
-      userId: session.user?.name ? session.user?.name : '',
+      userId: user.id,
       messageId: messageId,
       evaluation: like ? 1 : -1,
     };
@@ -61,7 +76,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
     backgroundColor: message.backgroundColor,
     maxWidth: '85%',
     borderRadius: '10px',
-    padding: '10px',
+    padding: '1rem',
     marginTop: '10px',
     marginBottom: '20px',
     textAlign: 'left',
@@ -207,7 +222,6 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
                 onClick={() => handleLike(message.id!!, false)}
                 style={{ marginRight: '4px' }}
               />
-              <span style={{ marginRight: '8px' }}>{disLikeCount}</span>
             </div>
           ) : (
             <div className="flex items-center" style={{ display: 'flex' }}>
@@ -220,7 +234,6 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
                 onClick={() => handleLike(message.id!!, false)}
                 style={{ marginRight: '4px' }}
               />
-              <span style={{ marginRight: '8px' }}>{disLikeCount}</span>
             </div>
           )}
 

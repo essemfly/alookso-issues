@@ -7,11 +7,14 @@ import {
   MessageBlockSection,
   TextBlockSection,
 } from '@/components/Issue/Block';
-import { IssueWithBlocks, getIssue } from '@/models/issue.server';
+import { IssueWithBlocks, getIssue, getMyIssueActions } from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
+import { MessageLike, Rating, User } from '@prisma/client';
 
 interface IssueDetailProps {
   issue: IssueWithBlocks;
+  myRating?: Rating | null;
+  myMessageLikes?: MessageLike[] | null;
 }
 
 const IssueDetailPage = (props: IssueDetailProps) => {
@@ -38,10 +41,10 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             return <TextBlockSection key={block.id} block={block} />;
           }
           if (block.blockType === 'message') {
-            return <MessageBlockSection key={block.id} block={block} />;
+            return <MessageBlockSection key={block.id} block={block} userInfo={props.myMessageLikes}/>;
           }
         })}
-        <RatingComponent issue={props.issue} userInfo={null} />
+        <RatingComponent issue={props.issue} userInfo={props.myRating} />
       </div>
     </section>
   );
@@ -55,11 +58,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
   let myRating,
     myMessageLikes = null;
+
   if (session) {
+    let user = session.user as User;
+    let result = await getMyIssueActions(user.id, issue.id!)  
+    myRating = result.rating
+    myMessageLikes = result.likes
   }
+
   return {
     props: {
       issue: JSON.parse(JSON.stringify(issue)),
+      myRating: JSON.parse(JSON.stringify(myRating)),
+      myMessageLikes: JSON.parse(JSON.stringify(myMessageLikes)),
     },
   };
 }

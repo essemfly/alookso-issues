@@ -28,7 +28,6 @@ export type IssueMessageWithoutId = Omit<IssueMessage, 'id' | 'issueId'> & {
 
 export type IssueMessageWithLikes = IssueMessage & {
   likeCount: number;
-  dislikeCount: number;
 };
 
 export async function getMessageWithLikes(messageId: number) {
@@ -43,17 +42,9 @@ export async function getMessageWithLikes(messageId: number) {
     },
   });
 
-  const dislikeCount = await prisma.messageLike.count({
-    where: {
-      messageId: messageId,
-      evaluation: -1,
-    },
-  });
-
   return {
     ...message,
     likeCount,
-    dislikeCount,
   };
 }
 
@@ -70,7 +61,7 @@ export async function getIssue(slug: string) {
           messages: {
             where: { isRemoved: false },
             orderBy: {
-              createdAt: 'asc',
+              reportedAt: 'asc',
             },
           },
         },
@@ -221,7 +212,6 @@ export async function updateIssue(input: UpdateIssueInput) {
 }
 
 async function updateIssueMessage(block: UpdateIssueBlockInput) {
-  console.log('remove issue messages of block: ', block.id!!);
   await removeIssueMessages(block.id!!);
 
   const selectedBlock = await prisma.issueBlock.findFirst({

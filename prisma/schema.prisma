@@ -60,7 +60,6 @@ model IssueMessage {
   reportedAt       DateTime
   MessageLike      MessageLike[]
   likeCount        Int           @default(0)
-  dislikeCount     Int           @default(0)
 }
 
 model Celeb {
