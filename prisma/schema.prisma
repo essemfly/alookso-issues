@@ -22,6 +22,7 @@ model Issue {
   ratings           Rating[]
   issueMessages     IssueMessage[]
   messageLike       MessageLike[]
+  replys        IssueReply[]
   recommendWritings String[]
   createdAt         DateTime
   updatedAt         DateTime
@@ -124,7 +125,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   ratings       Rating[]
-  MessageLike   MessageLike[]
+  messageLikes   MessageLike[]
+  replys    IssueReply[]
 }
 
 model VerificationToken {
@@ -157,4 +159,16 @@ model MessageLike {
   userId     String
   user       User         @relation(fields: [userId], references: [id])
   evaluation Int
+}
+
+model IssueReply {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  issueId   Int
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  content   String
+  createdAt DateTime
+  updatedAt DateTime
+  likeCount Int      @default(0)
 }

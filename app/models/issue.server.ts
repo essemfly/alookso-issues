@@ -65,9 +65,11 @@ export async function getIssue(slug: string) {
               {id: 'asc'}
             ],
           },
+          
         },
       },
       celebs: true,
+      replys: true,
     },
   });
 

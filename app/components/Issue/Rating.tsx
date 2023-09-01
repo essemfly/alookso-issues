@@ -35,6 +35,7 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
       issueId: issue.id,
       rating: rating,
     };
+
     const response = await fetch(`/api/issues/${issue.slug}/ratings`, {
       method: 'POST',
       headers: {
