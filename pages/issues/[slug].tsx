@@ -7,9 +7,14 @@ import {
   MessageBlockSection,
   TextBlockSection,
 } from '@/components/Issue/Block';
-import { IssueWithBlocks, getIssue, getMyIssueActions } from '@/models/issue.server';
+import {
+  IssueWithBlocks,
+  getIssue,
+  getMyIssueActions,
+} from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
 import { MessageLike, Rating, User } from '@prisma/client';
+import ShareComponent from '@/components/Issue/ShareButtons';
 
 interface IssueDetailProps {
   issue: IssueWithBlocks;
@@ -41,10 +46,21 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             return <TextBlockSection key={block.id} block={block} />;
           }
           if (block.blockType === 'message') {
-            return <MessageBlockSection key={block.id} block={block} userInfo={props.myMessageLikes}/>;
+            return (
+              <MessageBlockSection
+                key={block.id}
+                block={block}
+                userInfo={props.myMessageLikes}
+              />
+            );
           }
         })}
+      </div>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RatingComponent issue={props.issue} userInfo={props.myRating} />
+      </div>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+        <ShareComponent issue={props.issue} />
       </div>
     </section>
   );
@@ -61,9 +77,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (session) {
     let user = session.user as User;
-    let result = await getMyIssueActions(user.id, issue.id!)  
-    myRating = result.rating
-    myMessageLikes = result.likes
+    let result = await getMyIssueActions(user.id, issue.id!);
+    myRating = result.rating;
+    myMessageLikes = result.likes;
   }
 
   return {

@@ -55,7 +55,11 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
       </div>
       <div className="flex items-center rating-icons">
         <div
-          className={`cursor-pointer mx-2`}
+          className={`cursor-pointer mx-2 ${
+            selectedRating !== null && selectedRating !== 1
+              ? 'rating-unselected'
+              : ''
+          }`}
           onClick={() => handleRatingSelected(1)}
         >
           <div className="items-center">
@@ -68,7 +72,11 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
           </div>
         </div>
         <div
-          className={`cursor-pointer mx-2`}
+          className={`cursor-pointer mx-2 ${
+            selectedRating !== null && selectedRating !== 0
+              ? 'rating-unselected'
+              : ''
+          }`}
           onClick={() => handleRatingSelected(0)}
         >
           <div className="items-center">
@@ -81,7 +89,11 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
           </div>
         </div>
         <div
-          className={`cursor-pointer mx-2`}
+          className={`cursor-pointer mx-2  ${
+            selectedRating !== null && selectedRating !== -1
+              ? 'rating-unselected'
+              : ''
+          }`}
           onClick={() => handleRatingSelected(-1)}
         >
           <div className="items-center">

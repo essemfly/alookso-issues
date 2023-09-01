@@ -4,6 +4,7 @@
 
 .content_padding {
     padding: 2rem 1rem;
+    border-bottom: 1px solid #D1D5DB;
 }
 
 .content_gray {
@@ -11,10 +12,9 @@
 }
 
 .rating-component {
-    margin-top: 3rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    line-height: 2rem;
+    line-height: 1.6rem;
     letter-spacing: 0em;
     text-align: center;
 }
@@ -29,10 +29,14 @@
 }
 
 .rating-selected {
-    padding: 0.1rem 0.5rem;
+    padding: 0.1rem 0.4rem;
     background-color: #7C3AED;
     color: white;
     border-radius: 0.5rem;
+}
+
+.rating-unselected {
+    opacity: 33%;
 }
 
 .ant-tabs-nav-wrap {
