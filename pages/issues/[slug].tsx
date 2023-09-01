@@ -15,6 +15,7 @@ import {
 import { formatDate } from '@/utils/formatDate';
 import { MessageLike, Rating, User } from '@prisma/client';
 import ShareComponent from '@/components/Issue/ShareButtons';
+import RecommendComponent from '@/components/Issue/Recommend';
 
 interface IssueDetailProps {
   issue: IssueWithBlocks;
@@ -61,6 +62,9 @@ const IssueDetailPage = (props: IssueDetailProps) => {
       </div>
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ShareComponent issue={props.issue} />
+      </div>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+        <RecommendComponent writings={props.issue.recommendWritings} />
       </div>
     </section>
   );

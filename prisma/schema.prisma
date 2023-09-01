@@ -11,19 +11,20 @@ datasource db {
 }
 
 model Issue {
-  id            Int            @id @default(autoincrement())
-  slug          String
-  title         String
-  description   String
-  coverImage    String
-  status        IssueStatus
-  issueBlocks   IssueBlock[]
-  celebs        Celeb[]        @relation("IssueCeleb")
-  ratings       Rating[]
-  issueMessages IssueMessage[]
-  MessageLike   MessageLike[]
-  createdAt     DateTime
-  updatedAt     DateTime
+  id                Int            @id @default(autoincrement())
+  slug              String
+  title             String
+  description       String
+  coverImage        String
+  status            IssueStatus
+  issueBlocks       IssueBlock[]
+  celebs            Celeb[]        @relation("IssueCeleb")
+  ratings           Rating[]
+  issueMessages     IssueMessage[]
+  messageLike       MessageLike[]
+  recommendWritings String[]
+  createdAt         DateTime
+  updatedAt         DateTime
 }
 
 model IssueBlock {
@@ -58,7 +59,7 @@ model IssueMessage {
   backgroundColor  String
   bias             Bias
   reportedAt       DateTime
-  MessageLike      MessageLike[]
+  messageLike      MessageLike[]
   likeCount        Int           @default(0)
 }
 
