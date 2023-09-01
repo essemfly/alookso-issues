@@ -1,7 +1,7 @@
-import { Issue, Rating } from '@prisma/client';
+import { Issue, Rating, User } from '@prisma/client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { UpsertRatingInput } from '@/models/rating.server';
 
 interface RatingProps {
@@ -11,36 +11,41 @@ interface RatingProps {
 
 const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
   const router = useRouter();
-  const session =  getSession();
-  const [selectedRating, setSelectedRating] = useState<
-    'happy' | 'neutral' | 'sad' | null
-  >(null);
+  const { data } = useSession();
+  const [selectedRating, setSelectedRating] = useState<number | null>(
+    userInfo?.rating === null ? null : userInfo?.rating!!,
+  );
 
-  const handleRatingSelected = async (rating: 'happy' | 'neutral' | 'sad') => {
-    if (session == null) {
+  const handleRatingSelected = async (rating: number) => {
+    if (data && data.user == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;
     }
-    setSelectedRating(rating);
 
-    // let updateBody: UpsertRatingInput = {
-    //   userId: userInfo.userId,
-    //   issueId: issue.id,
-    //   rating:
-    //     selectedRating === 'happy' ? 1 : selectedRating === 'neutral' ? 0 : -1,
-    // };
-    // const response = await fetch(`/api/issues/${issue.slug}/ratings`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(updateBody),
-    // });
-    // if (response.status !== 200) {
-    //   alert('Update error occured');
-    //   console.log('error', response.status, response.statusText);
-    // }
+    if (selectedRating === rating) {
+      setSelectedRating(null);
+    } else {
+      setSelectedRating(rating);
+    }
+
+    let user = data!.user as User;
+    let updateBody: UpsertRatingInput = {
+      userId: user.id,
+      issueId: issue.id,
+      rating: rating,
+    };
+    const response = await fetch(`/api/issues/${issue.slug}/ratings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateBody),
+    });
+    if (response.status !== 200) {
+      alert('Update error occured');
+      console.log('error', response.status, response.statusText);
+    }
   };
 
   return (
@@ -50,42 +55,44 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
       </div>
       <div className="flex items-center rating-icons">
         <div
-          className={`cursor-pointer mx-2 ${
-            selectedRating === 'happy' ? 'text-green-500' : ''
-          }`}
-          onClick={() => handleRatingSelected('happy')}
+          className={`cursor-pointer mx-2`}
+          onClick={() => handleRatingSelected(1)}
         >
           <div className="items-center">
             <span role="img" aria-label="happy" className="text-4xl">
               😊
             </span>
-            <div>도움 됐어요</div>
+            <div className={`${selectedRating === 1 ? 'rating-selected' : ''}`}>
+              도움 됐어요
+            </div>
           </div>
         </div>
         <div
-          className={`cursor-pointer mx-2 ${
-            selectedRating === 'neutral' ? 'text-yellow-500' : ''
-          }`}
-          onClick={() => handleRatingSelected('neutral')}
+          className={`cursor-pointer mx-2`}
+          onClick={() => handleRatingSelected(0)}
         >
           <div className="items-center">
             <span role="img" aria-label="neutral" className="text-4xl">
               😐
             </span>
-            <div>그냥 그래요</div>
+            <div className={`${selectedRating === 0 ? 'rating-selected' : ''}`}>
+              그냥 그래요
+            </div>
           </div>
         </div>
         <div
-          className={`cursor-pointer mx-2 ${
-            selectedRating === 'sad' ? 'text-red-500' : ''
-          }`}
-          onClick={() => handleRatingSelected('sad')}
+          className={`cursor-pointer mx-2`}
+          onClick={() => handleRatingSelected(-1)}
         >
           <div className="items-center">
             <span role="img" aria-label="sad" className="text-4xl">
               😒
             </span>
-            <div>별로에요</div>
+            <div
+              className={`${selectedRating === -1 ? 'rating-selected' : ''}`}
+            >
+              별로에요
+            </div>
           </div>
         </div>
       </div>

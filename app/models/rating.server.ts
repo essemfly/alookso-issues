@@ -16,6 +16,14 @@ export async function upsertRating(input: UpsertRatingInput) {
   });
 
   if (existingRating) {
+    if (existingRating.rating === rating) {
+      return await prisma.rating.delete({
+        where: {
+          id: existingRating.id,
+        },
+      });
+    }
+    
     return await prisma.rating.update({
       where: {
         id: existingRating.id,
