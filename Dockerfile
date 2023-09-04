@@ -14,6 +14,7 @@ FROM base AS build
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
+RUN pnpm build
 
 FROM base AS deploy
 WORKDIR /app
