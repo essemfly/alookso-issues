@@ -10,7 +10,7 @@ jobs:
   deployment:
     uses: alookso/argocd-resources/.github/workflows/update-kustomize.yaml@main
     with:
-      repository: alookso/issues
+      repository: ${{ github.repository }}
       environment: production
       image-tag: ${{ inputs.imageTag }}
       branch: main
