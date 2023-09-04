@@ -14,7 +14,8 @@ FROM base AS build
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN npx prisma generate && pnpm build
+RUN npx prisma generate
+RUN pnpm build
 # RUN pnpm build
 
 FROM base AS deploy
