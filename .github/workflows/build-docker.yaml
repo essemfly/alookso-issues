@@ -62,33 +62,33 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-#          platforms: linux/amd64
-          push: true
-          tags: ${{ github.sha }}
-          build-args: |
-            NODE_ENV=production
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            SECRET=${{ secrets.SECRET }}
-            KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}
-            KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET}}
-            NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
-            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
-            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_REGION=${{ secrets.AWS_REGION }}
-            S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
+#        name: Build and push
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          file: ./Dockerfile
+##          platforms: linux/amd64
+#          push: true
+#          tags: ${{ github.sha }}
+#          build-args: |
+#            NODE_ENV=production
+#            DATABASE_URL=${{ secrets.DATABASE_URL }}
+#            SECRET=${{ secrets.SECRET }}
+#            KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}
+#            KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET}}
+#            NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+#            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+#            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+#            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#            AWS_REGION=${{ secrets.AWS_REGION }}
+#            S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
 
-#      - name: Build, tag, and push docker image to Amazon ECR
-#        env:
-#          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#        run: |
-#          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
   Deploy:
     needs: Build
     uses: alookso/argocd-resources/.github/workflows/update-kustomize.yaml@main
