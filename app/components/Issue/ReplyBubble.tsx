@@ -1,8 +1,7 @@
-import { Issue, IssueReply, Rating, User } from '@prisma/client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { UpsertRatingInput } from '@/models/rating.server';
+import { IssueReply } from '@prisma/client';
+import React from 'react';
+import { Avatar } from 'antd';
+import { Comment } from '@ant-design/compatible';
 
 interface ReplyBubbleProps {
   reply: IssueReply;
@@ -10,11 +9,13 @@ interface ReplyBubbleProps {
 
 const ReplyBubble: React.FC<ReplyBubbleProps> = ({ reply }) => {
   return (
-    <div className="rating-component items-center">
-      <div className="flex p-4 space-x-3 overflow-hidden bg-white shadow">
-        {reply.content}
-      </div>
-    </div>
+    <Comment
+      author={reply.userId}
+      content={reply.content}
+      datetime={reply.createdAt.toString().substring(0, 10)}
+      style={{ textAlign: 'left', width: '100%' }}
+      avatar={<Avatar src="/images/Avatar.png" alt={reply.userId} />}
+    />
   );
 };
 

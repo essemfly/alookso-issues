@@ -20,7 +20,10 @@ const ReplyComponent: React.FC<ReplyProps> = ({ issueId, replys }) => {
         </h2>
       </div>
       <ReplyWriterComponent issueId={issueId} replys={replys} />
-      <div className="flex p-4 space-x-3 overflow-hidden bg-white shadow">
+      <div
+        className="flex p-4 space-x-3 bg-white shadow"
+        style={{ flexDirection: 'column', overflow: 'scroll' }}
+      >
         {replys
           ? replys.map((reply) => {
               return <ReplyBubble key={reply.id} reply={reply} />;
