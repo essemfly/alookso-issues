@@ -25,6 +25,8 @@ COPY --from=build /app/public ./public
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 RUN pnpm install
+RUN npx prisma db push
+RUN npx prisma generate
 
 CMD ["pnpm", "start"]
 
