@@ -93,7 +93,7 @@ jobs:
     needs: Build
     uses: alookso/argocd-resources/.github/workflows/update-kustomize.yaml@main
     with:
-      repository: alookso/issues
+      repository: ${{ github.repository }}
       environment: staging
       image-tag: ${{ github.sha }}
       branch: main
