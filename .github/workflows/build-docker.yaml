@@ -28,21 +28,21 @@ jobs:
         with:
           node-version: 20.3.1
           cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-      - name: Build page
-        env:
-          NODE_ENV: production
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SECRET: ${{ secrets.SECRET }}
-          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET}}
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+#      - name: Install dependencies
+#        run: pnpm install --no-frozen-lockfile
+#      - name: Build page
+#        env:
+#          NODE_ENV: production
+#          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#          SECRET: ${{ secrets.SECRET }}
+#          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+#          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET}}
+#          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+#          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          AWS_REGION: ${{ secrets.AWS_REGION }}
+#          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
         run: npx prisma generate && pnpm build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -71,7 +71,7 @@ jobs:
     needs: Build
     uses: alookso/argocd-resources/.github/workflows/update-kustomize.yaml@main
     with:
-      repository: ${{ github.repository }}
+      repository: alookso/issues
       environment: staging
       image-tag: ${{ github.sha }}
       branch: main
