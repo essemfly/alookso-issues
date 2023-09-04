@@ -69,7 +69,7 @@ jobs:
           file: ./Dockerfile
 #          platforms: linux/amd64
           push: true
-          tags: ${{ IMAGE_TAG }}
+          tags: $IMAGE_TAG
           build-args: |
             NODE_ENV=production
             DATABASE_URL=${{ secrets.DATABASE_URL }}
