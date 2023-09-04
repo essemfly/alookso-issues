@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import { Button, Col, Row } from 'antd';
@@ -215,7 +216,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
             <div key={idx}>
               <IssueBlockSpace
                 key={idx}
-                celebs={celebs}
+                celebs={props.issue.celebs}
                 block={block}
                 setBlock={(newBlock) => setBlock(idx, newBlock)}
                 removeBlock={() => handleRemoveBlock(idx)}

@@ -24,12 +24,12 @@ export function ViewerEditor({ content }: ViewerEditorProps): JSX.Element {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className="editor-shell">
+      <div className="editor-shell" style={{minHeight: 'inherit', paddingTop: '1rem'}}>
         <PlainTextPlugin
           contentEditable={
-            <div className="editor-scroller">
+            <div className="editor-scroller" style={{minHeight: 'inherit', resize: "none"}}>
               <div className="editor">
-                <ContentEditable style={{padding: 0}}/>
+                <ContentEditable style={{padding: 0, minHeight: 'inherit'}}/>
               </div>
             </div>
           }

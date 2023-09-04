@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
+
 import {
   Input,
   Button,
@@ -7,6 +9,7 @@ import {
   Menu,
   Avatar,
   RadioChangeEvent,
+  DatePicker,
 } from 'antd';
 import { Celeb, Bias } from '@prisma/client';
 
@@ -16,7 +19,7 @@ interface ChatInputProps {
     celeb: Celeb,
     linkName: string,
     linkUrl: string,
-    linkDate: string,
+    linkDate: Date,
     bias: Bias,
     bgColor: string,
   ) => void;
@@ -28,7 +31,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
   const [selectedCeleb, setSelectedCeleb] = useState<Celeb>(celebs[0]);
   const [linkName, setLinkName] = useState<string>('');
   const [linkUrl, setLinkUrl] = useState<string>('');
-  const [linkDate, setLinkDate] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  // const [linkDate, setLinkDate] = useState<Date>(new Date());
   const [bias, setBias] = useState<Bias>(Bias.CENTER);
   const [bgColor, setBgColor] = useState<string>('#eff6ff');
 
@@ -52,12 +57,21 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
     }
   };
 
+  const dateFormat = 'YYYY-MM-DD';
+
+  const handleDateChange = (date: any) => {
+    if (date) {
+      setSelectedDate(date.toDate());
+    } else {
+      setSelectedDate(new Date());
+    }
+  };
+
   const handleSendMessage = () => {
     if (
       message.trim() === '' &&
       linkName.trim() === '' &&
-      linkUrl.trim() === '' &&
-      linkDate.trim() === ''
+      linkUrl.trim() === ''
     ) {
       return;
     }
@@ -67,14 +81,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
       selectedCeleb,
       linkName,
       linkUrl,
-      linkDate,
+      selectedDate,
       bias,
       bgColor,
     );
     setMessage('');
     setLinkName('');
     setLinkUrl('');
-    setLinkDate('');
   };
 
   const menu = (
@@ -141,11 +154,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           placeholder="링크 주소"
           style={{ flex: 1, marginLeft: '8px' }}
         />
-        <Input
-          value={linkDate}
-          onChange={(e) => setLinkDate(e.target.value)}
-          placeholder="날짜 (예: 2023-07-31)"
-          style={{ flex: 1, marginLeft: '8px' }}
+        <DatePicker
+          onChange={handleDateChange}
+          value={dayjs(selectedDate)}
+          format={dateFormat}
         />
       </div>
       <div style={{ display: 'flex', marginBottom: '8px' }}>
@@ -155,10 +167,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           placeholder="메시지를 입력하세요..."
           autoSize={{ minRows: 1, maxRows: 6 }}
         />
-        <Button
-          onClick={handleSendMessage}
-          style={{ marginLeft: '8px' }}
-        >
+        <Button onClick={handleSendMessage} style={{ marginLeft: '8px' }}>
           메시지 등록하기
         </Button>
       </div>
