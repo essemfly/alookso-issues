@@ -1,0 +1,1 @@
+echo "y" | npx prisma db push

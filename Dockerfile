@@ -15,6 +15,8 @@ FROM base AS build
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
+COPY migrate.sh .
+RUN chmod +x migrate.sh
 RUN npx prisma generate
 RUN pnpm build
 # RUN pnpm build
@@ -24,7 +26,10 @@ WORKDIR /app
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
-RUN pnpm install
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/migrate.sh .
+RUN ./migrate.sh
 
 CMD ["pnpm", "start"]
 
