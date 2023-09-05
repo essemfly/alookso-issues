@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format, register } from 'timeago.js';
 import koLocale from 'timeago.js/lib/lang/ko';
@@ -22,6 +23,12 @@ const Card = ({
   celebs,
   coverImage,
 }: CardProps) => {
+  const [componentUpdatedAt, setComponentUpdatedAt] = useState('방금');
+
+  useEffect(() => {
+    setComponentUpdatedAt(format(updatedAt, 'ko'));
+  }, []);
+
   return (
     <div className="group relative cursor-pointer overflow-hidden rounded-md border shadow-md">
       <Link
@@ -76,7 +83,7 @@ const Card = ({
                     zIndex: 10,
                   }}
                 >
-                  {format(updatedAt, 'ko')} 업데이트
+                  {componentUpdatedAt} 업데이트
                 </span>
               </div>
             }

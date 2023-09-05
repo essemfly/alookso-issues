@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import ImageFallback from '@/components/ImageFallback/ImageFallback';
 import Intro from '@/components/Issue/Intro';
@@ -27,6 +28,12 @@ interface IssueDetailProps {
 }
 
 const IssueDetailPage = (props: IssueDetailProps) => {
+  const [updatedAt, setUpdatedAt] = useState('방금');
+
+  useEffect(() => {
+    setUpdatedAt(formatDate(props.issue.updatedAt));
+  }, []);
+
   return (
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
       <div className="relative">
@@ -42,7 +49,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
           <Intro
             title={props.issue.title}
             description={props.issue.description}
-            updatedAt={formatDate(props.issue.updatedAt)}
+            updatedAt={updatedAt}
           />
         ) : null}
         {props.issue.issueBlocks.map((block) => {
