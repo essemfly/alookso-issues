@@ -29,8 +29,8 @@ COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/migrate.sh .
-RUN ./migrate.sh
-RUN npx prisma generate
+# RUN ./migrate.sh
+# RUN npx prisma generate
 
 CMD ["pnpm", "start"]
 
