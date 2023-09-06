@@ -88,12 +88,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const slug = params!.slug!;
   const issue = await getIssue(slug as string);
 
+  console.log("problem of calling getSession?", getSession)
   const session = await getSession(context);
+  console.log('Session in issue detail page', session);
   let myRating,
     myMessageLikes = null;
 
   if (session) {
-    let user = session.user as User;
+    let { user } = session;
     let result = await getMyIssueActions(user.id, issue.id!);
     myRating = result.rating;
     myMessageLikes = result.likes;
