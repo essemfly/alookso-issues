@@ -21,7 +21,6 @@ export default function IssuesPage(props: LiveIssuesProps) {
 }
 
 export async function getServerSideProps() {
-  console.log('Process Envs:', process.env);
   const issues = await getLiveIssues();
   return {
     props: {
