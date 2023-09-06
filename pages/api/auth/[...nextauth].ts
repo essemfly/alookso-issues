@@ -15,6 +15,9 @@ export const authOptions = {
       checks: ['none'],
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     async session(session: Session) {
       return {
@@ -22,6 +25,18 @@ export const authOptions = {
         user: session.user as User,
       };
     },
+    // async signIn() {
+    //   console.log("signIn finished?")
+    //   const isAllowedToSignIn = true;
+    //   if (isAllowedToSignIn) {
+    //     return true;
+    //   } else {
+    //     // Return false to display a default error message
+    //     return false;
+    //     // Or you can return a URL to redirect to:
+    //     // return '/unauthorized'
+    //   }
+    // },
   },
 };
 

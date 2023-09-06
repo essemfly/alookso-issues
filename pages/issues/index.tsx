@@ -8,9 +8,7 @@ interface LiveIssuesProps {
 
 export default function IssuesPage(props: LiveIssuesProps) {
   return (
-    <section
-      style={{ justifyContent: 'center', display: 'flex' }}
-    >
+    <section style={{ justifyContent: 'center', display: 'flex' }}>
       <div className="mt-4 space-y-4 content_padding">
         <Fragment>
           {props.issues.map((item) => (
@@ -23,6 +21,7 @@ export default function IssuesPage(props: LiveIssuesProps) {
 }
 
 export async function getServerSideProps() {
+  console.log('Process Envs:', process.env);
   const issues = await getLiveIssues();
   return {
     props: {

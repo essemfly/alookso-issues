@@ -1,11 +1,23 @@
 import { signIn, useSession, signOut } from 'next-auth/react';
+// import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
   const { data: session } = useSession();
+  // const [providers, setProviders] = useState(null);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res: any = await getProviders();
+  //     setProviders(res);
+  //   })();
+  // }, []);
 
   const handleKakaoLogin = async () => {
-    signIn();
+    const result = await signIn('kakao', {
+      redirect: true,
+      callbackUrl: '/',
+    });
   };
 
   if (session) {
@@ -26,7 +38,11 @@ export default function Home() {
           textAlign: 'center',
         }}
       >
-        <div style={{ margin: '2rem 0 0.5rem 0' }}>지금 가입하고 </div>
+        <div style={{ margin: '2rem 0 0.5rem 0' }}>
+          여러 사회 이슈들을 보는 새로운 방법! <br />
+          전문가, 관계자의 이야기로 들어볼 수 있는 공간
+        </div>
+        <div style={{ margin: '1rem 0 0.5rem 0' }}>지금 가입하고 </div>
         <div>실시간 이슈를 빠르게 만나보세요</div>
       </div>
       <h2
@@ -49,7 +65,7 @@ export default function Home() {
             backgroundColor: '#fee500',
           }}
           className="relative flex items-center justify-center w-12 h-12 border rounded-full"
-          onClick={() => signIn()}
+          onClick={handleKakaoLogin}
         >
           <Image
             className="w-h h-5"
