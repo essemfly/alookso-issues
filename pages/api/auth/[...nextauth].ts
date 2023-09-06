@@ -20,6 +20,7 @@ export const authOptions = {
   callbacks: {
     async session(session: Session) {
       return {
+        session,
         user: session.user
       };
     },
