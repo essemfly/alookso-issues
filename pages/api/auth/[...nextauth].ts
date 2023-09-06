@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
   providers: [
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID || '',
