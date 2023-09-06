@@ -61,7 +61,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  let user = session.user as User;
+  let { user } = session;
   if (user.isAdmin === false) {
     return {
       redirect: {
