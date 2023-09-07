@@ -30,7 +30,7 @@ interface IssueDetailProps {
 const IssueDetailPage = (props: IssueDetailProps) => {
   const [updatedAt, setUpdatedAt] = useState('방금');
 
-  console.log('1');
+  console.log('1', process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   useEffect(() => {
     setUpdatedAt(formatDate(props.issue.updatedAt));
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
@@ -55,7 +55,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             updatedAt={updatedAt}
           />
         ) : null}
-        {props.issue.issueBlocks.map((block) => {
+        {/* {props.issue.issueBlocks.map((block) => {
           if (block.blockType === 'text') {
             return <TextBlockSection key={block.id} block={block} />;
           }
@@ -68,7 +68,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
               />
             );
           }
-        })}
+        })} */}
       </div>
       {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RatingComponent issue={props.issue} userInfo={props.myRating} />
