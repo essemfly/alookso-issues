@@ -107,8 +107,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       replys: JSON.parse(JSON.stringify(replys)),
       issue: JSON.parse(JSON.stringify(issue)),
-      myRating: JSON.parse(JSON.stringify(myRating)),
-      myMessageLikes: JSON.parse(JSON.stringify(myMessageLikes)),
+      myRating: myRating ? JSON.parse(JSON.stringify(myRating)) : null,
+      myMessageLikes: myMessageLikes
+        ? JSON.parse(JSON.stringify(myMessageLikes))
+        : null,
     },
   };
 }

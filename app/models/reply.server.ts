@@ -20,7 +20,7 @@ export async function getReplys(issueId: number) {
 
 export async function createReply(input: UpsertReplyInput) {
   const { userId, issueId, content } = input;
-  return await prisma.issueReply.create({
+  await prisma.issueReply.create({
     data: {
       issueId: issueId,
       userId: userId,
@@ -28,5 +28,15 @@ export async function createReply(input: UpsertReplyInput) {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+  });
+
+  return await prisma.issueReply.findMany({
+    where: {
+      issueId: issueId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 100,
   });
 }

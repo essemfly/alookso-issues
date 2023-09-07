@@ -9,18 +9,19 @@ const { TextArea } = Input;
 
 interface ReplyWriterProps {
   issueId: number;
-  replys: IssueReply[];
+  setReplys: (replys: IssueReply[]) => void;
 }
 
 const ReplyWriterComponent: React.FC<ReplyWriterProps> = ({
   issueId,
-  replys,
+  setReplys,
 }) => {
   const router = useRouter();
   const { data } = useSession();
 
   const [isFocused, setIsFocused] = useState(false);
   const [reply, setReply] = useState('');
+  const isUserLoggedIn = data && data.user != null;
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -43,18 +44,20 @@ const ReplyWriterComponent: React.FC<ReplyWriterProps> = ({
       userId: user.id,
       issueId: issueId,
     };
+
     const response = await fetch(`/api/issues/${issueId}/replys`, {
       method: 'POST',
       body: JSON.stringify(updateBody),
     });
-    if (response.status !== 200) {
+    if (!response.ok) {
       alert('Update error occured');
       console.log('error', response.status, response.statusText);
+      return;
     }
-
-    console.log('response', response);
+    let newReplys = await response.json();
 
     setReply('');
+    setReplys(newReplys);
   };
 
   return (
@@ -67,7 +70,11 @@ const ReplyWriterComponent: React.FC<ReplyWriterProps> = ({
             style={{ height: 120, resize: 'none' }}
             onChange={onChange}
             value={reply}
-            placeholder="타인에게 불편함을 주는 댓글은 삼가주세요."
+            placeholder={
+              isUserLoggedIn
+                ? '타인에게 불편함을 주는 댓글은 삼가주세요.'
+                : '댓글을 작성하려면 로그인 해주세요'
+            }
           />
           <Button onClick={handleSubmit} style={{ marginTop: '0.8rem' }}>
             등록

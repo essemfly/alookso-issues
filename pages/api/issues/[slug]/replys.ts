@@ -7,8 +7,8 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     let createReplyInput : UpsertReplyInput= JSON.parse(req.body)
-    let reply = createReply(createReplyInput);
-    res.status(200).json(reply);
+    let replys = await createReply(createReplyInput);
+    res.status(200).json(replys);
   } else if (req.method == 'GET') {
     let replys = await getReplys(req.body);
     res.status(200).json(replys);
