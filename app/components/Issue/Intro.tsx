@@ -6,6 +6,7 @@ register('ko', koLocale);
 type IntroProps = { title: string; description: string; updatedAt: string };
 
 const Intro = ({ title, updatedAt }: IntroProps) => {
+  console.log("intro ok!")
   return (
     <div className="space-y-4 px-4 py-8 text-center md:px-12">
       <h1 className="PlaygroundEditorTheme__h1">{title}</h1>
