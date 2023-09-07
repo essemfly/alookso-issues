@@ -18,12 +18,12 @@ export const authOptions = {
     signIn: '/login',
   },
   callbacks: {
-    // async session(session: Session) {
-    //   return {
-    //     session,
-    //     user: session.user
-    //   };
-    // },
+    async session(session: Session) {
+      return {
+        session,
+        user: session.user
+      };
+    },
   },
 };
 
