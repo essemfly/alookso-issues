@@ -89,9 +89,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const slug = params!.slug!;
   const issue = await getIssue(slug as string);
 
-  console.log("session before context:", context)
   const session = await getSession(context);
-  console.log('session after!', session);
   let myRating,
     myMessageLikes = null;
 
