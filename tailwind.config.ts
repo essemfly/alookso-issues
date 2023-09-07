@@ -120,6 +120,9 @@ const config: Config = {
         336: '84rem',
       },
       width: {
+        '100vw': '100vw',
+        '65': '65vw',
+        '55vw': '55vw',
         'slide-content': 'calc(100% - 80px)',
       },
       height: {

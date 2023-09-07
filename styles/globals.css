@@ -42,3 +42,7 @@
 .ant-tabs-nav-wrap {
     justify-content: right;
 }
+
+.image-fallback-fill {
+    position: relative !important;
+}

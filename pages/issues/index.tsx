@@ -9,7 +9,7 @@ interface LiveIssuesProps {
 export default function IssuesPage(props: LiveIssuesProps) {
   return (
     <section style={{ justifyContent: 'center', display: 'flex' }}>
-      <div className="mt-4 space-y-4 content_padding">
+      <div className="mt-4 space-y-4 content_padding custom-width md:w-65vw lg:w-55vw">
         <Fragment>
           {props.issues.map((item) => (
             <Card key={item.id} {...item} />

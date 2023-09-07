@@ -35,22 +35,21 @@ const Card = ({
         className="group inline-block w-full bg-contain"
         href={`/issues/${slug}`}
       >
-        <div className="relative h-52 w-full">
+        <div className="relative">
           <AntdCard
             style={{ border: '1px solid #DFDFDF' }}
             hoverable
             cover={
-              <div style={{ position: 'relative' }}>
+              <div>
                 <ImageFallback
-                  className="h-64 w-full object-cover"
+                  className="image-fallback-fill"
                   alt={title}
                   src={
                     coverImage ??
                     'https://i.namu.wiki/i/h6H17qjR7-_eLCo9gYWzPLc8oi4Kx1CbL2PaC1mVEm9F97f6_02_s22DtkIBdkFgGJErF3DFVHHMQwVtrfGhYQ.webp'
                   }
+                  fill
                   priority
-                  // fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div
                   style={{
