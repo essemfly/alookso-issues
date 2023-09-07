@@ -15,8 +15,8 @@ import {
 } from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
 import { IssueReply, MessageLike, Rating, User } from '@prisma/client';
-import ShareComponent from '@/components/Issue/ShareButtons';
-import RecommendComponent from '@/components/Issue/Recommend';
+// import ShareComponent from '@/components/Issue/ShareButtons';
+// import RecommendComponent from '@/components/Issue/Recommend';
 import ReplyComponent from '@/components/Issue/Reply';
 import { getReplys } from '@/models/reply.server';
 
@@ -73,9 +73,9 @@ const IssueDetailPage = (props: IssueDetailProps) => {
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RatingComponent issue={props.issue} userInfo={props.myRating} />
       </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+      {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ShareComponent issue={props.issue} />
-      </div>
+      </div> */}
       {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RecommendComponent writings={props.issue.recommendWritings} />
       </div> */}
