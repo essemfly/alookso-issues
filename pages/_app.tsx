@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import '../styles/globals.css';
 import 'antd/dist/reset.css';
 import 'app/components/LexicalEditor/nodes/ImageNode.css';
 import 'app/components/LexicalEditor/plugins/FloatingLinkEditorPlugin/index.css';
@@ -12,9 +12,9 @@ import 'app/components/LexicalEditor/ui/Button.css';
 import 'app/components/LexicalEditor/ui/ColorPicker.css';
 import 'app/components/LexicalEditor/index.css';
 
-import type { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
-import Layout from "@/components/Layout/Layout";
+import type { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
+import Layout from '@/components/Layout/Layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

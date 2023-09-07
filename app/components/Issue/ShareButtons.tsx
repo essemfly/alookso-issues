@@ -9,8 +9,9 @@ import {
 import { Issue } from '@prisma/client';
 
 const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
-  let linkToShare = 'https://issues.staging.alookso.com/' + '/issues/' + issue.slug;
+  let linkToShare = process.env.NEXTAUTH_URL + '/issues/' + issue.slug;
   const handleShare = (platform: string) => {
+    console.log('platform', platform);
     if (platform === 'facebook') {
       const facebookShareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         linkToShare,
@@ -21,22 +22,21 @@ const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
         linkToShare,
       )}`;
       window.open(twitterShareLink, '_blank');
-    } else if (platform === 'kakao') {
-    //   window.Kakao.init('e779510ac782b0a4865ae9c5c4460143');
-    //   let content = {
-    //     title: issue.title,
-    //     description: issue.description,
-    //     imageUrl: issue.coverImage,
-    //     link: {
-    //       mobileWebUrl: linkToShare,
-    //       webUrl: linkToShare,
-    //     },
-    //   };
-
-    //   Kakao.Link.sendDefault({
-    //     objectType: 'feed',
-    //     content,
-    //   });
+    } else if (platform === 'kakaotalk') {
+      let content = {
+        title: issue.title,
+        description: issue.description,
+        imageUrl: issue.coverImage,
+        link: {
+          mobileWebUrl: linkToShare,
+          webUrl: linkToShare,
+        },
+      };
+      const { Kakao } = window;
+      Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content,
+      });
     }
   };
 
@@ -47,11 +47,13 @@ const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
       .then(() => {
         // 복사 성공 시 처리
         Modal.success({
-          content: <div style={{width: '100%'}}>
-            링크가 성공적으로 복사되었습니다. 
-            <br />
-            {linkToShare}
-          </div>,
+          content: (
+            <div style={{ width: '100%' }}>
+              링크가 성공적으로 복사되었습니다.
+              <br />
+              {linkToShare}
+            </div>
+          ),
         });
       })
       .catch((error) => {
@@ -70,7 +72,7 @@ const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
         </h2>
       </div>
       <div className="flex p-4 space-x-3 overflow-hidden bg-white shadow">
-        <Space wrap align="center" style={{justifyContent: "center"}}>
+        <Space wrap align="center" style={{ justifyContent: 'center' }}>
           <Button
             icon={<FacebookOutlined />}
             onClick={() => handleShare('facebook')}

@@ -32,6 +32,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
 
   useEffect(() => {
     setUpdatedAt(formatDate(props.issue.updatedAt));
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   }, []);
 
   return (
@@ -88,9 +89,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const slug = params!.slug!;
   const issue = await getIssue(slug as string);
 
-  console.log("problem of calling getSession?", getSession)
   const session = await getSession(context);
-  console.log('Session in issue detail page', session);
   let myRating,
     myMessageLikes = null;
 

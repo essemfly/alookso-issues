@@ -48,13 +48,6 @@ const Card = ({
                     coverImage ??
                     'https://i.namu.wiki/i/h6H17qjR7-_eLCo9gYWzPLc8oi4Kx1CbL2PaC1mVEm9F97f6_02_s22DtkIBdkFgGJErF3DFVHHMQwVtrfGhYQ.webp'
                   }
-                  style={{
-                    background:
-                      'linear-gradient(180deg, rgba(0, 0, 0, 0.4) 21.35%, rgba(0, 0, 0, 0) 34.9%)',
-                    position: 'relative',
-                    width: '100',
-                    height: '100',
-                  }}
                   priority
                   // fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
