@@ -109,7 +109,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const replys = await getReplys(issue.id!);
 
-  console.log('8');
+  console.log('8', JSON.parse(JSON.stringify(replys)));
+  console.log('9', JSON.parse(JSON.stringify(issue)));
+  console.log('10', JSON.parse(JSON.stringify(myRating)));
+  console.log('11', JSON.parse(JSON.stringify(myMessageLikes)));
   return {
     props: {
       replys: JSON.parse(JSON.stringify(replys)),
