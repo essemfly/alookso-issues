@@ -16,6 +16,8 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
     userInfo?.rating === null ? null : userInfo?.rating!!,
   );
 
+  console.log("selectedRating", selectedRating)
+
   const handleRatingSelected = async (rating: number) => {
     if (data && data.user == null) {
       alert('로그인이 필요합니다.');
@@ -57,7 +59,9 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
       <div className="flex items-center rating-icons">
         <div
           className={`cursor-pointer mx-2 ${
-            selectedRating !== null && selectedRating !== 1
+            selectedRating !== null &&
+            selectedRating !== undefined &&
+            selectedRating !== 1
               ? 'rating-unselected'
               : ''
           }`}
@@ -74,7 +78,9 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
         </div>
         <div
           className={`cursor-pointer mx-2 ${
-            selectedRating !== null && selectedRating !== 0
+            selectedRating !== null &&
+            selectedRating !== undefined &&
+            selectedRating !== 0
               ? 'rating-unselected'
               : ''
           }`}
@@ -91,7 +97,9 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
         </div>
         <div
           className={`cursor-pointer mx-2  ${
-            selectedRating !== null && selectedRating !== -1
+            selectedRating !== null &&
+            selectedRating !== undefined &&
+            selectedRating !== -1
               ? 'rating-unselected'
               : ''
           }`}
