@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Modal, Space } from 'antd';
 import {
   FacebookOutlined,
@@ -7,11 +7,17 @@ import {
   CopyOutlined,
 } from '@ant-design/icons';
 import { Issue } from '@prisma/client';
+import * as gtag from '../../../lib/gtag';
 
 const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
   let linkToShare = process.env.NEXTAUTH_URL + '/issues/' + issue.slug;
   const handleShare = (platform: string) => {
-    console.log('platform', platform);
+    gtag.event({
+      action: 'Share Clicked',
+      category: 'Share',
+      label: 'Issue Detail',
+      value: issue.title,
+    });
     if (platform === 'facebook') {
       const facebookShareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         linkToShare,
