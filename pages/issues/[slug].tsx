@@ -35,7 +35,6 @@ const IssueDetailPage = (props: IssueDetailProps) => {
     window.Kakao.init('a65f7c5d73e5b862059b689bf141617e');
   }, []);
 
-  console.log('2');
   return (
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
       <div className="relative">
@@ -86,32 +85,23 @@ const IssueDetailPage = (props: IssueDetailProps) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  console.log('3');
   const { params } = context;
   const slug = params!.slug!;
-  console.log('4', slug);
   const issue = await getIssue(slug as string);
 
-  console.log('5', issue);
   const session = await getSession(context);
   let myRating,
     myMessageLikes = null;
 
-  console.log('6', session);
   if (session) {
     let { user } = session;
     let result = await getMyIssueActions(user.id, issue.id!);
-    console.log('7', result);
     myRating = result.rating;
     myMessageLikes = result.likes;
   }
 
   const replys = await getReplys(issue.id!);
 
-  console.log('8', JSON.parse(JSON.stringify(replys)));
-  console.log('9', JSON.parse(JSON.stringify(issue)));
-  console.log('10', JSON.parse(JSON.stringify(myRating)));
-  console.log('11', JSON.parse(JSON.stringify(myMessageLikes)));
   return {
     props: {
       replys: JSON.parse(JSON.stringify(replys)),

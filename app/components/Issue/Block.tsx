@@ -11,7 +11,6 @@ interface IssueDetailProps {
 }
 
 const TextBlockSection: React.FC<IssueDetailProps> = ({ block }) => {
-  console.log("text block ok!")
   return (
     <section className="bg-white pt-2">
       <div className="mb-12 border-transparent bg-white px-4 pb-2 pt-2 md:px-0 md:pb-0 lg:border-x lg:px-12">

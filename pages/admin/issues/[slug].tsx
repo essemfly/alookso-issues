@@ -245,7 +245,6 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
-  console.log("Sessionn in issue", session)
   if (!session) {
     return {
       redirect: {

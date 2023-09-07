@@ -16,8 +16,6 @@ const RatingComponent: React.FC<RatingProps> = ({ issue, userInfo }) => {
     userInfo?.rating === null ? null : userInfo?.rating!!,
   );
 
-  console.log("selectedRating", selectedRating)
-
   const handleRatingSelected = async (rating: number) => {
     if (data && data.user == null) {
       alert('로그인이 필요합니다.');

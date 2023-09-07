@@ -49,7 +49,6 @@ export const CelebCreateModal = ({
   };
 
   const onUploadSuccess = (file: any) => {
-    console.log('File uploaded successfully:', file);
     message.success('File uploaded successfully:');
     setAvatarUrl(file.url);
   };
