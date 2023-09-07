@@ -15,7 +15,7 @@ import {
 } from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
 import { IssueReply, MessageLike, Rating, User } from '@prisma/client';
-// import ShareComponent from '@/components/Issue/ShareButtons';
+import ShareComponent from '@/components/Issue/ShareButtons';
 // import RecommendComponent from '@/components/Issue/Recommend';
 import ReplyComponent from '@/components/Issue/Reply';
 import { getReplys } from '@/models/reply.server';
@@ -30,10 +30,9 @@ interface IssueDetailProps {
 const IssueDetailPage = (props: IssueDetailProps) => {
   const [updatedAt, setUpdatedAt] = useState('방금');
 
-  console.log('1', process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   useEffect(() => {
     setUpdatedAt(formatDate(props.issue.updatedAt));
-    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    window.Kakao.init('a65f7c5d73e5b862059b689bf141617e');
   }, []);
 
   console.log('2');
@@ -55,7 +54,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
             updatedAt={updatedAt}
           />
         ) : null}
-        {/* {props.issue.issueBlocks.map((block) => {
+        {props.issue.issueBlocks.map((block) => {
           if (block.blockType === 'text') {
             return <TextBlockSection key={block.id} block={block} />;
           }
@@ -68,20 +67,20 @@ const IssueDetailPage = (props: IssueDetailProps) => {
               />
             );
           }
-        })} */}
+        })}
       </div>
-      {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RatingComponent issue={props.issue} userInfo={props.myRating} />
-      </div> */}
-      {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+      </div>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ShareComponent issue={props.issue} />
-      </div> */}
+      </div>
       {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <RecommendComponent writings={props.issue.recommendWritings} />
       </div> */}
-      {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ReplyComponent issueId={props.issue.id} replys={props.replys} />
-      </div> */}
+      </div>
     </section>
   );
 };
