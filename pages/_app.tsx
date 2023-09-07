@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import Layout from '@/components/Layout/Layout';
 import Head from 'next/head';
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -67,7 +68,9 @@ export default function App({ Component, pageProps }: AppProps) {
           src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
         />
         <Layout>
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
         </Layout>
       </SessionProvider>
     </>
