@@ -32,7 +32,9 @@ const IssueDetailPage = (props: IssueDetailProps) => {
 
   useEffect(() => {
     setUpdatedAt(formatDate(props.issue.updatedAt));
-    window.Kakao.init('a65f7c5d73e5b862059b689bf141617e');
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init('a65f7c5d73e5b862059b689bf141617e');
+    }
   }, []);
 
   return (

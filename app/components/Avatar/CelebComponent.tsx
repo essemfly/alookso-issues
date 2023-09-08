@@ -14,13 +14,14 @@ interface CelebComponentProps {
 
 const CelebComponent = ({ avatar, name, style }: CelebComponentProps) => {
   const [isError, setIsError] = useState(false);
+  console.log("avatar", avatar)
   return (
     <div className="avatar border-0">
       <Image
         width={40}
         height={40}
         alt={name}
-        src={avatar ? avatar : '/images/Avatar.png'}
+        src={avatar ? isError ? '/images/Avatar.png' : avatar : '/images/Avatar.png'}
         priority
         className="object-cover"
         style={{ ...style, borderRadius: '50%', height: '40px' }}
