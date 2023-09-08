@@ -10,6 +10,7 @@ import {
   Avatar,
   RadioChangeEvent,
   DatePicker,
+  TimePicker,
 } from 'antd';
 import { Celeb, Bias } from '@prisma/client';
 
@@ -58,10 +59,22 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
   };
 
   const dateFormat = 'YYYY-MM-DD';
+  const timeFormat = 'HH:mm';
 
   const handleDateChange = (date: any) => {
     if (date) {
       setSelectedDate(date.toDate());
+    } else {
+      setSelectedDate(new Date());
+    }
+  };
+
+  const handleTimeChange = (date: any) => {
+    if (date) {
+      let selectedDateWithoutTime = new Date(selectedDate);
+      selectedDateWithoutTime.setHours(date.$H);
+      selectedDateWithoutTime.setMinutes(date.$m);
+      setSelectedDate(selectedDateWithoutTime);
     } else {
       setSelectedDate(new Date());
     }
@@ -158,6 +171,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, celebs }) => {
           onChange={handleDateChange}
           value={dayjs(selectedDate)}
           format={dateFormat}
+        />
+        <TimePicker
+          onChange={handleTimeChange}
+          value={dayjs(selectedDate)}
+          format={timeFormat}
         />
       </div>
       <div style={{ display: 'flex', marginBottom: '8px' }}>

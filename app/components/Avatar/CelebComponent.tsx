@@ -14,7 +14,6 @@ interface CelebComponentProps {
 
 const CelebComponent = ({ avatar, name, style }: CelebComponentProps) => {
   const [isError, setIsError] = useState(false);
-  console.log("avatar", avatar)
   return (
     <div className="avatar border-0">
       <Image
