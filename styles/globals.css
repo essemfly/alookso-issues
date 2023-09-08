@@ -45,4 +45,5 @@
 
 .image-fallback-fill {
     position: relative !important;
+    max-height: 26vh;
 }
