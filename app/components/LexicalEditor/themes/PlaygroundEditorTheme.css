@@ -13,6 +13,7 @@
   text-align: right;
 }
 .PlaygroundEditorTheme__paragraph {
+  line-height: 1.7rem;
   margin: 0;
   position: relative;
 }
@@ -314,7 +315,8 @@
   list-style-type: disc;
 }
 .PlaygroundEditorTheme__listItem {
-  margin: 0 32px;
+  line-height: 1.7rem;
+  margin: 5 32px;
 }
 .PlaygroundEditorTheme__listItemChecked,
 .PlaygroundEditorTheme__listItemUnchecked {
