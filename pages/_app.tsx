@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import Layout from '@/components/Layout/Layout';
 import Head from 'next/head';
-import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from 'antd/es/alert/ErrorBoundary';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
