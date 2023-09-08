@@ -8,9 +8,9 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     const { celebId } = req.body;
-    const { issueSlug } = req.query;
+    const { slug } = req.query;
 
-    let issue = await getIssue(issueSlug as string);
+    let issue = await getIssue(slug as string);
     if (!issue) {
       res.status(404).end(); // Not Found
       return;
@@ -29,7 +29,7 @@ export default async function handler(
       await addCelebToIssue(celebId, issue!!.id!!);
     }
 
-    issue = await getIssue(issueSlug as string);
+    issue = await getIssue(slug as string);
     res.status(200).json(issue?.celebs);
   } else {
     res.status(405).end(); // Method Not Allowed
