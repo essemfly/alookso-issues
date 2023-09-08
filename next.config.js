@@ -2,6 +2,8 @@
 const nextConfig = {
   output: 'standalone',
   images: {
+    loader: 'custom',
+    loaderFile: 'app/utils/imageLoader.ts',
     domains: [
       'picsum.photos',
       'alook.so',
