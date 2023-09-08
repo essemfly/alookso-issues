@@ -38,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <title>얼룩소 이슈!</title>
         <script
           dangerouslySetInnerHTML={{
             __html: `
