@@ -123,6 +123,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
     display: 'flex',
     alignItems: 'center',
     marginBottom: '7px',
+    lineHeight: '1.5rem',
   };
 
   // 나중에 CelebComponent에서 다 처리하게끔 refactoring
