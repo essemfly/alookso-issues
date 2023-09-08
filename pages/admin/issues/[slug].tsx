@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import { Button, Col, Row } from 'antd';
@@ -123,6 +122,13 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   };
 
   const handleSave = async () => {
+    if (
+      !confirm(
+        '에디터의 블럭들을 저장하셨나요? 저장안한 에디터 블럭내용들은 저장되지 않습니다',
+      )
+    ) {
+      return;
+    }
     let updateBlocks: UpdateIssueBlockInput[] = blocks.map((block, idx) => {
       let updateMessages: UpdateIssueMessageInput[] = block.messages.map(
         (message) => {
