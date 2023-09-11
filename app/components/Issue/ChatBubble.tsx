@@ -24,7 +24,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
   const [likeCount, setLikeCount] = useState<number>(message.likeCount);
 
   const handleLike = async (messageId: number, like: boolean) => {
-    if (data && data.user == null) {
+    if (!data || data.user == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;

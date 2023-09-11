@@ -31,7 +31,7 @@ const ReplyWriterComponent: React.FC<ReplyWriterProps> = ({
   };
 
   const handleSubmit = async () => {
-    if (data && data.user == null) {
+    if (!data || data.user == null) {
       alert('로그인이 필요합니다.');
       router.push('/login');
       return;
