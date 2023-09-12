@@ -86,7 +86,9 @@ export async function getIssue(slug: string) {
 }
 
 export async function getRecommendIssues(issueId: number) {
-  const allIssues = await prisma.issue.findMany();
+  const allIssues = await prisma.issue.findMany({
+    where: { status: IssueStatus.PUBLISHED },
+  });
   let shuffledIssues = shuffleArray(allIssues);
   const numRecomIssues = 4;
 

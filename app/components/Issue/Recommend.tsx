@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Row, Col } from 'antd';
+import Link from 'next/link';
 import { Issue } from '@prisma/client';
 import ImageFallback from '@/components/ImageFallback/ImageFallback';
 
@@ -19,27 +20,32 @@ const RecommendComponent: React.FC<RecommendProps> = ({
         {recommendedIssues.map((issue) => {
           return (
             <Col span={12} key={issue.id}>
-              <Card
-                className="recommend-card"
-                hoverable
-                cover={
-                  <ImageFallback
-                    className="image-fallback-fill"
-                    alt={issue.title}
-                    src={
-                      issue.coverImage ??
-                      'https://i.namu.wiki/i/h6H17qjR7-_eLCo9gYWzPLc8oi4Kx1CbL2PaC1mVEm9F97f6_02_s22DtkIBdkFgGJErF3DFVHHMQwVtrfGhYQ.webp'
-                    }
-                    fill
-                    priority
-                  />
-                }
+              <Link
+                className="group inline-block w-full bg-contain"
+                href={`/issues/${issue.slug}`}
               >
-                <Card.Meta
-                  title={issue.title}
-                  description={issue.description}
-                />
-              </Card>
+                <Card
+                  className="recommend-card"
+                  hoverable
+                  cover={
+                    <ImageFallback
+                      className="image-fallback-fill"
+                      alt={issue.title}
+                      src={
+                        issue.coverImage ??
+                        'https://i.namu.wiki/i/h6H17qjR7-_eLCo9gYWzPLc8oi4Kx1CbL2PaC1mVEm9F97f6_02_s22DtkIBdkFgGJErF3DFVHHMQwVtrfGhYQ.webp'
+                      }
+                      fill
+                      priority
+                    />
+                  }
+                >
+                  <Card.Meta
+                    title={issue.title}
+                    description={issue.description}
+                  />
+                </Card>
+              </Link>
             </Col>
           );
         })}
