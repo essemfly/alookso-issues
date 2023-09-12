@@ -43,14 +43,7 @@ export default function AppHeader() {
       >
         {!session && (
           <>
-            <a
-              href={`/login`}
-              className=""
-              onClick={(e) => {
-                e.preventDefault();
-                signIn();
-              }}
-            >
+            <a href={`/login`} className="">
               로그인
             </a>
           </>

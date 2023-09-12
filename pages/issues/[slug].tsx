@@ -20,8 +20,10 @@ import RecommendComponent from '@/components/Issue/Recommend';
 import ReplyComponent from '@/components/Issue/Reply';
 import { getReplys } from '@/models/reply.server';
 import { getRecommendIssues } from '@/models/issue.server';
+import { SignupDrawer } from '@/components/SignupDrawer';
 
 interface IssueDetailProps {
+  isUserLoggedIn: boolean;
   replys: IssueReply[];
   issue: IssueWithBlocks;
   myRating?: Rating | null;
@@ -32,6 +34,9 @@ interface IssueDetailProps {
 
 const IssueDetailPage = (props: IssueDetailProps) => {
   const [updatedAt, setUpdatedAt] = useState('방금');
+  const [isDrawerVisible, setIsDrawerVisible] = useState(
+    props.isUserLoggedIn ? false : true,
+  );
 
   useEffect(() => {
     setUpdatedAt(formatDate(props.issue.updatedAt));
@@ -39,6 +44,10 @@ const IssueDetailPage = (props: IssueDetailProps) => {
       window.Kakao.init('a65f7c5d73e5b862059b689bf141617e');
     }
   }, []);
+
+  const handleCloseDrawer = () => {
+    setIsDrawerVisible(false);
+  };
 
   return (
     <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
@@ -86,6 +95,10 @@ const IssueDetailPage = (props: IssueDetailProps) => {
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ReplyComponent issueId={props.issue.id} replys={props.replys} />
       </div>
+      <SignupDrawer
+        isDrawerVisible={isDrawerVisible}
+        setIsDrawerVisible={handleCloseDrawer}
+      />
     </section>
   );
 };
@@ -111,6 +124,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      isUserLoggedIn: session ? true : false,
       baseUrl: process.env.NEXTAUTH_URL,
       issue: JSON.parse(JSON.stringify(issue)),
       replys: JSON.parse(JSON.stringify(replys)),

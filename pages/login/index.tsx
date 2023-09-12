@@ -1,6 +1,6 @@
 import { signIn, useSession, signOut } from 'next-auth/react';
-// import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import * as gtag from '../../lib/gtag';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -14,6 +14,13 @@ export default function Home() {
   // }, []);
 
   const handleKakaoLogin = async () => {
+    gtag.event({
+      action: 'Signup Clicked',
+      category: 'Signup',
+      label: 'Signup in Drawer',
+      value: 'kakao',
+    });
+
     const result = await signIn('kakao', {
       redirect: true,
       callbackUrl: '/',
