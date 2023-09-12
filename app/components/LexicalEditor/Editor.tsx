@@ -19,6 +19,7 @@ import ActionsPlugin from './plugins/ActionsPlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
+import AlooksoPlugin from './plugins/AlooksoPlugin';
 // import ChatPlugin from './plugins/ChatPlugin';
 
 interface EditorProps {
@@ -67,6 +68,7 @@ export default function Editor({ setContent }: EditorProps): JSX.Element {
         <AutoEmbedPlugin />
         <YouTubePlugin />
         <TwitterPlugin />
+        <AlooksoPlugin />
         <MarkdownShortcutPlugin />
         <ActionsPlugin setContent={setContent} />
       </div>

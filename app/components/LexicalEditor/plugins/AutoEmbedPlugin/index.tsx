@@ -25,6 +25,7 @@ import Button from '../../ui/Button';
 import { DialogActions } from '../../ui/Dialog';
 import { INSERT_TWEET_COMMAND } from '../TwitterPlugin';
 import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin';
+import { INSERT_ALOOKSO_COMMAND } from '../AlooksoPlugin';
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -112,10 +113,37 @@ export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
   type: 'tweet',
 };
 
-export const EmbedConfigs = [
-  TwitterEmbedConfig,
-  YoutubeEmbedConfig,
-];
+export const AlooksoEmbedConfig: PlaygroundEmbedConfig = {
+  contentName: 'Alookso',
+
+  exampleUrl: 'https://alook.so/posts/92t3Y2O',
+
+  // Create the Lexical embed node from the url data.
+  insertNode: (editor: LexicalEditor, result: EmbedMatchResult) => {
+    editor.dispatchCommand(INSERT_ALOOKSO_COMMAND, result.id);
+  },
+
+  // For extra searching.
+  keywords: ['alookso'],
+
+  // Determine if a given URL is a match and return url data.
+  parseUrl: (text: string) => {
+    const match = /^https:\/\/alook\.so\/posts\/([a-zA-Z0-9]+)$/.exec(text);
+
+    if (match != null) {
+      return {
+        id: match[1],
+        url: match[0],
+      };
+    }
+
+    return null;
+  },
+
+  type: 'alookso',
+};
+
+export const EmbedConfigs = [TwitterEmbedConfig, YoutubeEmbedConfig, AlooksoEmbedConfig];
 
 function AutoEmbedMenuItem({
   index,

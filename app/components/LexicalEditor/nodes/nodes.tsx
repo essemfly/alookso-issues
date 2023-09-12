@@ -6,7 +6,6 @@
  *
  */
 
-
 import type { Klass, LexicalNode } from 'lexical';
 
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
@@ -37,6 +36,7 @@ import { ImageNode } from './ImageNode';
 // import { TableNode as NewTableNode } from './TableNode';
 import { TweetNode } from './TweetNode';
 import { YouTubeNode } from './YouTubeNode';
+import { AlooksoNode } from './AlooksoNode';
 
 const EditorNodes: Array<Klass<LexicalNode>> = [
   HeadingNode,
@@ -56,6 +56,7 @@ const EditorNodes: Array<Klass<LexicalNode>> = [
   HorizontalRuleNode,
   TweetNode,
   YouTubeNode,
+  AlooksoNode,
   // OverflowNode,
   // PollNode,
   // StickyNode,
