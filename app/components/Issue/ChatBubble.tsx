@@ -183,7 +183,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
 
   return (
     <>
-      {message.bias === Bias.RIGHT ? leftAvatar : rightAvatar}
+      {rightAvatar}
       <div className="chat-bubble font-light" style={bubbleStyle}>
         <div className="chat-content" style={contentStyle}>
           <p>{message.content}</p>
