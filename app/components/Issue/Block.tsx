@@ -24,7 +24,6 @@ const MessageBlockSection: React.FC<IssueDetailProps> = ({
   block,
   userInfo,
 }) => {
-
   const [messages, setMessages] = React.useState(block.messages);
   const items = [
     { label: '오래된순', key: 'latest' },
@@ -39,17 +38,18 @@ const MessageBlockSection: React.FC<IssueDetailProps> = ({
         return a.reportedAt > b.reportedAt ? 1 : -1;
       } else if (key === 'newest') {
         return a.reportedAt < b.reportedAt ? 1 : -1;
-      } else{
+      } else {
         return a.likeCount < b.likeCount ? 1 : -1;
       }
     });
-    setMessages(newMessages)
-  }
+    setMessages(newMessages);
+  };
 
   return (
     <section className="bg-white pt-2">
+      <h2 className="PlaygroundEditorTheme__h2" style={{paddingTop: '1rem'}}>{block.title}</h2>
       <div className="mb-12 border-transparent bg-white px-4 pb-2 pt-2 md:px-0 md:pb-0 lg:border-x lg:px-12">
-          <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
+        <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
         {messages?.map((message) => {
           let myMessageLike = userInfo?.filter(
             (like) => like.messageId === message.id,

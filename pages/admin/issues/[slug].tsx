@@ -30,6 +30,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
   const [description, setDescription] = useState<string>(
     props.issue.description || '',
   );
+  const [weight, setWeight] = useState<number>(props.issue.weight || 0);
   const [coverImage, setCoverImage] = useState<string>(
     props.issue.coverImage || '',
   );
@@ -59,6 +60,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
           seq: 0,
           isRemoved: false,
           messages: [],
+          title: null,
         });
       } else {
         newBlocks.push(block);
@@ -152,6 +154,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         id: block.id || undefined,
         seq: idx,
         blockType: block.blockType,
+        title: block.title,
         content: block.content!!,
         isRemoved: block.isRemoved,
         messages: updateMessages,
@@ -161,6 +164,7 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
     let updateBody: UpdateIssueInput = {
       id: props.issue.id,
       title: title,
+      weight: weight,
       description: description,
       coverImage: coverImage,
       blocks: updateBlocks,
@@ -189,8 +193,10 @@ export default function AdminIssueDetailPage(props: AdminIssueDetailProps) {
         <Col span={12}>
           <InfoSpace
             title={title}
+            weight={weight}
             description={description}
             isPublished={isPublished}
+            setWeight={setWeight}
             setTitle={setTitle}
             setDescription={setDescription}
             setIsPublished={setIsPublished}

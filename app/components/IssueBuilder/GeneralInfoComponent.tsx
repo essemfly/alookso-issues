@@ -3,9 +3,11 @@ import { Space, Input, Switch } from 'antd';
 
 interface GeneralInfoProps {
   title: string;
+  weight: number;
   description: string;
   isPublished: boolean;
   setTitle: Dispatch<SetStateAction<string>>;
+  setWeight: Dispatch<SetStateAction<number>>;
   setDescription: Dispatch<SetStateAction<string>>;
   setIsPublished: Dispatch<SetStateAction<boolean>>;
 }
@@ -13,6 +15,10 @@ interface GeneralInfoProps {
 const GeneralInfoComponent: React.FC<GeneralInfoProps> = (generalInfo) => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     generalInfo.setTitle(e.target.value);
+  };
+
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    generalInfo.setWeight(parseInt(e.target.value, 10));
   };
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +43,13 @@ const GeneralInfoComponent: React.FC<GeneralInfoProps> = (generalInfo) => {
           onChange={handleSwitchChange}
         />
       </div>
+      <label>Weight</label>
+      <Input
+        placeholder="Weight"
+        type="number"
+        value={generalInfo.weight}
+        onChange={handleWeightChange}
+      />
       <label>Title</label>
       <Input
         placeholder="Title"

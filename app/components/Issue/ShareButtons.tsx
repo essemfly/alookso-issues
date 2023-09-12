@@ -9,7 +9,7 @@ import {
 import { Issue } from '@prisma/client';
 import * as gtag from '../../../lib/gtag';
 
-const ShareComponent: React.FC<{ issue: Issue; baseUrl: String }> = ({
+const ShareComponent: React.FC<{ issue: Issue; baseUrl: string }> = ({
   issue,
   baseUrl,
 }) => {

@@ -69,19 +69,19 @@ export async function getIssue(slug: string) {
     },
   });
 
-  const groupedRatings = await prisma.rating.groupBy({
-    where: {
-      issueId: issue!.id,
-    },
-    by: ['rating'],
-    _count: {
-      rating: true,
-    },
-  });
+  // const groupedRatings = await prisma.rating.groupBy({
+  //   where: {
+  //     issueId: issue!.id,
+  //   },
+  //   by: ['rating'],
+  //   _count: {
+  //     rating: true,
+  //   },
+  // });
 
   return {
     ...issue,
-    ...groupedRatings,
+    // ...groupedRatings,
   };
 }
 
@@ -133,9 +133,7 @@ export async function getLiveIssues() {
     include: {
       celebs: true,
     },
-    orderBy: {
-      createdAt: 'desc',
-    },
+    orderBy: [{ weight: 'desc' }, { createdAt: 'desc' }],
   });
 }
 
@@ -153,6 +151,7 @@ export async function createIssue() {
   return await prisma.issue.create({
     data: {
       title: 'New Issue',
+      weight: 0,
       slug: generateSlug(),
       description: 'New Issue',
       coverImage: 'https://via.placeholder.com/150',
@@ -166,6 +165,7 @@ export async function createIssue() {
 export interface UpdateIssueInput {
   id: number;
   title: string;
+  weight: number;
   description: string;
   coverImage: string;
   status: IssueStatus;
@@ -176,6 +176,7 @@ export interface UpdateIssueBlockInput {
   id?: number;
   seq: number;
   blockType: string;
+  title: string | null;
   content: string;
   messages: UpdateIssueMessageInput[];
   isRemoved: boolean;
@@ -222,6 +223,7 @@ export async function updateIssue(input: UpdateIssueInput) {
     },
     data: {
       title: input.title,
+      weight: input.weight,
       description: input.description,
       coverImage: input.coverImage,
       status: input.status,
@@ -289,6 +291,7 @@ async function createIssueBlock(block: UpdateIssueBlockInput, issueId: number) {
     data: {
       seq: block.seq,
       blockType: block.blockType,
+      title: block.title,
       content: block.content,
       isRemoved: false,
       createdAt: new Date(),
@@ -331,6 +334,7 @@ async function updateIssueBlock(block: UpdateIssueBlockInput) {
     },
     data: {
       seq: block.seq,
+      title: block.title,
       blockType: block.blockType,
       content: block.content,
       isRemoved: false,

@@ -2,7 +2,10 @@ import ChatComponent from '@/components/IssueBuilder/ChatComponent';
 import { WritingEditor } from '@/components/LexicalEditor/App';
 import { Radio, Space, Button } from 'antd';
 import { IssueMessage, Celeb } from '@prisma/client';
-import { IssueBlockWithMessages, IssueMessageWithoutId } from '@/models/issue.server';
+import {
+  IssueBlockWithMessages,
+  IssueMessageWithoutId,
+} from '@/models/issue.server';
 
 interface IssueBlockProps {
   block: IssueBlockWithMessages;
@@ -21,7 +24,15 @@ const IssueBlock = ({
     setBlock({ ...block, blockType: e.target.value });
   };
 
-  const setBlockMessages = (chatHistory: IssueMessageWithoutId[]) => {
+  const setBlockTitle = (
+    boxTitle: string,
+  ) => {
+    setBlock({ ...block, title: boxTitle });
+  }
+
+  const setBlockMessages = (
+    chatHistory: IssueMessageWithoutId[],
+  ) => {
     setBlock({ ...block, messages: chatHistory });
   };
 
@@ -41,8 +52,10 @@ const IssueBlock = ({
       )}
       {block.blockType === 'message' && (
         <ChatComponent
+          title={block.title ? block.title : ''}
           celebs={celebs}
           messages={block.messages ? block.messages : []}
+          setBlockTitle={setBlockTitle}
           setMessages={setBlockMessages}
         />
       )}

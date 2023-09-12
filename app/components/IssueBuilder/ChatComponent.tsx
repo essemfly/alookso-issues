@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { List, Avatar } from 'antd';
+import { List, Avatar, Input } from 'antd';
 import ChatInput from './ChatInput';
 import { IssueMessage, Bias } from '@prisma/client';
 import { IssueMessageWithoutId } from '@/models/issue.server';
@@ -7,15 +7,27 @@ import Button from '../LexicalEditor/ui/Button';
 import { Celeb } from '@prisma/client';
 
 interface MessageProps {
+  title: string;
   celebs: Celeb[];
   messages: IssueMessageWithoutId[];
+  setBlockTitle: (title: string) => void;
   setMessages: (messages: IssueMessageWithoutId[]) => void;
 }
 
-const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
+const ChatComponent = ({
+  title,
+  celebs,
+  messages,
+  setBlockTitle,
+  setMessages,
+}: MessageProps) => {
   const [chatHistory, setChatHistory] = useState<IssueMessageWithoutId[]>(
     messages ? messages : [],
   );
+
+  const handleBoxTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBlockTitle(e.target.value);
+  };
 
   const handleSendMessage = (
     message: string,
@@ -45,6 +57,7 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
         isRemoved: false,
         blockId: 0,
         likeCount: 0,
+        title: null,
       },
     ];
     setChatHistory(newChatHistory);
@@ -60,6 +73,13 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
 
   return (
     <div>
+      <label>Title</label>
+      <Input
+        placeholder="Title"
+        value={title}
+        onChange={handleBoxTitleChange}
+        style={{ marginBottom: '10px' }}
+      />
       <List
         style={{ height: '500px', overflowY: 'auto' }}
         dataSource={chatHistory}
@@ -94,7 +114,8 @@ const ChatComponent = ({ celebs, messages, setMessages }: MessageProps) => {
               )}
               {item.reportedAt && (
                 <div>
-                  <strong>날짜:</strong> {item.reportedAt.toString().substring(0, 10)}
+                  <strong>날짜:</strong>{' '}
+                  {item.reportedAt.toString().substring(0, 21)}
                 </div>
               )}
             </div>
