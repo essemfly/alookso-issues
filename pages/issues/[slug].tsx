@@ -27,6 +27,7 @@ interface IssueDetailProps {
   myRating?: Rating | null;
   myMessageLikes?: MessageLike[] | null;
   recommendations: Issue[];
+  baseUrl: string;
 }
 
 const IssueDetailPage = (props: IssueDetailProps) => {
@@ -80,7 +81,7 @@ const IssueDetailPage = (props: IssueDetailProps) => {
         <RecommendComponent recommendedIssues={props.recommendations} />
       </div>
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <ShareComponent issue={props.issue} />
+        <ShareComponent issue={props.issue} baseUrl={props.baseUrl} />
       </div>
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ReplyComponent issueId={props.issue.id} replys={props.replys} />
@@ -106,15 +107,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const replys = await getReplys(issue.id!);
-
   const recommendations = await getRecommendIssues(issue.id!);
 
   return {
     props: {
-      replys: JSON.parse(JSON.stringify(replys)),
+      baseUrl: process.env.NEXTAUTH_URL,
       issue: JSON.parse(JSON.stringify(issue)),
-      myRating: myRating ? JSON.parse(JSON.stringify(myRating)) : null,
+      replys: JSON.parse(JSON.stringify(replys)),
       recommendations: JSON.parse(JSON.stringify(recommendations)),
+      myRating: myRating ? JSON.parse(JSON.stringify(myRating)) : null,
       myMessageLikes: myMessageLikes
         ? JSON.parse(JSON.stringify(myMessageLikes))
         : null,

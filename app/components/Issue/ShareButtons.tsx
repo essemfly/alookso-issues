@@ -9,8 +9,11 @@ import {
 import { Issue } from '@prisma/client';
 import * as gtag from '../../../lib/gtag';
 
-const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
-  let linkToShare = process.env.NEXTAUTH_URL + '/issues/' + issue.slug;
+const ShareComponent: React.FC<{ issue: Issue; baseUrl: String }> = ({
+  issue,
+  baseUrl,
+}) => {
+  let linkToShare = baseUrl + '/issues/' + issue.slug;
   const handleShare = (platform: string) => {
     gtag.event({
       action: 'Share Clicked',
@@ -54,7 +57,7 @@ const ShareComponent: React.FC<{ issue: Issue }> = ({ issue }) => {
         // 복사 성공 시 처리
         Modal.success({
           content: (
-            <div style={{ width: '100%' }}>
+            <div>
               링크가 성공적으로 복사되었습니다.
               <br />
               {linkToShare}
