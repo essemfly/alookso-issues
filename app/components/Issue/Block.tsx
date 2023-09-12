@@ -47,7 +47,16 @@ const MessageBlockSection: React.FC<IssueDetailProps> = ({
 
   return (
     <section className="bg-white pt-2">
-      <h2 className="PlaygroundEditorTheme__h2" style={{paddingTop: '1rem'}}>{block.title}</h2>
+      {block.title && block.title !== '' ? (
+        <h2
+          className="PlaygroundEditorTheme__h2"
+          style={{ paddingTop: '1rem' }}
+        >
+          {block.title}
+        </h2>
+      ) : (
+        ''
+      )}
       <div className="mb-12 border-transparent bg-white px-4 pb-2 pt-2 md:px-0 md:pb-0 lg:border-x lg:px-12">
         <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
         {messages?.map((message) => {
