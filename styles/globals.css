@@ -63,3 +63,8 @@
 .ant-drawer-content-wrapper {
   height: inherit !important;
 }
+
+.location-drawer .ant-drawer-header-title {
+  display: flex;
+  flex-direction: row-reverse;
+}

@@ -27,6 +27,7 @@ export const SignupDrawer = ({
   };
   return (
     <Drawer
+      className="location-drawer"
       title="얼룩소! 이슈와 함께하세요"
       placement="bottom"
       closable={true}
