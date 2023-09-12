@@ -14,17 +14,19 @@ import {
   getMyIssueActions,
 } from '@/models/issue.server';
 import { formatDate } from '@/utils/formatDate';
-import { IssueReply, MessageLike, Rating, User } from '@prisma/client';
+import { Issue, IssueReply, MessageLike, Rating } from '@prisma/client';
 import ShareComponent from '@/components/Issue/ShareButtons';
-// import RecommendComponent from '@/components/Issue/Recommend';
+import RecommendComponent from '@/components/Issue/Recommend';
 import ReplyComponent from '@/components/Issue/Reply';
 import { getReplys } from '@/models/reply.server';
+import { getRecommendIssues } from '@/models/issue.server';
 
 interface IssueDetailProps {
   replys: IssueReply[];
   issue: IssueWithBlocks;
   myRating?: Rating | null;
   myMessageLikes?: MessageLike[] | null;
+  recommendations: Issue[];
 }
 
 const IssueDetailPage = (props: IssueDetailProps) => {
@@ -75,11 +77,11 @@ const IssueDetailPage = (props: IssueDetailProps) => {
         <RatingComponent issue={props.issue} userInfo={props.myRating} />
       </div>
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+        <RecommendComponent recommendedIssues={props.recommendations} />
+      </div>
+      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ShareComponent issue={props.issue} />
       </div>
-      {/* <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <RecommendComponent writings={props.issue.recommendWritings} />
-      </div> */}
       <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
         <ReplyComponent issueId={props.issue.id} replys={props.replys} />
       </div>
@@ -105,11 +107,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const replys = await getReplys(issue.id!);
 
+  const recommendations = await getRecommendIssues(issue.id!);
+
   return {
     props: {
       replys: JSON.parse(JSON.stringify(replys)),
       issue: JSON.parse(JSON.stringify(issue)),
       myRating: myRating ? JSON.parse(JSON.stringify(myRating)) : null,
+      recommendations: JSON.parse(JSON.stringify(recommendations)),
       myMessageLikes: myMessageLikes
         ? JSON.parse(JSON.stringify(myMessageLikes))
         : null,

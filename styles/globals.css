@@ -47,3 +47,7 @@
     position: relative !important;
     max-height: 26vh;
 }
+
+.recommend-card .ant-card-cover{
+    height: 8rem !important;
+}

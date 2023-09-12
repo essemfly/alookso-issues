@@ -60,12 +60,8 @@ export async function getIssue(slug: string) {
         include: {
           messages: {
             where: { isRemoved: false },
-            orderBy: [
-              {reportedAt: 'asc'},
-              {id: 'asc'}
-            ],
+            orderBy: [{ reportedAt: 'asc' }, { id: 'asc' }],
           },
-          
         },
       },
       celebs: true,
@@ -87,6 +83,26 @@ export async function getIssue(slug: string) {
     ...issue,
     ...groupedRatings,
   };
+}
+
+export async function getRecommendIssues(issueId: number) {
+  const allIssues = await prisma.issue.findMany();
+  let shuffledIssues = shuffleArray(allIssues);
+  const numRecomIssues = 4;
+
+  if (shuffledIssues.length > numRecomIssues) {
+    shuffledIssues = shuffledIssues.slice(0, numRecomIssues);
+  }
+
+  return shuffledIssues;
+}
+
+function shuffleArray(array: any[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 export async function getMyIssueActions(userId: string, issueId: number) {
