@@ -21,6 +21,7 @@ import ReplyComponent from '@/components/Issue/Reply';
 import { getReplys } from '@/models/reply.server';
 import { getRecommendIssues } from '@/models/issue.server';
 import { SignupDrawer } from '@/components/SignupDrawer';
+import HeadMeta from '@/components/HeadMeta';
 
 interface IssueDetailProps {
   isUserLoggedIn: boolean;
@@ -50,56 +51,64 @@ const IssueDetailPage = (props: IssueDetailProps) => {
   };
 
   return (
-    <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
-      <div className="relative">
-        <ImageFallback
-          className="mx-auto max-w-[84rem] image-fallback-fill"
-          alt={props.issue.coverImage}
-          priority
-          src={props.issue.coverImage ?? ''}
-          fill
-        />
-      </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        {props.issue ? (
-          <Intro
-            title={props.issue.title}
-            description={props.issue.description}
-            updatedAt={updatedAt}
-          />
-        ) : null}
-        {props.issue.issueBlocks.map((block) => {
-          if (block.blockType === 'text') {
-            return <TextBlockSection key={block.id} block={block} />;
-          }
-          if (block.blockType === 'message') {
-            return (
-              <MessageBlockSection
-                key={block.id}
-                block={block}
-                userInfo={props.myMessageLikes}
-              />
-            );
-          }
-        })}
-      </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <RatingComponent issue={props.issue} userInfo={props.myRating} />
-      </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <RecommendComponent recommendedIssues={props.recommendations} />
-      </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <ShareComponent issue={props.issue} baseUrl={props.baseUrl} />
-      </div>
-      <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
-        <ReplyComponent issueId={props.issue.id} replys={props.replys} />
-      </div>
-      <SignupDrawer
-        isDrawerVisible={isDrawerVisible}
-        setIsDrawerVisible={handleCloseDrawer}
+    <>
+      <HeadMeta
+        title={props.issue.title}
+        description={props.issue.description}
+        url={props.baseUrl + '/issues/' + props.issue.slug}
+        image={props.issue.coverImage}
       />
-    </section>
+      <section className="mb-24 w-full overflow-hidden md:mb-0" id="liview-top">
+        <div className="relative">
+          <ImageFallback
+            className="mx-auto max-w-[84rem] image-fallback-fill"
+            alt={props.issue.coverImage}
+            priority
+            src={props.issue.coverImage ?? ''}
+            fill
+          />
+        </div>
+        <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+          {props.issue ? (
+            <Intro
+              title={props.issue.title}
+              description={props.issue.description}
+              updatedAt={updatedAt}
+            />
+          ) : null}
+          {props.issue.issueBlocks.map((block) => {
+            if (block.blockType === 'text') {
+              return <TextBlockSection key={block.id} block={block} />;
+            }
+            if (block.blockType === 'message') {
+              return (
+                <MessageBlockSection
+                  key={block.id}
+                  block={block}
+                  userInfo={props.myMessageLikes}
+                />
+              );
+            }
+          })}
+        </div>
+        <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+          <RatingComponent issue={props.issue} userInfo={props.myRating} />
+        </div>
+        <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+          <RecommendComponent recommendedIssues={props.recommendations} />
+        </div>
+        <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+          <ShareComponent issue={props.issue} baseUrl={props.baseUrl} />
+        </div>
+        <div className="mx-auto md:w-[37rem] md:max-w-[37rem] lg:w-[38rem] lg:max-w-[38rem] xl:w-[44rem] xl:max-w-[44rem] content_padding">
+          <ReplyComponent issueId={props.issue.id} replys={props.replys} />
+        </div>
+        <SignupDrawer
+          isDrawerVisible={isDrawerVisible}
+          setIsDrawerVisible={handleCloseDrawer}
+        />
+      </section>
+    </>
   );
 };
 
