@@ -166,19 +166,17 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, userInfo }) => {
     </div>
   );
 
-  // 'right'인 경우 오른쪽으로 쏠리도록 스타일을 추가
-  if (message.bias === Bias.RIGHT) {
+  if (message.bias === Bias.LEFT) {
     bubbleStyle.marginRight = 'auto';
     avatarStyle.textAlign = 'right';
   }
 
-  // 'left'인 경우 왼쪽으로 쏠리도록 스타일을 추가
-  if (message.bias === Bias.LEFT) {
-    bubbleStyle.marginLeft = 'auto';
-    avatarStyle.textAlign = 'left';
+  if (message.bias === Bias.CENTER) {
+    bubbleStyle.marginRight = 'auto';
+    avatarStyle.textAlign = 'right';
   }
 
-  if (message.bias === Bias.CENTER) {
+  if (message.bias === Bias.RIGHT) {
     bubbleStyle.marginLeft = 'auto';
     avatarStyle.textAlign = 'left';
   }
