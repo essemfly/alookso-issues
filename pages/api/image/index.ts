@@ -10,7 +10,8 @@ export const config = {
   },
 };
 
-const PUBLIC_S3_URL = 'https://alookso-issues.s3.ap-northeast-2.amazonaws.com/';
+const PUBLIC_S3_URL = 'https://sseomit-engine.s3.ap-northeast-2.amazonaws.com/';
+
 const upload = multer();
 
 type NextApiRequestWithFormData = NextApiRequest &
