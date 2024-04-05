@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Issue {
+  id            Int            @id @default(autoincrement())
+  slug          String
+  weight        Int
+  title         String
+  description   String
+  coverImage    String
+  status        IssueStatus
+  issueBlocks   IssueBlock[]
+  celebs        Celeb[]        @relation("IssueCeleb")
+  ratings       Rating[]
+  issueMessages IssueMessage[]
+  messageLike   MessageLike[]
+  replys        IssueReply[]
+  createdAt     DateTime
+  updatedAt     DateTime
+}
+
+model IssueBlock {
+  id        Int            @id @default(autoincrement())
+  createdAt DateTime
+  updatedAt DateTime
+  issueId   Int
+  issue     Issue          @relation(fields: [issueId], references: [id])
+  seq       Int
+  title     String?
+  blockType String
+  content   String?
+  messages  IssueMessage[]
+  isRemoved Boolean
+}
+
+model IssueMessage {
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime
+  updatedAt        DateTime
+  isRemoved        Boolean
+  issueId          Int
+  issue            Issue         @relation(fields: [issueId], references: [id])
+  blockId          Int
+  block            IssueBlock    @relation(fields: [blockId], references: [id])
+  celebId          Int
+  celebName        String
+  celebDescription String?
+  celebAvatar      String?
+  content          String
+  link             String
+  linkFrom         String
+  backgroundColor  String
+  bias             Bias
+  reportedAt       DateTime
+  messageLike      MessageLike[]
+  likeCount        Int           @default(0)
+}
+
+model Celeb {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime
+  updatedAt   DateTime
+  name        String
+  description String?
+  avatar      String?
+  issues      Issue[]  @relation("IssueCeleb")
+}
+
+enum IssueStatus {
+  DRAFT
+  PUBLISHED
+  REMOVED
+  CLOSED
+}
+
+enum Bias {
+  LEFT
+  CENTER
+  RIGHT
+}
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  scope                    String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  refresh_token_expires_in Int?
+  token_type               String?
+  id_token                 String? @db.Text
+  session_state            String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  isAdmin       Boolean       @default(false)
+  accounts      Account[]
+  sessions      Session[]
+  ratings       Rating[]
+  messageLikes  MessageLike[]
+  replys        IssueReply[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime
+  updatedAt DateTime
+  issueId   Int
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int
+}
+
+model MessageLike {
+  id         Int          @id @default(autoincrement())
+  createdAt  DateTime
+  updatedAt  DateTime
+  messageId  Int
+  message    IssueMessage @relation(fields: [messageId], references: [id])
+  issueId    Int
+  issue      Issue        @relation(fields: [issueId], references: [id])
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  evaluation Int
+}
+
+model IssueReply {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  issueId   Int
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  content   String
+  createdAt DateTime
+  updatedAt DateTime
+  likeCount Int      @default(0)
+}

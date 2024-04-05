@@ -28,7 +28,7 @@ export const SignupDrawer = ({
   return (
     <Drawer
       className="location-drawer"
-      title="얼룩소! 이슈와 함께하세요"
+      title="멜랑콜리! 이슈와 함께하세요"
       placement="bottom"
       closable={true}
       open={isDrawerVisible}
@@ -41,7 +41,7 @@ export const SignupDrawer = ({
       </div>
       <br />
       <div> 지금 가입하고 </div>
-      <div>얼룩소! 기자들이 작성한 이슈를 만나보세요</div>
+      <div>생생한 분석적인 이슈를 만나보세요</div>
       <div className="flex justify-center" style={{ marginTop: '1rem' }}>
         <button
           style={{

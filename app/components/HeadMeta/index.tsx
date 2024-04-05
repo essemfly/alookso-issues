@@ -15,7 +15,7 @@ const HeadMeta: React.FC<HeadMetaProps> = ({
   url,
 }) => {
   const defaultTexts = {
-    title: '얼룩소! 이슈',
+    title: '멜랑콜리! 이슈',
     description:
       '전문가 및 관계자의 이야기로 들어보는 여러 사회 이슈들을 보는 새로운 방법 ',
     url: 'https://issues.alookso.com',

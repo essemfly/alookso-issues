@@ -18,7 +18,7 @@ export default function AppHeader() {
       <a href="/" className="flex justify-start md:justify-center">
         <Image
           alt="alookso 얼룩소, a look at society"
-          src="/logo.svg"
+          src="/logo_header.png"
           width={200}
           height={100}
           priority

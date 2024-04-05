@@ -27,7 +27,7 @@
     "@lexical/table": "^0.11.3",
     "@lexical/utils": "^0.11.3",
     "@lexical/yjs": "^0.11.3",
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^5.12.1",
     "@tailwindcss/typography": "^0.5.9",
     "@types/express": "^4.17.17",
     "@types/multer": "^1.4.7",

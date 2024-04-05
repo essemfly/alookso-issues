@@ -33,7 +33,7 @@ export default function AdminIssuesListPage(props: AdminIssuesProps) {
         Issue생성하기
       </Button>
       <List
-        header={<Typography.Text>얼룩소 이슈!</Typography.Text>}
+        header={<Typography.Text>멜랑콜리 이슈!</Typography.Text>}
         bordered
         dataSource={props.issues}
         renderItem={(item) => (
